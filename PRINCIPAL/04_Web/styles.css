@@ -674,3 +674,13 @@ html.reduce-motion .tb-flip .front, html.reduce-motion .tb-flip.flipped .back { 
 html.reduce-motion .tb-flip .back { transform: none; opacity: 0; }
 html.reduce-motion .tb-flip.flipped .front { opacity: 0; } html.reduce-motion .tb-flip.flipped .back { opacity: 1; }
 html.reduce-motion .tb-ink, html.reduce-motion .tfs-ink { transition: none; }
+
+/* topográfico en preparación: ventana en el reverso del volteo */
+.tb-flip .back { background: linear-gradient(140deg, #0B3D73, #1D5FB0); }
+.tb-wip { display: grid; gap: .7rem; justify-items: start; max-width: 420px; padding: clamp(1.4rem, 4vw, 3rem); color: #fff; }
+.tb-wip .wip-badge { justify-self: start; background: rgba(255, 255, 255, .14); color: #fff; }
+.tb-wip b { font-size: clamp(1.4rem, 2.6vw, 2rem); font-weight: 800; line-height: 1.1; }
+.tb-wip p { margin: 0; color: #DCE6F2; }
+.tb-flip.flipped .tb-wip > * { animation: tbRise 620ms var(--ease-out) both; }
+.tb-flip.flipped .tb-wip > :nth-child(2) { animation-delay: 380ms; } .tb-flip.flipped .tb-wip > :nth-child(3) { animation-delay: 440ms; } .tb-flip.flipped .tb-wip > :first-child { animation-delay: 320ms; }
+html.reduce-motion .tb-flip.flipped .tb-wip > * { animation: tbFade 200ms ease both; }

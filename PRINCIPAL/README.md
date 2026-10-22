@@ -1,4 +1,4 @@
-# Entrega final — Carpintería Industrial (Vortex)
+﻿# Entrega final — Carpintería Industrial (Vortex)
 
 Página pública (GitHub Pages): https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/
 Repositorio: https://github.com/dicarlantoniooctavio-create/carpinteria-vortex
@@ -19,12 +19,10 @@ Repositorio: https://github.com/dicarlantoniooctavio-create/carpinteria-vortex
 |---|---|
 | `Multifilar.ofice.cad` | Multifilar del Seccional Oficina para CADe SIMU. Es el `Multifilar.ofice.barbu` del equipo con la extensión corregida (y `IGU1` corregido a `IUG1`) |
 | `Multifilar.maquinas.cad` | Multifilar del Seccional Máquinas (copia del archivo del equipo) |
-| `Seccional_Oficina_topografico.esim` | Topográfico en ElectroDesk: 26 componentes, 22 cables enrutados |
-| `Seccional_Maquinas_topografico.esim` | Topográfico en ElectroDesk: 52 componentes, 48 cables enrutados |
-| `Unifilar.dwg` | El unifilar del equipo, actualizado (AutoCAD) |
-| `imagenes/` | Imágenes sacadas de los archivos: capturas de CADe SIMU, exportaciones de ElectroDesk y el ploteo del unifilar de AutoCAD |
+| `Unifilar.dwg` | El unifilar del equipo en AutoCAD, con la tabla y tres valores corregidos según el cálculo |
+| `imagenes/` | Imágenes sacadas de los archivos: capturas de CADe SIMU y el ploteo del unifilar de AutoCAD |
 
-Los topográficos se abren desde ElectroDesk con **Abrir**. Los 4 polos del CADe SIMU se pasaron como térmica 3P (R, S, T) + térmica 1P (N), porque ElectroDesk no trae la de 4 polos.
+El topográfico de cada tablero está en preparación.
 
 ## Datos principales
 
