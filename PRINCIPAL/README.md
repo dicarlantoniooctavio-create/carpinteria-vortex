@@ -19,7 +19,7 @@ Repositorio: https://github.com/dicarlantoniooctavio-create/carpinteria-vortex
 |---|---|
 | `Multifilar.ofice.cad` | Multifilar del Seccional Oficina para CADe SIMU. Es el `Multifilar.ofice.barbu` del equipo con la extensión corregida (y `IGU1` corregido a `IUG1`) |
 | `Multifilar.maquinas.cad` | Multifilar del Seccional Máquinas (copia del archivo del equipo) |
-| `Unifilar.dwg` | El unifilar del equipo en AutoCAD, con la tabla y tres valores corregidos según el cálculo |
+| `Unifilar.dwg` | El unifilar del equipo en AutoCAD, con la tabla actualizada y el diferencial de TUE1 en fase R |
 | `imagenes/` | Imágenes sacadas de los archivos: capturas de CADe SIMU y el ploteo del unifilar de AutoCAD |
 
 El topográfico de cada tablero está en preparación.
