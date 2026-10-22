@@ -651,8 +651,8 @@ html.reduce-motion .plano-svg path { stroke-dashoffset: 0; }
 
 /* lupa de las imágenes */
 .tb-zoom { position: relative; cursor: zoom-in; }
-.tb-lens { position: absolute; width: 210px; height: 210px; border-radius: 50%; pointer-events: none; z-index: 4; background-repeat: no-repeat; background-color: #fff; box-shadow: 0 0 0 4px #fff, 0 0 0 6px var(--navy), 0 22px 44px -12px rgba(13, 61, 115, .45); opacity: 0; transform: scale(.9); transition: opacity 160ms ease, transform 200ms var(--ease-out); }
-.tb-lens.on { opacity: 1; transform: none; }
+.tb-lens { position: absolute; width: 210px; height: 210px; border-radius: 50%; pointer-events: none; z-index: 4; background-repeat: no-repeat; background-color: #fff; box-shadow: 0 0 0 4px #fff, 0 0 0 6px var(--navy), 0 22px 44px -12px rgba(13, 61, 115, .45); opacity: 0; left: 0; top: 0; transform: scale(.9); transition: opacity 160ms ease; will-change: transform; }
+.tb-lens.on { opacity: 1; }
 .uni-img img { width: 100%; height: auto; border-radius: 14px; }
 
 @media (max-width: 900px) {
@@ -684,3 +684,16 @@ html.reduce-motion .tb-ink, html.reduce-motion .tfs-ink { transition: none; }
 .tb-flip.flipped .tb-wip > * { animation: tbRise 620ms var(--ease-out) both; }
 .tb-flip.flipped .tb-wip > :nth-child(2) { animation-delay: 380ms; } .tb-flip.flipped .tb-wip > :nth-child(3) { animation-delay: 440ms; } .tb-flip.flipped .tb-wip > :first-child { animation-delay: 320ms; }
 html.reduce-motion .tb-flip.flipped .tb-wip > * { animation: tbFade 200ms ease both; }
+
+/* ================= revisión de animaciones ================= */
+/* capas del plano que no tenían su turno de trazo (quedaban invisibles) */
+.plano.drawn .plano-svg .L-puertas { stroke-dashoffset: 0; transition: stroke-dashoffset 700ms var(--ease-out) 1000ms, opacity 300ms ease; }
+.plano.drawn .plano-svg .L-bandeja { stroke-dashoffset: 0; transition: stroke-dashoffset 1400ms var(--ease-in-out) 1700ms, opacity 300ms ease; }
+.plano.drawn .plano-svg .L-tug3 { stroke-dashoffset: 0; transition: stroke-dashoffset 800ms var(--ease-out) 3300ms, opacity 300ms ease; }
+html.reduce-motion .plano-svg .L-puertas, html.reduce-motion .plano-svg .L-bandeja, html.reduce-motion .plano-svg .L-tug3 { stroke-dashoffset: 0; transition: none; }
+/* pestañas: sin animar el espaciado de letras (movía el texto) */
+.tabs button[aria-selected="true"] { animation: none; }
+/* presión uniforme en todo lo que se toca */
+.btn:active, .nav nav a:active, .tabs button:active, .lg:active { transform: scale(.97); }
+/* cambio de panel con un leve desenfoque */
+@keyframes panelIn { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }

@@ -94,24 +94,51 @@
   });
   root.querySelectorAll('.tb-view:not([hidden])').forEach(syncFace);
 
-  /* lupa: una copia ampliada de la imagen sigue al mouse */
+  /* lupa: una copia ampliada de la imagen sigue al mouse, con un leve retardo que la hace fluida */
+  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   document.querySelectorAll('.tb-zoom').forEach(function (box) {
     var img = box.querySelector('img'); if (!img) return;
     var lens = document.createElement('div'); lens.className = 'tb-lens'; lens.setAttribute('aria-hidden', 'true'); box.appendChild(lens);
+    var tx = 0, ty = 0, cx = 0, cy = 0, ts = 0.9, cs = 0.9, raf = 0, first = true;
+    function frame() {
+      var k = reduce || first ? 1 : 0.28;
+      cx += (tx - cx) * k; cy += (ty - cy) * k; cs += (ts - cs) * (reduce ? 1 : 0.22); first = false;
+      lens.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,0) scale(' + cs.toFixed(3) + ')';
+      if (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3 || Math.abs(ts - cs) > 0.002) raf = requestAnimationFrame(frame); else raf = 0;
+    }
+    var kick = function () { if (!raf) raf = requestAnimationFrame(frame); };
     box.addEventListener('pointermove', function (e) {
       if (e.pointerType === 'touch' || box.getAttribute('aria-hidden') === 'true') return;
       var r = img.getBoundingClientRect(), br = box.getBoundingClientRect(), S = lens.offsetWidth || 210;
       var nw = img.naturalWidth, nh = img.naturalHeight; if (!nw) return;
       var sc = Math.min(r.width / nw, r.height / nh), w = nw * sc, h = nh * sc, ox = (r.width - w) / 2, oy = (r.height - h) / 2;
       var x = e.clientX - r.left - ox, y = e.clientY - r.top - oy;
-      if (x < 0 || y < 0 || x > w || y > h) { lens.classList.remove('on'); return; }
+      if (x < 0 || y < 0 || x > w || y > h) { lens.classList.remove('on'); ts = 0.9; kick(); return; }
       var z = Math.max(2.4, Math.min(5, 1.4 / sc));
       lens.style.backgroundImage = 'url("' + img.currentSrc + '")';
       lens.style.backgroundSize = (w * z) + 'px ' + (h * z) + 'px';
       lens.style.backgroundPosition = (S / 2 - x * z) + 'px ' + (S / 2 - y * z) + 'px';
-      lens.style.left = (e.clientX - br.left - S / 2) + 'px'; lens.style.top = (e.clientY - br.top - S / 2) + 'px';
-      lens.classList.add('on');
+      tx = e.clientX - br.left - S / 2; ty = e.clientY - br.top - S / 2;
+      if (!lens.classList.contains('on')) { first = true; lens.classList.add('on'); }
+      ts = 1; kick();
     });
-    box.addEventListener('pointerleave', function () { lens.classList.remove('on'); });
+    box.addEventListener('pointerleave', function () { lens.classList.remove('on'); ts = 0.9; kick(); });
+  });
+
+  /* el dibujo se inclina apenas hacia el mouse (resorte suave) */
+  if (fine && !reduce) root.querySelectorAll('.tb-media').forEach(function (m) {
+    var flip = m.querySelector('.tb-flip'); if (!flip) return;
+    var rx = 0, ry = 0, gx = 0, gy = 0, raf = 0;
+    function frame() {
+      rx += (gx - rx) * 0.12; ry += (gy - ry) * 0.12;
+      flip.style.transform = 'perspective(1400px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+      if (Math.abs(gx - rx) > 0.01 || Math.abs(gy - ry) > 0.01) raf = requestAnimationFrame(frame); else raf = 0;
+    }
+    m.addEventListener('pointermove', function (e) {
+      var r = flip.getBoundingClientRect(); if (!r.width) return;
+      gy = ((e.clientX - r.left) / r.width - 0.5) * 5; gx = -((e.clientY - r.top) / r.height - 0.5) * 4;
+      if (!raf) raf = requestAnimationFrame(frame);
+    });
+    m.addEventListener('pointerleave', function () { gx = 0; gy = 0; if (!raf) raf = requestAnimationFrame(frame); });
   });
 })();
