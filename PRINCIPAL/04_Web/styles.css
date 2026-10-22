@@ -697,3 +697,19 @@ html.reduce-motion .plano-svg .L-puertas, html.reduce-motion .plano-svg .L-bande
 .btn:active, .nav nav a:active, .tabs button:active, .lg:active { transform: scale(.97); }
 /* cambio de panel con un leve desenfoque */
 @keyframes panelIn { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
+
+/* tableros: el dibujo a todo el ancho, sin blanco de sobra */
+.tb-view { grid-template-columns: 1fr; gap: 1.4rem; }
+.tb-info { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: .2rem 2.4rem; align-items: start; }
+.tb-info h3, .tb-info > p { grid-column: 1; }
+.tb-info .tb-count { grid-column: 1; }
+.tb-info .tb-plates, .tb-info .tb-dl { grid-column: 2; }
+.tb-info .tb-plates { grid-row: 1 / span 3; align-content: start; margin-top: .4rem; }
+.tb-media { order: 0; }
+.tb-flip .tb-face { padding: clamp(.4rem, 1vw, .8rem); }
+.tb-flip .tb-face img { max-height: none; width: 100%; height: auto; }
+#tableros .tb > .core { padding: clamp(.8rem, 2vw, 1.6rem); }
+@media (max-width: 900px) {
+  .tb-info { grid-template-columns: 1fr; }
+  .tb-info .tb-plates, .tb-info .tb-dl { grid-column: 1; grid-row: auto; }
+}
