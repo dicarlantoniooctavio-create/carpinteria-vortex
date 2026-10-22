@@ -2,7 +2,7 @@
 
 Proyecto final: la instalación eléctrica de un taller de carpintería de 312 m², hecha por la empresa Vortex.
 
-**Página web:** https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/
+**Página web:** https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/PRINCIPAL/04_Web/index.html
 
 ## Qué hay en cada carpeta
 
