@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Vortex Reel 15s</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+    <script src="assets/vendor/hf-motion-blur.js"></script>
+    <style>
+      @font-face {
+        font-family: "Archivo";
+        src: url("assets/fonts/Archivo-latin-var.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+      }
+      @font-face {
+        font-family: "Instrument Serif";
+        src: url("assets/fonts/InstrumentSerif-Italic-latin.woff2") format("woff2");
+        font-weight: 400;
+        font-style: italic;
+      }
+      @font-face {
+        font-family: "JetBrains Mono";
+        src: url("assets/fonts/JetBrainsMono-latin.woff2") format("woff2");
+        font-weight: 500;
+        font-style: normal;
+      }
+
+      /* Paleta Vortex (web) — único lugar con hex */
+      :root {
+        --navy: #0b3d73;
+        --azul: #1d5fb0;
+        --claro: #3b82d6;
+        --celeste: #e8f1fb;
+        --ambar: #e39b2d;
+        --tinta: #0e2238;
+        --fondo: #f7fafe;
+        --blanco: #ffffff;
+        --cortina: radial-gradient(140% 120% at 18% 0%, var(--azul) 0%, var(--navy) 58%);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--fondo); }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--fondo);
+        font-family: "Archivo", sans-serif;
+      }
+      .clip { position: absolute; inset: 0; }
+      .scene { overflow: hidden; }
+      .light { background: var(--fondo); color: var(--navy); }
+      .cel { background: var(--celeste); color: var(--navy); }
+      .dark { background: var(--cortina); color: var(--blanco); }
+      .full { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: visible; }
+      .abs { position: absolute; }
+
+      .big { font-family: "Archivo", sans-serif; font-weight: 800; letter-spacing: -0.015em; line-height: 1; white-space: nowrap; }
+      .serif { font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400; line-height: 1; white-space: nowrap; }
+      .mono { font-family: "JetBrains Mono", monospace; font-weight: 500; }
+      .mask { display: block; overflow: hidden; padding: 0.16em 0.05em 0.12em; margin: -0.16em -0.05em -0.12em; }
+      .mask > * { display: block; }
+      .ch { display: inline-block; }
+      .sub { font-size: 76px; }
+
+      /* Trazos (cables e íconos de línea) */
+      .stroke { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .draw { opacity: 0; }
+      .k-amb { stroke: var(--ambar); }
+      .k-navy { stroke: var(--navy); }
+      .k-azul { stroke: var(--azul); }
+      .k-claro { stroke: var(--claro); }
+      .k-cel { stroke: var(--celeste); }
+      .k-white { stroke: var(--blanco); }
+
+      /* ---------- S1 ---------- */
+      .grid {
+        position: absolute;
+        left: -96px; top: -96px; width: 2208px; height: 1272px;
+        background-image:
+          linear-gradient(to right, rgba(59, 130, 214, 0.13) 2px, transparent 2px),
+          linear-gradient(to bottom, rgba(59, 130, 214, 0.13) 2px, transparent 2px);
+        background-size: 96px 96px;
+      }
+      .s1line { position: absolute; left: 150px; display: flex; gap: 0.24em; }
+      .w { display: inline-block; position: relative; z-index: 1; }
+      .hl { position: absolute; left: -0.06em; bottom: 0.1em; height: 0.34em; background: var(--ambar); transform-origin: left center; z-index: 0; }
+
+      /* ---------- S2 ---------- */
+      .bar { position: absolute; left: 0; height: 10px; border-radius: 5px; background: rgba(232, 241, 251, 0.22); overflow: hidden; }
+      .barfill { width: 100%; height: 100%; background: var(--ambar); transform-origin: left center; }
+
+      /* ---------- S3 ---------- */
+      .s3bg { position: absolute; inset: 0; background: radial-gradient(60% 70% at 50% 42%, var(--navy) 0%, var(--tinta) 100%); }
+      .core {
+        position: absolute; left: 900px; top: 390px; width: 120px; height: 120px; border-radius: 50%;
+        background: radial-gradient(circle, var(--blanco) 0%, var(--blanco) 26%, var(--ambar) 52%, rgba(227, 155, 45, 0) 72%);
+      }
+      .flash { position: absolute; inset: 0; background: var(--fondo); }
+      .card {
+        position: absolute; background: var(--blanco); border-radius: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .card img, .card svg { display: block; overflow: visible; }
+      .lgk { stroke: var(--navy); stroke-width: 26; }
+      .lgs { stroke: var(--ambar); stroke-width: 9; opacity: 0; }
+      .vxword { position: absolute; left: 0; width: 1920px; text-align: center; color: var(--blanco); letter-spacing: var(--ls); padding-left: var(--ls); }
+      .vx { display: inline-block; }
+
+      /* ---------- S5 ---------- */
+      .lbl { font-family: "Archivo", sans-serif; font-weight: 700; font-size: 30px; fill: var(--navy); }
+
+      /* ---------- S6 / S7 ---------- */
+      .rotorbox { position: absolute; width: 240px; height: 240px; }
+      .bladebox { position: absolute; width: 420px; height: 420px; }
+      .m3 { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 46px; fill: var(--celeste); }
+
+      /* ---------- S8 ---------- */
+      .digits { position: absolute; color: var(--ambar); font-size: 96px; line-height: 1; text-align: right; letter-spacing: -0.02em; }
+      .unit { font-size: 44px; margin-left: 10px; }
+      .rs { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 28px; fill: var(--celeste); }
+
+      /* ---------- S9 ---------- */
+      .sheet { position: absolute; width: 520px; height: 350px; background: var(--blanco); border: 3px solid var(--celeste); border-radius: 12px; }
+      .sheet svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+      /* ---------- Cortina, wipe, HUD, grano ---------- */
+      .curtain { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: var(--cortina); }
+      .edge { position: absolute; left: 0; width: 100%; height: 8px; background: var(--ambar); }
+      .wipe { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; background: var(--azul); }
+      .vedge { position: absolute; top: 0; width: 8px; height: 100%; background: var(--ambar); }
+
+      #hud { pointer-events: none; }
+      .corner { position: absolute; width: 38px; height: 38px; border-color: currentColor; border-style: solid; border-width: 0; }
+      .tl { left: 96px; top: 54px; border-left-width: 3px; border-top-width: 3px; }
+      .tr { right: 96px; top: 54px; border-right-width: 3px; border-top-width: 3px; }
+      .bl { left: 96px; bottom: 54px; border-left-width: 3px; border-bottom-width: 3px; }
+      .br { right: 96px; bottom: 54px; border-right-width: 3px; border-bottom-width: 3px; }
+      .hudtxt { position: absolute; font-size: 22px; letter-spacing: 0.04em; line-height: 1; white-space: nowrap; }
+      .lab { position: absolute; left: 0; top: 0; opacity: 0; }
+      .rec { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--ambar); margin-right: 12px; vertical-align: 2px; }
+      .track { position: absolute; left: 150px; width: 1620px; bottom: 54px; height: 3px; background: currentColor; opacity: 0.18; }
+      .prog { position: absolute; left: 150px; width: 1620px; bottom: 54px; height: 3px; background: currentColor; transform-origin: left center; }
+      .grainbox { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+      .graintex {
+        position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; opacity: 0.07;
+        background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-we8l" id="root" data-composition-id="vortex" data-start="0" data-duration="15" data-fps="30" data-width="1920" data-height="1080">
+
+      <!-- 01 · 0,00–2,40 · ¿Necesitas una instalación eléctrica? -->
+      <section data-hf-id="hf-ypi0" id="s1" class="clip scene light" data-start="0" data-duration="2.52" data-track-index="1" style="z-index: 1">
+        <div data-hf-id="hf-0h36" id="s1grid" class="grid"></div>
+        <svg data-hf-id="hf-lvrf" id="s1back" class="full" viewBox="0 0 1920 1080"><path data-hf-id="hf-vrv1" id="s1cB" class="stroke k-amb" stroke-width="11" d="M0 0" /></svg>
+        <div data-hf-id="hf-dclk" id="s1text" class="abs" style="left: 0; top: 0; width: 1920px; height: 1080px">
+          <div data-hf-id="hf-2cdr" id="s1l1" class="s1line big"><span data-hf-id="hf-tdti" id="w1" class="w" data-hf-motion-blur="{&quot;samplesPerFrame&quot;: 10}">¿Necesitas</span><span data-hf-id="hf-4zah" id="w2" class="w" data-hf-motion-blur="{&quot;samplesPerFrame&quot;: 10}">una</span></div>
+          <div data-hf-id="hf-rgw4" id="s1l2" class="s1line big"><span data-hf-id="hf-z6x9" id="w3" class="w" data-hf-motion-blur="{&quot;samplesPerFrame&quot;: 10}">instalación</span></div>
+          <div data-hf-id="hf-gs0w" id="s1l3" class="s1line serif"><span data-hf-id="hf-cskj" id="s1hl" class="hl"></span><span data-hf-id="hf-1h4g" id="w4" class="w" data-hf-motion-blur="{&quot;samplesPerFrame&quot;: 10}">eléctrica?</span></div>
+        </div>
+        <svg data-hf-id="hf-mevb" id="s1front" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-oqce" id="s1cA" class="stroke k-amb" stroke-width="11" d="M0 0" />
+          <path data-hf-id="hf-f2js" id="s1cC" class="stroke k-amb" stroke-width="11" d="M0 0" />
+          <g data-hf-id="hf-0k0s" id="s1dot"><circle data-hf-id="hf-51wl" r="26" fill="#e39b2d" opacity="0.28" /><circle data-hf-id="hf-1qyy" r="11" fill="#ffffff" /></g>
+        </svg>
+      </section>
+
+      <!-- 02 · 2,40–4,00 · Nosotros te cubrimos: -->
+      <section data-hf-id="hf-lf7b" id="s2" class="clip scene dark" data-start="2.5" data-duration="1.6" data-track-index="1" style="z-index: 2">
+        <svg data-hf-id="hf-4yzk" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-biq3" id="s2border" class="stroke k-amb draw" stroke-width="9" d="M1784 540 V160 A50 50 0 0 0 1734 110 H186 A50 50 0 0 0 136 160 V920 A50 50 0 0 0 186 970 H1734 A50 50 0 0 0 1784 920 Z" />
+          <g data-hf-id="hf-9mhl" id="s2dot" opacity="0"><circle data-hf-id="hf-ab1g" r="24" fill="#e39b2d" opacity="0.3" /><circle data-hf-id="hf-5p2z" r="10" fill="#ffffff" /></g>
+        </svg>
+        <div data-hf-id="hf-u94h" id="s2text" class="abs" style="left: 150px">
+          <div data-hf-id="hf-dolc" class="mask"><div data-hf-id="hf-pg6x" id="s2a" class="big">Nosotros</div></div>
+          <div data-hf-id="hf-i5rs" class="mask"><div data-hf-id="hf-88gy" id="s2b" class="big">te cubrimos:</div></div>
+          <div data-hf-id="hf-3ak9" id="s2charge" class="abs" data-layout-allow-overlap="" style="left: 0; top: 0; color: var(--ambar)">
+            <div data-hf-id="hf-gyup" class="mask"><div data-hf-id="hf-1n6m" id="s2ca" class="big">Nosotros</div></div>
+            <div data-hf-id="hf-hd5q" class="mask"><div data-hf-id="hf-qtph" id="s2cb" class="big">te cubrimos:</div></div>
+          </div>
+          <div data-hf-id="hf-44a5" id="s2bar" class="bar"><div data-hf-id="hf-p31y" id="s2fill" class="barfill"></div></div>
+        </div>
+      </section>
+
+      <!-- 03 · 4,00–6,60 · Logo reveal -->
+      <section data-hf-id="hf-2xyb" id="s3" class="clip scene" data-start="3.95" data-duration="2.67" data-track-index="1" style="z-index: 3">
+        <div data-hf-id="hf-aosi" id="s3bg" class="s3bg"></div>
+        <div data-hf-id="hf-yj14" id="s3cam" class="full">
+          <svg data-hf-id="hf-sbvc" class="full" viewBox="0 0 1920 1080">
+            <path data-hf-id="hf-wm8u" id="th1" class="stroke k-claro draw" stroke-width="8" d="M0 0" />
+            <path data-hf-id="hf-diz4" id="th2" class="stroke k-amb draw" stroke-width="8" d="M0 0" />
+            <path data-hf-id="hf-svmb" id="th3" class="stroke k-cel draw" stroke-width="8" d="M0 0" />
+            <g data-hf-id="hf-eeo8" id="s3traces" class="stroke" stroke-width="6" />
+            <circle data-hf-id="hf-avhx" id="s3ring" cx="960" cy="450" r="100" fill="none" stroke="#e39b2d" stroke-width="7" vector-effect="non-scaling-stroke" opacity="0" />
+          </svg>
+          <div data-hf-id="hf-vo5s" id="s3core" class="core"></div>
+          <div data-hf-id="hf-tidh" id="s3logo" class="full" style="filter: url(#whip)">
+            <div data-hf-id="hf-pwsf" id="s3card" class="card" style="left: 680px; top: 262px; width: 560px; height: 376px"><svg id="lg3" class="logosvg" viewBox="0 0 620 420" width="440" height="298"></svg></div>
+            <div data-hf-id="hf-pcqd" id="s3word" class="vxword big" style="top: 694px; font-size: 104px; --ls: 0.35em"><span data-hf-id="hf-5qsv" class="vx">V</span><span data-hf-id="hf-9bk4" class="vx">O</span><span data-hf-id="hf-7c0z" class="vx">R</span><span data-hf-id="hf-4y6t" class="vx">T</span><span data-hf-id="hf-bpea" class="vx">E</span><span data-hf-id="hf-3cyp" class="vx">X</span></div>
+          </div>
+        </div>
+        <div data-hf-id="hf-7rbf" id="s3flash" class="flash" style="opacity: 0"></div>
+        <svg data-hf-id="hf-6o47" width="0" height="0" style="position: absolute">
+          <filter data-hf-id="hf-g7e1" id="whip" x="-60%" y="-20%" width="220%" height="140%"><fegaussianblur data-hf-id="hf-1j1z" id="whipblur" stdDeviation="0 0" /></filter>
+        </svg>
+      </section>
+
+      <!-- 04 · 6,60–7,80 · INSTALACIONES -->
+      <section data-hf-id="hf-lwd4" id="s4" class="clip scene light" data-start="6.6" data-duration="1.26" data-track-index="1" style="z-index: 4">
+        <div data-hf-id="hf-eg6z" class="abs" style="left: 150px; top: 150px">
+          <div data-hf-id="hf-g68n" class="mask"><div data-hf-id="hf-svce" id="s4word" class="big">INSTALACIONES</div></div>
+          <div data-hf-id="hf-kx4l" class="mask" style="margin-top: 18px"><div data-hf-id="hf-4355" id="s4sub" class="serif sub" style="color: var(--azul)">Del tablero al último botón.</div></div>
+        </div>
+        <svg data-hf-id="hf-r4y9" class="full" viewBox="0 0 1920 1080">
+          <g data-hf-id="hf-l1on" id="s4rungs" class="stroke k-azul" stroke-width="5" />
+          <path data-hf-id="hf-npi0" id="s4railA" class="stroke k-navy draw" stroke-width="7" d="M560 766 H1800" />
+          <path data-hf-id="hf-h4es" id="s4railB" class="stroke k-navy draw" stroke-width="7" d="M560 864 H1800" />
+          <path data-hf-id="hf-h4zg" id="s4R" class="stroke k-azul draw" stroke-width="11" d="M-30 500 C 240 500, 260 880, 420 846 S 520 792 610 792 H1770" />
+          <path data-hf-id="hf-t8kj" id="s4S" class="stroke k-amb draw" stroke-width="11" d="M-30 940 C 220 940, 250 650, 400 712 S 520 815 610 815 H1770" />
+          <path data-hf-id="hf-d2jw" id="s4T" class="stroke k-navy draw" stroke-width="11" d="M-30 690 C 170 690, 210 960, 390 862 S 520 838 610 838 H1770" />
+        </svg>
+      </section>
+
+      <!-- 05 · 7,80–9,00 · TABLEROS -->
+      <section data-hf-id="hf-0yzp" id="s5" class="clip scene cel" data-start="7.84" data-duration="1.2" data-track-index="1" style="z-index: 5">
+        <svg data-hf-id="hf-rj9a" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-63qj" id="s5fR" class="stroke k-azul draw" stroke-width="9" d="M580 -20 V150" />
+          <path data-hf-id="hf-fw8z" id="s5fS" class="stroke k-amb draw" stroke-width="9" d="M620 -20 V150" />
+          <path data-hf-id="hf-2i96" id="s5fT" class="stroke k-navy draw" stroke-width="9" d="M660 -20 V150" />
+          <path data-hf-id="hf-hv6b" id="s5bus" class="stroke k-navy draw" stroke-width="9" d="M420 150 H1500" />
+          <g data-hf-id="hf-132w" id="s5mods" />
+          <g data-hf-id="hf-pq60" id="s5dot" opacity="0"><circle data-hf-id="hf-tuey" r="22" fill="#e39b2d" opacity="0.3" /><circle data-hf-id="hf-6hll" r="9" fill="#ffffff" /></g>
+        </svg>
+        <div data-hf-id="hf-kwzs" class="abs" style="left: 150px; top: 610px">
+          <div data-hf-id="hf-gkjo" class="mask"><div data-hf-id="hf-qj7c" id="s5word" class="big">TABLEROS</div></div>
+          <div data-hf-id="hf-baq1" class="mask" style="margin-top: 14px"><div data-hf-id="hf-h1tm" id="s5sub" class="serif sub" style="color: var(--azul)">Cada protección, identificada.</div></div>
+        </div>
+      </section>
+
+      <!-- 06 · 9,00–10,20 · AUTOMATISMO -->
+      <section data-hf-id="hf-85fb" id="s6" class="clip scene dark" data-start="9.02" data-duration="1.2" data-track-index="1" style="z-index: 6">
+        <svg data-hf-id="hf-qcc7" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-jbo6" id="s6line" class="stroke k-cel draw" stroke-width="6" d="M960 230 H1150 M1250 230 H1560 V262" />
+          <path data-hf-id="hf-amyw" id="s6ticks" class="stroke k-cel draw" stroke-width="5" d="M1018 252 L1040 208 M1040 252 L1062 208 M1062 252 L1084 208" />
+          <path data-hf-id="hf-1dcv" id="s6cur" class="stroke k-amb draw" stroke-width="8" d="M960 230 H1150 L1250 230 H1560 V262" />
+          <circle data-hf-id="hf-otnw" cx="1150" cy="230" r="10" fill="#0b3d73" stroke="#e8f1fb" stroke-width="5" />
+          <circle data-hf-id="hf-nhc9" cx="1250" cy="230" r="10" fill="#0b3d73" stroke="#e8f1fb" stroke-width="5" />
+          <line data-hf-id="hf-vj1r" id="s6blade" class="stroke k-white" stroke-width="7" x1="1150" y1="230" x2="1250" y2="230" />
+          <path data-hf-id="hf-s912" id="s6link" class="stroke k-cel draw" stroke-width="4" stroke-dasharray="8 10" d="M1200 236 V320" />
+          <rect data-hf-id="hf-s0xu" id="s6coil" x="1170" y="320" width="60" height="60" rx="8" fill="#0b3d73" stroke="#e8f1fb" stroke-width="5" />
+          <path data-hf-id="hf-x86q" id="s6motor" class="stroke k-white draw" stroke-width="7" d="M1560 262 A140 140 0 1 1 1559.9 262 Z" />
+          <text data-hf-id="hf-9f3s" class="m3" x="1560" y="476" text-anchor="middle" opacity="0" id="s6m3">M 3~</text>
+        </svg>
+        <div data-hf-id="hf-x7c7" id="rotor" class="rotorbox" style="left: 1440px; top: 282px" data-hf-motion-blur="{&quot;samplesPerFrame&quot;: 10}">
+          <svg data-hf-id="hf-yija" width="240" height="240" viewBox="-120 -120 240 240">
+            <g data-hf-id="hf-ckdh" class="stroke" stroke="#ffffff" stroke-width="10">
+              <path data-hf-id="hf-4x34" d="M0 -14 V-62 M12 7 L54 31 M-12 7 L-54 31" />
+              <circle data-hf-id="hf-iz99" r="16" fill="#ffffff" />
+            </g>
+          </svg>
+        </div>
+        <div data-hf-id="hf-7r9z" class="abs" style="left: 150px; top: 640px">
+          <div data-hf-id="hf-fdml" class="mask"><div data-hf-id="hf-qghi" id="s6word" class="big">AUTOMATISMO</div></div>
+          <div data-hf-id="hf-d9fh" class="mask" style="margin-top: 14px"><div data-hf-id="hf-aua5" id="s6sub" class="serif sub" style="color: var(--celeste)">Potencia y control.</div></div>
+        </div>
+      </section>
+
+      <!-- 07 · 10,20–11,40 · SEGURIDAD -->
+      <section data-hf-id="hf-8mor" id="s7" class="clip scene light" data-start="10.2" data-duration="1.24" data-track-index="1" style="z-index: 7">
+        <div data-hf-id="hf-cxzc" class="abs" style="left: 150px; top: 140px">
+          <div data-hf-id="hf-frxm" class="mask"><div data-hf-id="hf-mflg" id="s7word" class="big">SEGURIDAD</div></div>
+          <div data-hf-id="hf-egck" class="mask" style="margin-top: 14px"><div data-hf-id="hf-yd8g" id="s7sub" class="serif sub" style="color: var(--azul); font-size: 66px">Que la máquina pare cuando tiene que parar.</div></div>
+        </div>
+        <svg data-hf-id="hf-qqn8" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-8vfv" id="s7sig" class="stroke k-azul draw" stroke-width="6" d="M1094 760 H720" />
+          <circle data-hf-id="hf-w0wu" id="s7shock" cx="1250" cy="760" r="100" fill="none" stroke="#e39b2d" stroke-width="7" vector-effect="non-scaling-stroke" opacity="0" />
+          <rect data-hf-id="hf-xrl8" id="s7plate" x="1100" y="610" width="300" height="300" rx="28" fill="#ffffff" stroke="#0b3d73" stroke-width="6" />
+          <circle data-hf-id="hf-zo5l" id="s7glow" cx="1250" cy="760" r="128" fill="#e39b2d" opacity="0" />
+          <circle data-hf-id="hf-ya6x" cx="1250" cy="760" r="112" fill="#e39b2d" />
+          <g data-hf-id="hf-59l3" id="s7cap">
+            <circle data-hf-id="hf-fbgt" cx="1250" cy="760" r="84" fill="#0b3d73" />
+            <path data-hf-id="hf-t9fz" class="stroke" stroke="#3b82d6" stroke-width="8" d="M1200 726 A62 62 0 0 1 1262 700" />
+          </g>
+          <g data-hf-id="hf-dxxc" id="s7pulse" opacity="0"><circle data-hf-id="hf-p4n4" r="20" fill="#e39b2d" opacity="0.3" /><circle data-hf-id="hf-k1ly" r="9" fill="#e39b2d" /></g>
+        </svg>
+        <div data-hf-id="hf-sfc2" id="blade" class="bladebox" style="left: 310px; top: 550px" data-hf-motion-blur="{&quot;samplesPerFrame&quot;: 10}">
+          <svg data-hf-id="hf-lh8q" width="420" height="420" viewBox="-210 -210 420 420"><g data-hf-id="hf-v0fi" id="bladeg" /></svg>
+        </div>
+      </section>
+
+      <!-- 08 · 11,40–12,40 · MANTENIMIENTO -->
+      <section data-hf-id="hf-xifm" id="s8" class="clip scene dark" data-start="11.42" data-duration="1.0" data-track-index="1" style="z-index: 8">
+        <svg data-hf-id="hf-pjq5" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-d1yr" id="s8body" class="stroke k-white draw" stroke-width="6" d="M226 296 H484 A36 36 0 0 1 520 332 V824 A36 36 0 0 1 484 860 H226 A36 36 0 0 1 190 824 V332 A36 36 0 0 1 226 296 Z" />
+          <rect data-hf-id="hf-lfjb" id="s8disp" x="222" y="334" width="266" height="156" rx="14" fill="#0e2238" stroke="#e8f1fb" stroke-width="3" opacity="0" />
+          <path data-hf-id="hf-ob9m" id="s8dial" class="stroke k-white draw" stroke-width="5" d="M355 556 A84 84 0 1 1 354.9 556 Z" />
+          <line data-hf-id="hf-jb35" id="s8ptr" class="stroke k-amb" stroke-width="7" x1="355" y1="640" x2="355" y2="578" opacity="0" />
+          <path data-hf-id="hf-p3ev" id="s8leadA" class="stroke k-claro draw" stroke-width="7" d="M300 800 C 300 930, 420 960, 640 960" />
+          <path data-hf-id="hf-hsk4" id="s8leadB" class="stroke k-cel draw" stroke-width="7" d="M410 800 C 410 900, 520 900, 760 900" />
+          <circle data-hf-id="hf-vp2g" cx="300" cy="800" r="15" fill="#0b3d73" stroke="#e8f1fb" stroke-width="5" />
+          <circle data-hf-id="hf-y14s" cx="410" cy="800" r="15" fill="#0b3d73" stroke="#e8f1fb" stroke-width="5" />
+          <g data-hf-id="hf-nhrg" id="s8tips" opacity="0">
+            <circle data-hf-id="hf-ge5e" cx="640" cy="960" r="10" fill="#e39b2d" /><text data-hf-id="hf-9gr8" class="rs" x="664" y="970">R</text>
+            <circle data-hf-id="hf-rp1x" cx="760" cy="900" r="10" fill="#e39b2d" /><text data-hf-id="hf-2axg" class="rs" x="784" y="910">S</text>
+          </g>
+          <g data-hf-id="hf-3se3" id="s8badge" opacity="0"><circle data-hf-id="hf-9auz" cx="512" cy="300" r="40" fill="#3b82d6" /></g>
+          <path data-hf-id="hf-ddm6" id="s8check" class="stroke k-white draw" stroke-width="9" d="M492 300 L506 316 L534 284" />
+        </svg>
+        <div data-hf-id="hf-vttm" id="s8digits" class="digits mono" style="left: 222px; top: 366px; width: 250px"><span data-hf-id="hf-7yz3" id="s8num">0</span><span data-hf-id="hf-ld2b" class="unit">V</span></div>
+        <div data-hf-id="hf-rujn" class="abs" style="left: 640px; top: 330px">
+          <div data-hf-id="hf-kxwz" class="mask"><div data-hf-id="hf-aprx" id="s8word" class="big">MANTENIMIENTO</div></div>
+          <div data-hf-id="hf-e21j" class="mask" style="margin-top: 14px"><div data-hf-id="hf-v0ju" id="s8sub" class="serif sub" style="color: var(--celeste)"><span data-hf-id="hf-kied" class="ch">Revisamos.</span> <span data-hf-id="hf-v6v4" class="ch">Medimos.</span> <span data-hf-id="hf-xod5" class="ch">Cuidamos.</span></div></div>
+        </div>
+      </section>
+
+      <!-- 09 · 12,40–13,40 · TODO DOCUMENTADO -->
+      <section data-hf-id="hf-rd01" id="s9" class="clip scene light" data-start="12.4" data-duration="1.04" data-track-index="1" style="z-index: 9">
+        <div data-hf-id="hf-zipo" id="shA" class="sheet" style="left: 640px; top: 150px">
+          <svg data-hf-id="hf-7h6i" viewBox="0 0 520 350"><path data-hf-id="hf-zftb" class="stroke k-navy draw shd" stroke-width="5" d="M40 40 H480 V310 H40 Z M40 140 H150 V40 M40 220 H150 V310 M150 175 V200 M300 40 V120 M480 230 H420 M260 310 A40 40 0 0 1 300 270" /></svg>
+        </div>
+        <div data-hf-id="hf-70ly" id="shB" class="sheet" style="left: 740px; top: 132px">
+          <svg data-hf-id="hf-t00u" viewBox="0 0 520 350"><rect data-hf-id="hf-t4uq" x="36" y="40" width="448" height="46" fill="#e8f1fb" /><path data-hf-id="hf-v60w" class="stroke k-navy draw shd" stroke-width="4" d="M36 40 H484 V310 H36 Z M36 86 H484 M36 142 H484 M36 198 H484 M36 254 H484 M190 40 V310 M340 40 V310" /></svg>
+        </div>
+        <div data-hf-id="hf-eeve" id="shC" class="sheet" style="left: 700px; top: 160px">
+          <svg data-hf-id="hf-tebv" viewBox="0 0 520 350"><path data-hf-id="hf-px1t" class="stroke k-navy draw shd" stroke-width="5" d="M70 40 V310 M70 80 H200 M232 80 H400 M70 140 H200 M232 140 H400 M70 200 H200 M232 200 H400 M70 260 H200 M232 260 H400 M200 66 L228 94 M228 66 L200 94 M200 126 L228 154 M228 126 L200 154 M200 186 L228 214 M228 186 L200 214 M200 246 L228 274 M228 246 L200 274" /><path data-hf-id="hf-sw3o" class="stroke k-amb draw shd" stroke-width="6" d="M40 40 H100" /></svg>
+        </div>
+        <div data-hf-id="hf-vae0" class="abs" style="left: 0; top: 700px; width: 1920px; text-align: center">
+          <div data-hf-id="hf-g74r" class="mask" style="display: inline-block"><div data-hf-id="hf-gg4x" id="s9word" class="big">TODO DOCUMENTADO</div></div>
+        </div>
+      </section>
+
+      <!-- 10 · 13,40–15,00 · Cierre -->
+      <section data-hf-id="hf-uskt" id="s10" class="clip scene dark" data-start="13.42" data-duration="1.58" data-track-index="1" style="z-index: 10">
+        <div data-hf-id="hf-aqfc" id="s10a" class="abs" style="left: 0; width: 1920px; text-align: center"></div>
+        <div data-hf-id="hf-c7qg" id="s10b" class="abs serif" style="left: 0; width: 1920px; text-align: center">Máquinas bajo control.</div>
+        <svg data-hf-id="hf-py16" class="full" viewBox="0 0 1920 1080">
+          <path data-hf-id="hf-j8zc" id="s10line" class="stroke k-amb draw" stroke-width="8" d="M0 0" />
+          <rect data-hf-id="hf-g21f" id="s10pulse" x="836" y="606" width="248" height="168" rx="28" fill="none" stroke="#e39b2d" stroke-width="6" vector-effect="non-scaling-stroke" opacity="0" />
+        </svg>
+        <div data-hf-id="hf-pa72" id="s10card" class="card" style="left: 840px; top: 610px; width: 240px; height: 160px; border-radius: 26px"><svg id="lg10" class="logosvg" viewBox="0 0 620 420" width="190" height="129"></svg></div>
+        <div data-hf-id="hf-x0hc" id="s10word" class="vxword big" style="top: 800px; font-size: 50px; --ls: 0.42em"><span data-hf-id="hf-x3pr" class="vx">V</span><span data-hf-id="hf-34sc" class="vx">O</span><span data-hf-id="hf-471f" class="vx">R</span><span data-hf-id="hf-0cax" class="vx">T</span><span data-hf-id="hf-tqqe" class="vx">E</span><span data-hf-id="hf-6hrp" class="vx">X</span></div>
+      </section>
+
+      <!-- Audio: bed suave + SFX en los cortes (tools/mix_audio.mjs) -->
+      <audio data-hf-id="hf-gcvn" id="mix" src="assets/audio/vortex_mix.wav" data-start="0" data-duration="15" data-volume="1" data-track-index="5"></audio>
+
+      <!-- Cortina azul de marca + wipe azul (transiciones) -->
+      <div data-hf-id="hf-hubv" id="curtainLayer" class="clip" data-start="0" data-duration="15" data-track-index="2" style="z-index: 50; pointer-events: none">
+        <div data-hf-id="hf-ah10" id="curPanel" class="curtain"><div data-hf-id="hf-5mkw" class="edge" style="top: 0"></div><div data-hf-id="hf-jh8m" class="edge" style="bottom: 0"></div></div>
+        <div data-hf-id="hf-cfpc" id="wipePanel" class="wipe"><div data-hf-id="hf-n3h2" class="vedge" style="left: 0"></div><div data-hf-id="hf-d2vf" class="vedge" style="right: 0"></div></div>
+      </div>
+
+      <!-- Grano -->
+      <div data-hf-id="hf-d41c" id="grainLayer" class="clip" data-start="0" data-duration="15" data-track-index="3" style="z-index: 80; pointer-events: none">
+        <div data-hf-id="hf-dznw" class="grainbox"><div data-hf-id="hf-frb6" id="grainTex" class="graintex"></div></div>
+      </div>
+
+      <!-- HUD -->
+      <div data-hf-id="hf-zg6c" id="hud" class="clip mono" data-start="0" data-duration="15" data-track-index="4" style="z-index: 90">
+        <div data-hf-id="hf-sidf" id="hudIn" class="abs" style="inset: 0; color: var(--navy)">
+        <div data-hf-id="hf-9co5" class="corner tl"></div><div data-hf-id="hf-lrp7" class="corner tr"></div><div data-hf-id="hf-2cxv" class="corner bl"></div><div data-hf-id="hf-34pp" class="corner br"></div>
+        <div data-hf-id="hf-p25k" class="hudtxt" style="left: 150px; top: 62px">VORTEX / SERVICIOS TÉCNICOS</div>
+        <div data-hf-id="hf-rfav" class="hudtxt" style="right: 150px; top: 62px"><span data-hf-id="hf-6wed" class="rec"></span><span data-hf-id="hf-2p6h" id="tc">00:00:00</span></div>
+        <div data-hf-id="hf-l04o" class="hudtxt" style="left: 150px; bottom: 74px; width: 600px; height: 22px">
+          <span data-hf-id="hf-jgto" class="lab" style="opacity: 1">01 / PREGUNTA</span><span data-hf-id="hf-zkbr" class="lab">02 / RESPUESTA</span><span data-hf-id="hf-kmra" class="lab">03 / MARCA</span><span data-hf-id="hf-7a2y" class="lab">04 / INSTALACIONES</span><span data-hf-id="hf-9if4" class="lab">05 / TABLEROS</span><span data-hf-id="hf-kyme" class="lab">06 / AUTOMATISMO</span><span data-hf-id="hf-ldco" class="lab">07 / SEGURIDAD</span><span data-hf-id="hf-mufl" class="lab">08 / MANTENIMIENTO</span><span data-hf-id="hf-dsol" class="lab">09 / DOCUMENTACIÓN</span><span data-hf-id="hf-ukqw" class="lab">10 / CIERRE</span>
+        </div>
+        <div data-hf-id="hf-wezz" class="hudtxt" style="right: 150px; bottom: 74px">1920 × 1080 / 30 FPS</div>
+        <div data-hf-id="hf-64lp" class="track"></div>
+        <div data-hf-id="hf-ol7e" id="prog" class="prog"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const ID = "vortex";
+        gsap.registerPlugin(CustomEase);
+        CustomEase.create("vIn", "0.23,1,0.32,1"); // entradas (web)
+        CustomEase.create("vCur", "0.77,0,0.175,1"); // cortinas y cambios (web)
+        const IN = "vIn";
+        const CUR = "vCur";
+        const NS = "http://www.w3.org/2000/svg";
+        const $ = (s) => document.querySelector(s);
+        const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+        // ---------- medición (solo en setup, nunca durante tweens) ----------
+        const ctx = document.createElement("canvas").getContext("2d");
+        const FB = (px) => `800 ${px}px Archivo`;
+        const FS = (px) => `italic 400 ${px}px "Instrument Serif"`;
+        function textW(t, fontFn, px, track) {
+          ctx.font = fontFn(px);
+          return ctx.measureText(t).width + (track || 0) * px * t.length;
+        }
+        function fit(texts, fontFn, maxW, maxPx, track) {
+          let s = maxPx;
+          for (const t of texts) s = Math.min(s, Math.floor((maxW / textW(t, fontFn, 100, track)) * 100));
+          return s;
+        }
+        const meas = document.createElementNS(NS, "svg");
+        meas.setAttribute("style", "position:absolute;left:0;top:0;width:0;height:0;visibility:hidden");
+        const mp = document.createElementNS(NS, "path");
+        meas.appendChild(mp);
+        document.body.appendChild(meas);
+        function plen(d) {
+          mp.setAttribute("d", d);
+          return mp.getTotalLength();
+        }
+        function samplePath(d, n) {
+          mp.setAttribute("d", d);
+          const L = mp.getTotalLength();
+          const pts = [];
+          for (let i = 0; i <= n; i++) {
+            const p = mp.getPointAtLength((L * i) / n);
+            pts.push([p.x, p.y]);
+          }
+          return { L, pts, n };
+        }
+        function at(s, f) {
+          const x = Math.max(0, Math.min(1, f)) * s.n;
+          const i = Math.min(s.n - 1, Math.floor(x));
+          const r = x - i;
+          return [s.pts[i][0] + (s.pts[i + 1][0] - s.pts[i][0]) * r, s.pts[i][1] + (s.pts[i + 1][1] - s.pts[i][1]) * r];
+        }
+        function splitChars(el) {
+          const t = el.textContent;
+          el.textContent = "";
+          return [...t].map((c) => {
+            const s = document.createElement("span");
+            s.className = "ch";
+            s.textContent = c === " " ? " " : c;
+            el.appendChild(s);
+            return s;
+          });
+        }
+        const pad = (n) => String(n).padStart(2, "0");
+
+        function build() {
+          const tl = gsap.timeline({ paused: true });
+
+          // trazo que se dibuja (stroke-dashoffset)
+          function draw(el, t, dur, ease) {
+            if (typeof el === "string") el = $(el);
+            const L = plen(el.getAttribute("d")) + 2;
+            el.style.strokeDasharray = L + " " + (L + 4);
+            tl.set(el, { opacity: 1 }, t);
+            tl.fromTo(el, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: ease || IN }, t);
+            return L;
+          }
+          // punto de energía que viaja por un camino
+          function travel(dot, d, t, dur, ease, fadeOut) {
+            const s = samplePath(d, 240);
+            const pr = { f: 0 };
+            const put = () => dot.setAttribute("transform", "translate(" + at(s, pr.f).join(" ") + ")");
+            put();
+            tl.set(dot, { opacity: 1 }, t);
+            tl.to(pr, { f: 1, duration: dur, ease: ease || IN, onUpdate: put }, t);
+            if (fadeOut !== false) tl.to(dot, { opacity: 0, duration: 0.12, ease: "power1.out" }, t + dur);
+          }
+          function rise(chars, t, stagger, dur) {
+            tl.fromTo(chars, { yPercent: 118 }, { yPercent: 0, duration: dur || 0.5, ease: IN, stagger: stagger || 0.02 }, t);
+          }
+
+          // logo de la web: dos anillos y dos eslabones que se dibujan
+          const LG = {
+            l1: "M122 290 L283 120 C305 96 350 105 362 140 C372 172 340 206 300 206 L270 206",
+            l2: "M483 115 L322 287 C300 311 255 302 240 270 C228 240 240 205 262 180",
+          };
+          const ringD = (cx, cy, r, a) => {
+            const x0 = (cx + r * Math.cos(a)).toFixed(2), y0 = (cy + r * Math.sin(a)).toFixed(2);
+            const x1 = (cx - r * Math.cos(a)).toFixed(2), y1 = (cy - r * Math.sin(a)).toFixed(2);
+            return "M" + x0 + " " + y0 + " A" + r + " " + r + " 0 1 1 " + x1 + " " + y1 + " A" + r + " " + r + " 0 1 1 " + x0 + " " + y0;
+          };
+          function buildLogo(svg) {
+            const mk = (d, cls) => {
+              const el = document.createElementNS(NS, "path");
+              el.setAttribute("d", d);
+              el.setAttribute("class", cls);
+              svg.appendChild(el);
+              return el;
+            };
+            // cada anillo arranca donde sale su eslabón
+            return {
+              r1: mk(ringD(93, 317, 40, Math.atan2(290 - 317, 122 - 93)), "stroke draw lgk"),
+              r2: mk(ringD(512, 88, 40, Math.atan2(115 - 88, 483 - 512)), "stroke draw lgk"),
+              l1: mk(LG.l1, "stroke draw lgk"),
+              l2: mk(LG.l2, "stroke draw lgk"),
+              s1: mk(LG.l1, "stroke lgs"),
+              s2: mk(LG.l2, "stroke lgs"),
+            };
+          }
+          function spark(el, t, dur) {
+            const L = plen(el.getAttribute("d")), seg = L * 0.14;
+            el.style.strokeDasharray = seg + " " + (L + seg);
+            tl.set(el, { opacity: 1 }, t);
+            tl.fromTo(el, { strokeDashoffset: seg }, { strokeDashoffset: -L, duration: dur, ease: "power1.inOut", immediateRender: false }, t);
+            tl.set(el, { opacity: 0 }, t + dur);
+          }
+
+          // =========================== S1 ===========================
+          const s1 = fit(["¿Necesitas una", "instalación"], FB, 1480, 178, -0.015);
+          const s1s = fit(["eléctrica?"], FS, 1300, 262, 0);
+          const top1 = 196, top2 = top1 + s1 * 0.98, top3 = top2 + s1 * 0.94;
+          $("#s1l1").style.cssText += `top:${top1}px;font-size:${s1}px`;
+          $("#s1l2").style.cssText += `top:${top2}px;font-size:${s1}px`;
+          $("#s1l3").style.cssText += `top:${top3}px;font-size:${s1s}px`;
+          const w4W = textW("eléctrica?", FS, s1s, 0);
+          $("#s1hl").style.width = w4W + s1s * 0.12 + "px";
+          const lefts = [150, 150 + textW("¿Necesitas", FB, s1, -0.015) + s1 * 0.24, 150, 150];
+          const wIds = ["#w1", "#w2", "#w3", "#w4"];
+          const wStart = [0, 0.13, 0.28, 0.5];
+          wIds.forEach((id, i) => {
+            const el = $(id);
+            const fromX = i === 0 ? 700 : 1990 - lefts[i];
+            gsap.set(el, { x: fromX, skewX: -10, scale: i === 3 ? 1.12 : 1 });
+            tl.to(el, {
+              keyframes: [
+                { x: -30, skewX: 3, scale: 1, duration: i === 3 ? 0.36 : 0.3, ease: IN },
+                { x: 0, skewX: 0, duration: 0.2, ease: "power2.out" },
+              ],
+            }, wStart[i]);
+          });
+          gsap.set("#s1hl", { scaleX: 0 });
+          tl.to("#s1hl", { scaleX: 1, duration: 0.42, ease: IN }, 0.98);
+          tl.fromTo("#s1grid", { x: 0 }, { x: -96, duration: 2.52, ease: "sine.inOut" }, 0);
+
+          // cable ámbar que pasa por debajo y se enrosca en "eléctrica"
+          const cx = 150 + w4W / 2, cy = top3 + s1s * 0.6, rx = w4W / 2 + 54, ry = s1s * 0.6;
+          const rx2 = rx + 44, ry2 = ry + 36;
+          const dA = `M -40 ${cy + ry + 96} C 300 ${cy + ry + 96}, ${cx - 420} ${cy + ry}, ${cx} ${cy + ry} A ${rx} ${ry} 0 0 0 ${cx + rx} ${cy}`;
+          const dB = `M ${cx + rx} ${cy} A ${rx} ${ry} 0 0 0 ${cx} ${cy - ry} A ${rx} ${ry} 0 0 0 ${cx - rx} ${cy}`;
+          const dC = `M ${cx - rx} ${cy} A ${rx2} ${ry2} 0 0 0 ${cx + 40} ${cy + ry2} C ${cx + 560} ${cy + ry2}, 1560 ${cy + 20}, 1980 ${cy - 60}`;
+          const segs = [["#s1cA", dA], ["#s1cB", dB], ["#s1cC", dC]].map(([sel, d]) => {
+            const el = $(sel);
+            el.setAttribute("d", d);
+            const s = samplePath(d, 200);
+            el.style.strokeDasharray = s.L + 2 + " " + (s.L + 6);
+            return { el, s };
+          });
+          const total = segs.reduce((a, g) => a + g.s.L, 0);
+          const dot1 = $("#s1dot");
+          const p1 = { p: 0 };
+          const upd1 = () => {
+            let d = p1.p * total;
+            let head = null;
+            segs.forEach((g) => {
+              const shown = Math.max(0, Math.min(g.s.L, d));
+              g.el.style.strokeDashoffset = g.s.L + 2 - shown;
+              g.el.style.opacity = shown > 0.5 ? 1 : 0;
+              if (shown > 0 && shown <= g.s.L) head = at(g.s, shown / g.s.L);
+              d -= g.s.L;
+            });
+            if (head) dot1.setAttribute("transform", `translate(${head[0]} ${head[1]})`);
+            dot1.style.opacity = p1.p > 0.002 && p1.p < 0.995 ? 1 : 0;
+          };
+          upd1();
+          tl.to(p1, { p: 0.44, duration: 0.84, ease: IN, onUpdate: upd1 }, 0.02);
+          tl.to(p1, { p: 0.8, duration: 0.66, ease: "power2.inOut", onUpdate: upd1 }, 0.88);
+          tl.to(p1, { p: 1, duration: 0.6, ease: "power2.in", onUpdate: upd1 }, 1.56);
+          tl.to("#s1text", { y: -90, duration: 0.34, ease: CUR }, 2.18);
+
+          // =========================== S2 ===========================
+          const s2 = fit(["Nosotros", "te cubrimos:"], FB, 1460, 232, -0.015);
+          ["#s2a", "#s2b", "#s2ca", "#s2cb"].forEach((s) => ($(s).style.fontSize = s2 + "px"));
+          const s2h = s2 * 2 + 16;
+          $("#s2text").style.top = 540 - s2h / 2 - 40 + "px";
+          const bar = $("#s2bar");
+          bar.style.top = s2h + 46 + "px";
+          bar.style.width = textW("te cubrimos:", FB, s2, -0.015) + "px";
+          rise(["#s2a", "#s2b"], 2.52, 0.08, 0.44);
+          rise(["#s2ca", "#s2cb"], 2.52, 0.08, 0.44);
+          gsap.set("#s2fill", { scaleX: 0 });
+          tl.fromTo("#s2bar", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 2.84);
+          tl.fromTo("#s2charge", { clipPath: "inset(-20% 100% -20% 0%)" }, { clipPath: "inset(-20% 0% -20% 0%)", duration: 0.6, ease: CUR }, 3.02);
+          tl.to("#s2fill", { scaleX: 1, duration: 0.6, ease: CUR }, 3.02);
+          const s2b = $("#s2border");
+          const L2 = draw(s2b, 2.5, 0.7, IN);
+          travel($("#s2dot"), s2b.getAttribute("d"), 2.5, 0.7, IN);
+          tl.to("#s2text", { opacity: 0, y: -40, filter: "blur(10px)", duration: 0.2, ease: CUR }, 3.8);
+          tl.to(s2b, { strokeDashoffset: -L2, duration: 0.24, ease: CUR }, 3.8);
+
+          // =========================== S3 · logo reveal ===========================
+          const CX = 960, CY = 450;
+          function spiral(k) {
+            const th0 = -Math.PI / 2 + (k * 2 * Math.PI) / 3 + 0.4;
+            const turns = 1.1 + k * 0.1, ex = 1.2 + k * 0.18, R0 = 980;
+            let d = "";
+            for (let i = 0; i <= 180; i++) {
+              const t = i / 180, th = th0 + t * turns * 2 * Math.PI, r = R0 * Math.pow(1 - t, ex);
+              d += (i ? "L" : "M") + (CX + r * Math.cos(th)).toFixed(1) + " " + (CY + r * Math.sin(th) * 0.8).toFixed(1) + " ";
+            }
+            return d;
+          }
+          tl.fromTo("#s3bg", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.inOut" }, 3.95);
+          ["#th1", "#th2", "#th3"].forEach((sel, k) => {
+            const el = $(sel);
+            const d = spiral(k);
+            el.setAttribute("d", d);
+            const L = plen(d), seg = L * 0.46;
+            el.style.strokeDasharray = seg + " " + (L + seg);
+            tl.set(el, { opacity: 1 }, 3.93 + k * 0.03);
+            tl.fromTo(el, { strokeDashoffset: seg * 0.35 }, { strokeDashoffset: -(L - 6), duration: 0.78, ease: "power1.in" }, 3.93 + k * 0.03);
+            tl.set(el, { opacity: 0 }, 4.76);
+          });
+          gsap.set("#s3core", { scale: 0.3, opacity: 0 });
+          tl.to("#s3core", { scale: 1.25, opacity: 1, duration: 0.14, ease: "power2.out" }, 4.6);
+          tl.to("#s3core", { scale: 0.5, duration: 0.12, ease: "power3.in" }, 4.74);
+          tl.to("#s3core", { scale: 0.56, duration: 0.11, ease: "sine.inOut" }, 4.86); // pausa de 4 frames
+          tl.to("#s3core", { scale: 4.2, opacity: 0, duration: 0.3, ease: IN }, 4.98);
+          tl.fromTo("#s3flash", { opacity: 0 }, { opacity: 0.85, duration: 0.04, ease: "power2.out" }, 4.98);
+          tl.to("#s3flash", { opacity: 0, duration: 0.34, ease: "power2.out" }, 5.02);
+          gsap.set("#s3ring", { svgOrigin: "960 450" });
+          tl.fromTo("#s3ring", { scale: 0.15, opacity: 1 }, { scale: 7, opacity: 0, duration: 0.64, ease: IN, immediateRender: false }, 4.98);
+          tl.fromTo("#s3cam", { scale: 0.88, transformOrigin: "960px 450px" }, { scale: 1, duration: 1.0, ease: IN }, 4.98);
+          tl.fromTo("#s3card", { scale: 0.85, opacity: 0, filter: "blur(24px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.45, ease: IN }, 5.0);
+          const lg3 = buildLogo($("#lg3"));
+          draw(lg3.r1, 5.04, 0.26, "power2.in");
+          draw(lg3.r2, 5.1, 0.26, "power2.in");
+          draw(lg3.l1, 5.28, 0.56, CUR);
+          draw(lg3.l2, 5.36, 0.56, CUR);
+          spark(lg3.s1, 5.94, 0.4);
+          spark(lg3.s2, 6.0, 0.36);
+          [[lg3.r1, "93 317"], [lg3.r2, "512 88"]].forEach(([r, o], i) => {
+            gsap.set(r, { svgOrigin: o });
+            tl.to(r, { keyframes: [{ scale: 1.08, duration: 0.14, ease: "power2.out" }, { scale: 1, duration: 0.24, ease: "power2.inOut" }] }, 5.94 + i * 0.06);
+          });
+          tl.fromTo("#s3word .vx", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.32, ease: IN, stagger: 0.05 }, 5.58);
+          tl.fromTo("#s3word", { "--ls": "0.35em" }, { "--ls": "0.18em", duration: 0.72, ease: IN }, 5.6);
+          // pistas de circuito que enmarcan el logo
+          const traces = [
+            "M680 380 H470 V300 H312", "M680 520 H520 V612 H348",
+            "M1240 380 H1400 V250 H1608", "M1240 520 H1450 V620 H1572",
+          ];
+          const ends = [[300, 300], [336, 612], [1620, 250], [1584, 620]];
+          const tg = $("#s3traces");
+          traces.forEach((d, i) => {
+            const p = document.createElementNS(NS, "path");
+            p.setAttribute("d", d);
+            p.setAttribute("class", "stroke k-claro draw");
+            p.setAttribute("stroke-width", "6");
+            tg.appendChild(p);
+            const c = document.createElementNS(NS, "circle");
+            c.setAttribute("cx", ends[i][0]);
+            c.setAttribute("cy", ends[i][1]);
+            c.setAttribute("r", "12");
+            c.setAttribute("fill", "#0e2238");
+            c.setAttribute("stroke", "#3b82d6");
+            c.setAttribute("stroke-width", "6");
+            c.setAttribute("opacity", "0");
+            tg.appendChild(c);
+            draw(p, 5.16 + i * 0.05, 0.46, IN);
+            tl.to(c, { opacity: 1, duration: 0.1, ease: "power1.out" }, 5.56 + i * 0.05);
+            tl.to(c, { attr: { fill: "#e39b2d" }, duration: 0.12, ease: "power1.out" }, 5.7 + i * 0.05);
+          });
+          tl.to("#s3traces", { opacity: 0, duration: 0.36, ease: "power1.inOut" }, 6.0);
+          // salida: el logo se arrastra hacia un costado con el wipe azul
+          const whip = { b: 0 };
+          const wb = $("#whipblur");
+          const setWhip = () => wb.setAttribute("stdDeviation", whip.b.toFixed(2) + " 0");
+          tl.to("#s3logo", { x: -1500, duration: 0.24, ease: "power3.in" }, 6.36);
+          tl.to(whip, { b: 46, duration: 0.24, ease: "power3.in", onUpdate: setWhip }, 6.36);
+
+          // =========================== S4 ===========================
+          const s4 = fit(["INSTALACIONES"], FB, 1560, 214, -0.015);
+          $("#s4word").style.fontSize = s4 + "px";
+          rise(splitChars($("#s4word")), 6.66, 0.02, 0.5);
+          rise(["#s4sub"], 6.88, 0, 0.46);
+          const rg = $("#s4rungs");
+          const rungs = [];
+          for (let x = 600; x <= 1780; x += 62) {
+            const l = document.createElementNS(NS, "path");
+            l.setAttribute("d", `M${x} 766 V864`);
+            rg.appendChild(l);
+            rungs.push(l);
+          }
+          draw("#s4railA", 6.7, 0.6, IN);
+          draw("#s4railB", 6.74, 0.6, IN);
+          rungs.forEach((r) => gsap.set(r, { svgOrigin: r.getAttribute("d").slice(1).split(" ")[0] + " 815" }));
+          tl.fromTo(rungs, { scaleY: 0 }, { scaleY: 1, duration: 0.18, ease: IN, stagger: 0.018 }, 6.74);
+          draw("#s4R", 6.64, 0.72, IN);
+          draw("#s4S", 6.69, 0.72, IN);
+          draw("#s4T", 6.74, 0.72, IN);
+
+          // =========================== S5 ===========================
+          const labels = ["30 mA", "IUG1", "IUG2", "IUG3", "TUG1", "TUE1"];
+          const mg = $("#s5mods");
+          const mods = [], levers = [], leds = [], glows = [];
+          labels.forEach((lab, i) => {
+            const x = 445 + i * 176, y = 192, w = 150, h = 250;
+            const g = document.createElementNS(NS, "g");
+            g.innerHTML =
+              `<path class="stroke k-navy" stroke-width="5" d="M${x + 75} 150 V${y}" />` +
+              `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="16" fill="#ffffff" stroke="#0b3d73" stroke-width="5" />` +
+              `<rect x="${x + 55}" y="${y + 46}" width="40" height="100" rx="9" fill="#e8f1fb" stroke="#0b3d73" stroke-width="3" />` +
+              (i === 0 ? `<circle cx="${x + 122}" cy="${y + 30}" r="10" fill="none" stroke="#0b3d73" stroke-width="3" />` : "") +
+              `<rect class="lever" x="${x + 59}" y="${y + 98}" width="32" height="44" rx="6" fill="#0b3d73" />` +
+              `<circle class="glow" cx="${x + 75}" cy="${y + 196}" r="28" fill="#e39b2d" opacity="0" />` +
+              `<circle class="led" cx="${x + 75}" cy="${y + 196}" r="14" fill="#ffffff" stroke="#0b3d73" stroke-width="3" />` +
+              `<text class="lbl" x="${x + 75}" y="${y + h + 46}" text-anchor="middle">${lab}</text>`;
+            mg.appendChild(g);
+            mods.push(g);
+            levers.push(g.querySelector(".lever"));
+            leds.push(g.querySelector(".led"));
+            glows.push(g.querySelector(".glow"));
+          });
+          tl.fromTo(mods, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.34, ease: IN, stagger: 0.035 }, 7.9);
+          draw("#s5fR", 7.86, 0.3, IN);
+          draw("#s5fS", 7.89, 0.3, IN);
+          draw("#s5fT", 7.92, 0.3, IN);
+          draw("#s5bus", 7.98, 0.3, IN);
+          travel($("#s5dot"), "M420 150 H1500", 8.16, 0.62, "power1.inOut");
+          levers.forEach((lv, i) => {
+            const t = 8.22 + i * 0.09;
+            tl.to(lv, { y: -46, duration: 0.16, ease: "back.out(2.2)" }, t);
+            tl.to(leds[i], { attr: { fill: "#e39b2d" }, duration: 0.06, ease: "power1.out" }, t + 0.07);
+            gsap.set(glows[i], { svgOrigin: glows[i].getAttribute("cx") + " " + glows[i].getAttribute("cy") });
+            tl.fromTo(glows[i], { opacity: 0, scale: 0.5 }, { opacity: 0.38, scale: 1, duration: 0.2, ease: IN }, t + 0.07);
+          });
+          const s5 = fit(["TABLEROS"], FB, 1300, 214, -0.015);
+          $("#s5word").style.fontSize = s5 + "px";
+          rise(splitChars($("#s5word")), 7.94, 0.03, 0.5);
+          rise(["#s5sub"], 8.14, 0, 0.46);
+
+          // =========================== S6 ===========================
+          const s6 = fit(["AUTOMATISMO"], FB, 1560, 214, -0.015);
+          $("#s6word").style.fontSize = s6 + "px";
+          rise(splitChars($("#s6word")), 9.06, 0.02, 0.5);
+          rise(["#s6sub"], 9.24, 0, 0.46);
+          draw("#s6line", 9.04, 0.36, IN);
+          draw("#s6ticks", 9.1, 0.2, IN);
+          draw("#s6link", 9.12, 0.2, IN);
+          draw("#s6motor", 9.06, 0.42, IN);
+          tl.fromTo("#s6m3", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power1.out" }, 9.3);
+          tl.fromTo("#rotor", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: IN }, 9.2);
+          gsap.set("#s6blade", { rotation: -32, svgOrigin: "1150 230" });
+          tl.to("#s6coil", { attr: { fill: "#e39b2d" }, duration: 0.08, ease: "power1.out" }, 9.36);
+          tl.to("#s6blade", { keyframes: [{ rotation: 3, duration: 0.09, ease: "power3.in" }, { rotation: 0, duration: 0.08, ease: "power2.out" }] }, 9.38);
+          draw("#s6cur", 9.48, 0.34, IN);
+          tl.fromTo("#rotor", { rotation: 0 }, { rotation: 1080, duration: 0.7, ease: "power2.in" }, 9.52);
+
+          // =========================== S7 ===========================
+          const s7 = fit(["SEGURIDAD"], FB, 1560, 214, -0.015);
+          $("#s7word").style.fontSize = s7 + "px";
+          rise(splitChars($("#s7word")), 10.26, 0.025, 0.5);
+          rise(["#s7sub"], 10.42, 0, 0.46);
+          // hoja de sierra (carpintería) en línea
+          let bd = "";
+          const N = 24, Ro = 192, Ri = 166;
+          for (let i = 0; i < N; i++) {
+            const a0 = (i / N) * Math.PI * 2, a1 = ((i + 0.62) / N) * Math.PI * 2, a2 = ((i + 1) / N) * Math.PI * 2;
+            const p = (r, a) => (r * Math.cos(a)).toFixed(1) + " " + (r * Math.sin(a)).toFixed(1);
+            bd += (i ? "L" : "M") + p(Ri, a0) + " L" + p(Ro, a1) + " L" + p(Ri + 4, a2) + " ";
+          }
+          $("#bladeg").innerHTML =
+            `<path d="${bd}Z" fill="#ffffff" stroke="#0b3d73" stroke-width="6" stroke-linejoin="round" />` +
+            `<circle r="120" fill="none" stroke="#3b82d6" stroke-width="5" stroke-dasharray="40 22" />` +
+            `<circle r="36" fill="#0b3d73" /><circle r="12" fill="#ffffff" />`;
+          tl.fromTo("#blade", { rotation: 0 }, { rotation: 1160, duration: 0.46, ease: "none" }, 10.2);
+          tl.to("#blade", { keyframes: [{ rotation: 1172, duration: 0.05, ease: "power4.out" }, { rotation: 1157, duration: 0.07, ease: "power2.inOut" }, { rotation: 1160, duration: 0.1, ease: "power2.out" }] }, 10.66);
+          tl.to("#blade", { keyframes: [{ x: -7, duration: 0.033 }, { x: 6, duration: 0.033 }, { x: -3, duration: 0.033 }, { x: 0, duration: 0.05 }] }, 10.66);
+          draw("#s7sig", 10.24, 0.3, IN);
+          gsap.set("#s7cap", { svgOrigin: "1250 760" });
+          tl.to("#s7cap", { keyframes: [{ scale: 0.84, duration: 0.07, ease: "power2.in" }, { scale: 1, duration: 0.26, ease: "back.out(2)" }] }, 10.52);
+          tl.to("#s7glow", { keyframes: [{ opacity: 0.4, duration: 0.06 }, { opacity: 0, duration: 0.4, ease: "power1.out" }] }, 10.58);
+          gsap.set("#s7shock", { svgOrigin: "1250 760" });
+          tl.fromTo("#s7shock", { scale: 0.3, opacity: 1 }, { scale: 3.8, opacity: 0, duration: 0.5, ease: IN, immediateRender: false }, 10.58);
+          travel($("#s7pulse"), "M1094 760 H720", 10.58, 0.08, "power2.in");
+
+          // =========================== S8 ===========================
+          const s8 = fit(["MANTENIMIENTO"], FB, 1150, 214, -0.015);
+          $("#s8word").style.fontSize = s8 + "px";
+          rise(splitChars($("#s8word")), 11.46, 0.018, 0.48);
+          rise($$("#s8sub .ch"), 11.66, 0.11, 0.42);
+          draw("#s8body", 11.44, 0.36, IN);
+          draw("#s8dial", 11.5, 0.3, IN);
+          tl.to("#s8disp", { opacity: 1, duration: 0.16, ease: "power1.out" }, 11.5);
+          tl.fromTo("#s8digits", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 11.56);
+          gsap.set("#s8ptr", { rotation: -70, svgOrigin: "355 640" });
+          tl.to("#s8ptr", { opacity: 1, duration: 0.1 }, 11.52);
+          tl.to("#s8ptr", { rotation: 34, duration: 0.3, ease: "back.out(1.6)" }, 11.56);
+          draw("#s8leadA", 11.5, 0.34, IN);
+          draw("#s8leadB", 11.54, 0.34, IN);
+          tl.to("#s8tips", { opacity: 1, duration: 0.12 }, 11.84);
+          const cnt = { v: 0 };
+          const num = $("#s8num");
+          const setNum = () => (num.textContent = String(Math.round(cnt.v)));
+          tl.to(cnt, { v: 380, duration: 0.4, ease: IN, onUpdate: setNum }, 11.64);
+          gsap.set("#s8badge", { svgOrigin: "512 300" });
+          tl.fromTo("#s8badge", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.16, ease: IN }, 12.04);
+          draw("#s8check", 12.08, 0.16, IN);
+
+          // =========================== S9 ===========================
+          const s9 = fit(["TODO DOCUMENTADO"], FB, 1700, 214, -0.015);
+          $("#s9word").style.fontSize = s9 + "px";
+          rise(splitChars($("#s9word")), 12.5, 0.016, 0.46);
+          [["#shA", -7, 12.44], ["#shB", 4, 12.54], ["#shC", -1.5, 12.64]].forEach(([sel, rot, t]) => {
+            tl.fromTo(sel, { x: 1400, rotation: rot + 10, opacity: 1 }, { x: 0, rotation: rot, duration: 0.34, ease: IN }, t);
+            $$(sel + " .shd").forEach((p, j) => draw(p, t + 0.16 + j * 0.06, 0.3, IN));
+          });
+
+          // =========================== S10 · cierre ===========================
+          const s10a = fit(["Energía bien calculada."], FB, 1500, 124, -0.015);
+          const s10b = fit(["Máquinas bajo control."], FS, 1400, 196, 0);
+          const A = $("#s10a");
+          A.className = "abs big";
+          A.style.cssText += `top:230px;font-size:${s10a}px`;
+          A.innerHTML = ["Energía", "bien", "calculada."].map((w) => `<span class="mask" style="display:inline-block;margin-right:0.22em"><span class="ch s10w">${w}</span></span>`).join("");
+          const bTop = 230 + s10a * 1.06;
+          const B = $("#s10b");
+          B.style.cssText += `top:${bTop}px;font-size:${s10b}px;color:var(--blanco)`;
+          const bW = textW("Máquinas bajo control.", FS, s10b, 0);
+          const ly = bTop + s10b * 1.02;
+          $("#s10line").setAttribute("d", `M${960 - bW / 2} ${ly} C ${960 - bW / 6} ${ly + 14}, ${960 + bW / 6} ${ly - 14}, ${960 + bW / 2} ${ly}`);
+          rise($$(".s10w"), 13.46, 0.06, 0.42);
+          tl.fromTo("#s10b", { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.4, ease: IN }, 13.56);
+          draw("#s10line", 13.7, 0.28, IN);
+          tl.fromTo("#s10card", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.26, ease: IN }, 13.56);
+          const lg10 = buildLogo($("#lg10"));
+          draw(lg10.r1, 13.6, 0.14, "power2.in");
+          draw(lg10.r2, 13.62, 0.14, "power2.in");
+          draw(lg10.l1, 13.72, 0.27, CUR);
+          draw(lg10.l2, 13.74, 0.26, CUR);
+          [lg10.s1, lg10.s2].forEach((p) => (p.style.strokeWidth = "18")); // 9 px a escala de la tarjeta chica
+          spark(lg10.s1, 14.4, 0.46);
+          spark(lg10.s2, 14.4, 0.46);
+          tl.fromTo("#s10word .vx", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.22, ease: IN, stagger: 0.025 }, 13.66);
+          // pulso ámbar final (único movimiento del último segundo)
+          gsap.set("#s10pulse", { svgOrigin: "960 690" });
+          tl.to("#s10pulse", { keyframes: [{ opacity: 0.95, duration: 0.06 }, { opacity: 0, scale: 1.24, duration: 0.5, ease: IN }] }, 14.4);
+          tl.to("#s10line", { keyframes: [{ strokeWidth: 13, duration: 0.08 }, { strokeWidth: 8, duration: 0.45, ease: IN }] }, 14.4);
+
+          // =========================== Cortina y wipe ===========================
+          const cur = $("#curPanel");
+          gsap.set(cur, { yPercent: 100 });
+          const rise_ = (t0, t1) => tl.fromTo(cur, { yPercent: 100 }, { yPercent: 0, duration: t1 - t0, ease: CUR, immediateRender: false }, t0);
+          const lift_ = (t0, t1) => tl.fromTo(cur, { yPercent: 0 }, { yPercent: -100, duration: t1 - t0, ease: CUR, immediateRender: false }, t0);
+          const park = (t, y) => tl.set(cur, { yPercent: y }, t);
+          rise_(2.18, 2.5); park(2.52, 100);
+          rise_(7.6, 7.84); lift_(7.86, 8.14); park(8.15, 100);
+          rise_(8.8, 9.02); park(9.04, 100);
+          park(10.2, 0); lift_(10.22, 10.5); park(10.51, 100);
+          rise_(11.2, 11.42); park(11.44, 100);
+          park(12.4, 0); lift_(12.42, 12.7); park(12.71, 100);
+          rise_(13.2, 13.42); park(13.44, 100);
+          const wipe = $("#wipePanel");
+          gsap.set(wipe, { xPercent: 104 });
+          tl.fromTo(wipe, { xPercent: 104 }, { xPercent: 0, duration: 0.24, ease: CUR, immediateRender: false }, 6.36);
+          tl.fromTo(wipe, { xPercent: 0 }, { xPercent: -104, duration: 0.28, ease: CUR, immediateRender: false }, 6.62);
+
+          // =========================== HUD ===========================
+          const hudColor = [[2.36, "#ffffff"], [6.72, "#0b3d73"], [8.9, "#ffffff"], [10.34, "#0b3d73"], [11.3, "#ffffff"], [12.54, "#0b3d73"], [13.3, "#ffffff"]];
+          hudColor.forEach(([t, c]) => tl.to("#hudIn", { color: c, duration: 0.12, ease: "power1.inOut" }, t));
+          const labs = $$(".lab");
+          [0, 2.5, 4.0, 6.6, 7.84, 9.02, 10.2, 11.42, 12.4, 13.42].forEach((t, i) => {
+            if (i === 0) return;
+            tl.set(labs[i - 1], { opacity: 0 }, t);
+            tl.set(labs[i], { opacity: 1 }, t);
+          });
+          const tcp = { v: 0 };
+          const tc = $("#tc");
+          const setTc = () => {
+            const f = Math.min(449, Math.floor(tcp.v * 30 + 1e-6));
+            tc.textContent = "00:" + pad(Math.floor(f / 30)) + ":" + pad(f % 30);
+          };
+          tl.to(tcp, { v: 15, duration: 15, ease: "none", onUpdate: setTc }, 0); // reloj: lineal a propósito
+          tl.fromTo("#prog", { scaleX: 0 }, { scaleX: 1, duration: 15, ease: "none" }, 0); // barra de progreso = tiempo
+          // grano: desplazamiento con semilla fija cada 2 frames
+          let seed = 7;
+          const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+          for (let t = 0; t < 15; t += 2 / 30) tl.set("#grainTex", { x: Math.round((rnd() - 0.5) * 300), y: Math.round((rnd() - 0.5) * 300) }, +t.toFixed(4));
+
+          tl.seek(0);
+          window.__timelines[ID] = tl;
+        }
+
+        Promise.all([
+          document.fonts.load('800 100px "Archivo"'),
+          document.fonts.load('italic 400 100px "Instrument Serif"'),
+          document.fonts.load('500 22px "JetBrains Mono"'),
+        ]).then(build, build);
+      })();
+    </script>
+  </body>
+</html>

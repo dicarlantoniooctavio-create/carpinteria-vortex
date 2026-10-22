@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/sitemap.xml
