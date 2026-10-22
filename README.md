@@ -2,13 +2,16 @@
 
 Proyecto final: la instalación eléctrica de un taller de carpintería de 312 m², hecha por la empresa Vortex.
 
-**Página web:** https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/PRINCIPAL/04_Web/index.html
+**Página web del proyecto:** https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/PRINCIPAL/04_Web/index.html
+
+**Página de la empresa:** https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/PRINCIPAL/08_Web_Empresa/index.html
 
 ## Qué hay en cada carpeta
 
 | Carpeta | Contenido |
 |---|---|
-| `PRINCIPAL/04_Web/` | La página web (la que publica GitHub Pages) |
+| `PRINCIPAL/04_Web/` | La página web del proyecto |
+| `PRINCIPAL/08_Web_Empresa/` | La página web de la empresa |
 | `PRINCIPAL/05_Presentacion/` | Presentación animada (abrir el `.html` en el navegador) |
 | `PRINCIPAL/02_Informe_Integrador/` | Informe técnico en PDF y Word |
 | `PRINCIPAL/06_Planillas/` | Planillas de cálculo (Excel) |
