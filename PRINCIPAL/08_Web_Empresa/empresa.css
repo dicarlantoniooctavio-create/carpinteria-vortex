@@ -231,3 +231,49 @@ input:focus, textarea:focus { outline: none; background: #fff; box-shadow: inset
 html.reduce-motion *, html.reduce-motion *::before, html.reduce-motion *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
 html.reduce-motion.js .r { transform: none; filter: none; }
 html.reduce-motion.js .split .w > span { transform: none; }
+
+/* organigrama animado */
+.org { position: relative; margin: 2.6rem 0 0; padding: 1.6rem; border-radius: 28px; background: var(--card); box-shadow: var(--shadow), 0 0 0 1px var(--line); }
+.org-top { position: relative; z-index: 1; display: flex; align-items: center; gap: .9rem; width: fit-content; margin: 0 auto; padding: .9rem 1.4rem; border-radius: 20px; color: #fff; background: linear-gradient(135deg, var(--navy), var(--blue)); box-shadow: 0 18px 40px -20px rgba(11, 61, 115, .6); transform: translateY(14px) scale(.96); opacity: 0; }
+.org-top img { width: 44px; border-radius: 12px; background: #fff; }
+.org-top b { display: block; font-size: 1.1rem; } .org-top span { color: #DCE6F2; font-size: .9rem; }
+.org-lines { display: block; width: 100%; height: 70px; margin: -4px 0 -6px; overflow: visible; }
+.org-lines path { fill: none; stroke: var(--amber); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.org-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+.org-node { position: relative; display: grid; gap: .25rem; justify-items: center; text-align: center; padding: 1.2rem 1rem 1.3rem; border-radius: 20px; background: var(--bg); box-shadow: 0 0 0 1px var(--line); opacity: 0; transform: translateY(18px) scale(.96); transition: box-shadow 300ms var(--ease-out); }
+.org-node b { color: var(--navy); } .org-node span { font-weight: 700; color: var(--blue); font-size: .95rem; } .org-node small { color: var(--mute); font-size: .85rem; line-height: 1.35; }
+.org-ico { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--sky); margin-bottom: .4rem; transition: transform 400ms var(--ease-out), background-color 300ms ease; }
+.org-ico svg { width: 24px; height: 24px; fill: none; stroke: var(--navy); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.org.in .org-top { opacity: 1; transform: none; transition: opacity 600ms var(--ease-out) 200ms, transform 700ms var(--ease-out) 200ms; }
+.org.in .org-lines path { stroke-dashoffset: 0; transition: stroke-dashoffset 1200ms var(--ease-in-out) 600ms; }
+.org.in .org-node { opacity: 1; transform: none; transition: opacity 600ms var(--ease-out), transform 700ms var(--ease-out), box-shadow 300ms var(--ease-out); transition-delay: calc(1300ms + var(--k) * 90ms), calc(1300ms + var(--k) * 90ms), 0s; }
+@media (hover: hover) and (pointer: fine) { .org-node:hover { box-shadow: var(--shadow), 0 0 0 1px rgba(59, 130, 214, .4); } .org-node:hover .org-ico { transform: translateY(-3px) rotate(-6deg); background: #FFF0D6; } }
+
+/* condiciones: una ventana con todo el documento */
+.tc-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem; padding: 1.6rem 1.8rem; border-radius: 24px; background: var(--card); box-shadow: var(--shadow), 0 0 0 1px var(--line); }
+.tc-cta .lead { margin: 0; max-width: 520px; }
+.tc-acts { display: flex; flex-wrap: wrap; gap: .6rem; }
+.tc { border: 0; padding: 0; background: transparent; width: min(980px, calc(100% - 24px)); max-height: calc(100dvh - 40px); overflow: visible; }
+.tc::backdrop { background: rgba(8, 28, 52, .55); backdrop-filter: blur(4px); }
+.tc-sheet { display: grid; grid-template-rows: auto 1fr auto; max-height: calc(100dvh - 40px); border-radius: 28px; background: #fff; box-shadow: 0 40px 100px -30px rgba(8, 28, 52, .6); overflow: hidden; opacity: 0; transform: translateY(24px) scale(.97); transition: opacity 320ms var(--ease-out), transform 420ms var(--ease-out); }
+.tc.show .tc-sheet { opacity: 1; transform: none; }
+.tc.closing .tc-sheet { opacity: 0; transform: translateY(12px) scale(.98); transition-duration: 200ms; }
+.tc-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.4rem 1.8rem; color: #fff; background: linear-gradient(120deg, var(--navy), var(--blue)); }
+.tc-head h2 { color: #fff; font-size: clamp(1.4rem, 3vw, 2rem); margin: 0; } .tc-head p { margin: .2rem 0 0; color: #DCE6F2; }
+.tc-x { flex: none; width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, .16); color: #fff; font-size: 1.6rem; line-height: 1; cursor: pointer; transition: transform 200ms var(--ease-out), background-color 200ms ease; }
+.tc-x:active { transform: scale(.92); }
+@media (hover: hover) and (pointer: fine) { .tc-x:hover { background: rgba(255, 255, 255, .28); transform: rotate(90deg); } }
+.tc-body { overflow-y: auto; min-height: 0; padding: 1.6rem 1.8rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.2rem 2.2rem; align-content: start; overscroll-behavior: contain; }
+.tc-body article { margin: 0; }
+.tc-body h3 { font-size: 1.02rem; margin-bottom: .3rem; }
+.tc-body p { margin: 0; color: #33475E; font-size: .97rem; }
+.tc.show .tc-body article { animation: tcIn 520ms var(--ease-out) both; animation-delay: calc(120ms + var(--n, 0) * 35ms); }
+@keyframes tcIn { from { opacity: 0; transform: translateY(10px); filter: blur(3px); } }
+.tc-foot { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: flex-end; padding: 1rem 1.8rem; border-top: 1px solid var(--line); }
+.plans-note { color: var(--mute); margin: 0 0 1rem; } .plans-note b { color: var(--navy); }
+.plan ul { margin: 0; padding-left: 1.1rem; color: #DCE6F2; }
+@media (max-width: 980px) { .org-row { grid-template-columns: repeat(2, 1fr); } .org-lines { display: none; } }
+@media (max-width: 560px) { .org-row { grid-template-columns: 1fr; } .tc-body { grid-template-columns: 1fr; } }
+html.reduce-motion .org-top, html.reduce-motion .org-node { opacity: 1; transform: none; }
+html.reduce-motion .org-lines path { stroke-dashoffset: 0; }
+html.reduce-motion .tc-sheet { transform: none; }

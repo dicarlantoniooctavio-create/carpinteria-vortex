@@ -120,3 +120,23 @@
     form.reset();
   });
 })();
+
+/* condiciones: ventana con todos los términos */
+(function () {
+  var dlg = document.getElementById('tc'); if (!dlg) return;
+  var reduce = document.documentElement.classList.contains('reduce-motion');
+  dlg.querySelectorAll('.tc-body article').forEach(function (a, i) { a.style.setProperty('--n', i); });
+  function open() {
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    dlg.classList.remove('closing'); void dlg.offsetWidth; dlg.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    dlg.classList.add('closing'); dlg.classList.remove('show');
+    setTimeout(function () { dlg.classList.remove('closing'); if (dlg.open) dlg.close(); document.body.style.overflow = ''; }, reduce ? 0 : 200);
+  }
+  document.querySelectorAll('.tc-open').forEach(function (b) { b.addEventListener('click', open); });
+  dlg.querySelectorAll('.tc-x, .tc-close').forEach(function (b) { b.addEventListener('click', close); });
+  dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+})();
