@@ -17,7 +17,7 @@ Diseño de las canalizaciones por donde corren los conductores eléctricos: qué
 - La cantidad y sección de conductores que definen el diámetro de caño salen de [`instalacion-electrica/calculos`](../instalacion-electrica/calculos).
 - El recorrido debe coincidir con la distribución en planta ya definida en [`instalacion-electrica/planos`](../instalacion-electrica/planos) e [`iluminacion/planos`](../iluminacion/planos).
 
-## Pendiente / Notas
+## Qué definimos
 
-- [ ] Definir tipo de canalización (embutida en pared, a la vista, bandeja aérea) según cómo sea el taller.
-- [ ] Verificar la normativa/tabla de referencia que estén usando para el diámetro de caño.
+- Caño de acero semipesado para negocio, oficina y tomas del frente; bandeja perforada galvanizada de 150 × 50 mm por la izquierda del taller, con una T hacia las luces.
+- Ocupación máxima del 35 % de la sección del caño (AEA 90364-7-771); la bandeja queda al 26,1 %.

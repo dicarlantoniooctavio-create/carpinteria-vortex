@@ -20,7 +20,8 @@ Diseño de la instalación eléctrica de la carpintería: alimentación general,
 - Planos: PDF o DWG exportado a PDF para visualizar sin AutoCAD.
 - Cálculos: se puede armar en Excel/Sheets y subir también un resumen en `memoria-calculo.md` con las fórmulas usadas y los resultados finales (así cualquiera del equipo entiende el criterio sin abrir el Excel).
 
-## Pendiente / Notas
+## Qué definimos
 
-- [ ] Definir tensión de alimentación (mono o trifásica) según las máquinas.
-- [ ] Confirmar si la máquina a automatizar es trifásica (típico en carpintería: sierra circular, cepilladora, etc.) — esto define el contactor y las protecciones.
+- Alimentación trifásica 3 × 380 / 220 V + N, con cable 4 × 35 mm² del medidor al Seccional Oficina.
+- Las seis máquinas del taller son trifásicas: cada una tiene su tablero con contactor, guardamotor y parada de emergencia.
+- Protecciones del catálogo GE (G60, BPC y Hti para los generales de 80 A). Detalle en el informe y en `tableros/Unifilar.dwg`.

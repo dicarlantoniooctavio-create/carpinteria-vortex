@@ -22,7 +22,7 @@ Repositorio: https://github.com/dicarlantoniooctavio-create/carpinteria-vortex
 | `Unifilar.dwg` | El unifilar del equipo en AutoCAD, con la tabla actualizada y el diferencial de TUE1 en fase R |
 | `imagenes/` | Imágenes sacadas de los archivos: capturas de CADe SIMU y el ploteo del unifilar de AutoCAD |
 
-El topográfico de cada tablero está en preparación.
+Los topográficos de los dos tableros están armados en CADe SIMU.
 
 ## Datos principales
 

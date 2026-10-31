@@ -9,7 +9,8 @@
 | 5 | Cálculo lumínico y plano de iluminación | Lucio Di Carlantonio | ☑️ Informe cap. 5.1 |
 | 6 | Integración de todos los planos en la memoria final | Equipo | ☑️ Informe_Carpinteria_Vortex.pdf |
 | 7 | Preparación de la presentación/defensa | Octavio Di Carlantonio | ☑️ Presentacion_Carpinteria_Vortex.html |
-| 8 | Plano eléctrico definitivo en planta | Kevin Dibella | ⬜ En elaboración |
-| 9 | Planos acotados, STEP y materiales en SolidWorks | Agustín Duarte | ⬜ Pendiente |
-| 10 | Medición de puesta a tierra y protocolo de ensayos | Lucio Di Carlantonio | ⬜ En obra |
+| 8 | Plano eléctrico definitivo en planta | Kevin Dibella | ☑️ Plano del taller en AutoCAD |
+| 9 | Plano de despiece con medidas y materiales | Agustín Duarte | ☑️ Despiece_Lijadora.dwg (VX-M-001) |
+| 10 | Topográficos de los tableros | Equipo | ☑️ CADe SIMU |
+
 

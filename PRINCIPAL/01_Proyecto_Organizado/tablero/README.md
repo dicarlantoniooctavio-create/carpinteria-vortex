@@ -18,7 +18,8 @@ Diseño del tablero general (y seccionales si corresponde) que alimenta a toda l
 - Las corrientes y calibres salen del cálculo en [`instalacion-electrica/calculos`](../instalacion-electrica/calculos).
 - El circuito de mando de la máquina automatizada (contactor, pulsadores) se conecta a través de una de las llaves térmicas de este tablero — documentarlo en [`automatizacion/`](../automatizacion).
 
-## Pendiente / Notas
+## Qué definimos
 
-- [ ] Definir cantidad de circuitos totales (depende de cuántas máquinas y zonas tenga la carpintería).
-- [ ] Elegir si el tablero es solo general o si hay tableros seccionales por sector.
+- 7 circuitos de 220 V y 6 máquinas de 380 V.
+- Dos tableros seccionales: Seccional Oficina (general GE Hti 4P 80 A) y Seccional Máquinas (grupo de máquinas GE G64C63 + diferencial BPC463).
+- El tablero de mando de cada máquina está en `planos/tablero.maquinas.esim`.

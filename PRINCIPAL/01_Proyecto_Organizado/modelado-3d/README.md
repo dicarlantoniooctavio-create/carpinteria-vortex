@@ -1,4 +1,4 @@
-# Modelado 3D — [Nombre de la máquina]
+# Modelado 3D — Lijadora de banda
 
 Modelo 3D en SolidWorks de una de las máquinas de la carpintería (ej: sierra circular, cepilladora, sierra sinfín, router CNC, etc.).
 
@@ -17,7 +17,7 @@ Modelo 3D en SolidWorks de una de las máquinas de la carpintería (ej: sierra c
 - Vista explosionada del ensamble (SolidWorks permite exportarla directamente).
 - Plano acotado de la pieza principal (opcional, si el proyecto lo pide).
 
-## Pendiente / Notas
+## Qué definimos
 
-- [ ] Definir qué máquina se va a modelar.
-- [ ] Tomar medidas reales o de catálogo del fabricante como referencia.
+- Máquina modelada: lijadora de banda (motor de 3 kW, 2840 rpm), 17 piezas y 2 ensambles en SolidWorks.
+- Plano de despiece con medidas y materiales: `planos/Despiece_Lijadora.dwg` (plano VX-M-001, A3).
