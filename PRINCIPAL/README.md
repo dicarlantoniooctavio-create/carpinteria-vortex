@@ -9,7 +9,7 @@ Repositorio: https://github.com/dicarlantoniooctavio-create/carpinteria-vortex
 | `02_Informe_Integrador/` | **Informe técnico** (`Informe_Carpinteria_Vortex.docx` + .pdf, 28 páginas) |
 | `03_Empresa/` | **Perfil corporativo de Vortex** (.docx + .pdf), organigrama e isologo |
 | `04_Web/` | **Página web**: plano eléctrico por capas con lupa, fases, unifilar, circuitos, máquinas de 380 V, la sección «Tableros seccionales y unifilar», presupuesto y archivos descargables (`archivos/`). Abrir `index.html` |
-| `05_Presentacion/` | **Presentación** `Presentacion_Carpinteria_Vortex.html` (40 diapositivas). ← → avanzar, O vista general, F pantalla completa, M índice |
+| `05_Presentacion/` | **Presentación** `Presentacion_Carpinteria_Vortex.html` (37 diapositivas). ← → avanzar, O vista general, F pantalla completa, M índice |
 | `06_Planillas/` | **Planillas en Excel**: `Planillas_Carpinteria_Vortex.xlsx` y `Secciones_y_Circuitos_Vortex.xlsx` |
 | `07_Video_Vortex_15s/` | Video de 15 s (HyperFrames) |
 
