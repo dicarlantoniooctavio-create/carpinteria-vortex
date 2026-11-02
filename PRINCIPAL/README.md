@@ -18,8 +18,8 @@ Repositorio: https://github.com/dicarlantoniooctavio-create/carpinteria-vortex
 | Archivo | Qué es |
 |---|---|
 | `Multifilar.ofice.cad` | Multifilar del Seccional Oficina para CADe SIMU. Es el `Multifilar.ofice.barbu` del equipo con la extensión corregida (y `IGU1` corregido a `IUG1`) |
-| `Multifilar.maquinas.cad` | Multifilar del Seccional Máquinas (copia del archivo del equipo) |
-| `Unifilar.dwg` | El unifilar del equipo en AutoCAD, con la tabla actualizada y el diferencial de TUE1 en fase R |
+| `Multifilar.maquinas.cad` | Multifilar del Seccional Máquinas (copia del archivo del equipo). **Pendiente:** IUG2 e IUG3 pasan de 4 A a 10 A |
+| `Unifilar.dwg` | El unifilar del equipo en AutoCAD, con la tabla actualizada y el diferencial de TUE1 en fase R. **Pendiente:** IUG2 e IUG3 pasan de 4 A a 10 A |
 | `imagenes/` | Imágenes sacadas de los archivos: capturas de CADe SIMU y el ploteo del unifilar de AutoCAD |
 
 Los topográficos de los dos tableros están armados en CADe SIMU.
@@ -31,8 +31,9 @@ Los topográficos de los dos tableros están armados en CADe SIMU.
 - **Seccional Máquinas:** TUE1 (R, 16 A), IUG2 (S, 4 A), IUG3 y TUG3 (T, 4 A y 16 A), un disyuntor por fase; grupo de máquinas con térmica 4P 63 A + disyuntor 4P 63 A 30 mA y una térmica 4P de 10, 16 o 20 A por máquina, que alimenta el tablero propio de cada una.
 - **Protecciones:** catálogo GE. Térmicas G60 curva C 6 kA (G62 bipolares, G64 tetrapolares) y diferenciales BPC 30 mA; los dos generales de 80 A son GE Hti104C080 (10 kA), porque la G60 llega hasta 63 A. El compresor 1 (7,5 HP) se toma con 11,48 A: térmica G64C20 y cable 4 × 4 mm².
 - Máquinas 380 V (amperaje más alto de la placa): lijadora 7,89 A, combinada 8,60 A, escuadradora 8,39 A, tupí 10 A, sierra sin fin 8,5 A, compresor 1 11,48 A → 54,86 A por fase.
-- Fases con todo andando: **R 78,33 A · S 72,80 A · T 71,68 A**.
-- Potencia instalada 36,37 kW · demandada 32,88 kW · superficie 312 m² (grado superior).
+- Iluminación: IUG1 9 bocas (1,38 A, térmica 4 A); IUG2 9 campanas de 100 W (4,09 A) e IUG3 10 campanas (4,55 A), con térmica GE G62C10 de 10 A.
+- Fases con todo andando: **R 78,33 A · S 74,88 A · T 73,96 A**.
+- Potencia instalada 37,34 kW · demandada 33,84 kW · superficie 312 m² (grado superior).
 - Presupuesto recomendado: USD 13.526,74 (materiales USD 7.366,80). Precios de referencia: confirmar con proveedores.
 
 ## Animaciones
