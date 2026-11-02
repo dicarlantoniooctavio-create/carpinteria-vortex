@@ -15,7 +15,7 @@ Diseño de las canalizaciones por donde corren los conductores eléctricos: qué
 ## Relación con otras carpetas
 
 - La cantidad y sección de conductores que definen el diámetro de caño salen de [`instalacion-electrica/calculos`](../instalacion-electrica/calculos).
-- El recorrido debe coincidir con la distribución en planta ya definida en [`instalacion-electrica/planos`](../instalacion-electrica/planos) e [`iluminacion/planos`](../iluminacion/planos).
+- El recorrido debe coincidir con la distribución en planta ya definida en [`instalacion-electrica/planos`](../instalacion-electrica/planos) e [`iluminacion/`](../iluminacion/).
 
 ## Qué definimos
 
