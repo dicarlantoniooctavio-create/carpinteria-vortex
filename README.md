@@ -26,4 +26,4 @@ Proyecto final: la instalación eléctrica de un taller de carpintería de 312 m
 
 - Alimentación 3 × 380 / 220 V + N, cable 4 × 35 mm², general 4P 80 A.
 - Dos tableros: **Seccional Oficina** (TUG2 en R; IUG1 y TUG1 en S) y **Seccional Máquinas** (TUE1 en R; IUG2 en S; IUG3 y TUG3 en T; una térmica 4P por máquina).
-- Fases con todo andando: R 72,97 A · S 67,44 A · T 66,32 A.
+- Fases con todo andando: R 78,33 A · S 74,88 A · T 73,96 A.
