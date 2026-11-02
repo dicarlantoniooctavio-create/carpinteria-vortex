@@ -268,7 +268,7 @@ setTimeout(() => { const c = document.querySelector('.curtain'); if (c) c.style.
       var lens = document.createElement('div');
       lens.className = 'lupa'; lens.setAttribute('aria-hidden', 'true');
       host.appendChild(lens);
-      var clone = null, timer = null, touching = false;
+      var clone = null, timer = null, touching = false, sx = 0, sy = 0;
       function fresh() { if (clone) { clone.remove(); clone = null; } }
       function show(px, py, ly) {
         var hr = host.getBoundingClientRect(), r = svg.getBoundingClientRect();
@@ -287,11 +287,11 @@ setTimeout(() => { const c = document.querySelector('.curtain'); if (c) c.style.
       host.addEventListener('pointermove', function (e) { if (e.pointerType === 'mouse' || e.pointerType === 'pen') show(e.clientX, e.clientY); });
       host.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'touch') hide(); });
       host.addEventListener('touchstart', function (e) {
-        var t = e.touches[0]; fresh();
+        var t = e.touches[0]; sx = t.clientX; sy = t.clientY; fresh();
         timer = setTimeout(function () { touching = true; show(t.clientX, t.clientY, t.clientY - 140); }, 260);
       }, { passive: true });
       host.addEventListener('touchmove', function (e) {
-        if (!touching) { clearTimeout(timer); return; }
+        if (!touching) { var m = e.touches[0]; if (Math.abs(m.clientX - sx) > 10 || Math.abs(m.clientY - sy) > 10) clearTimeout(timer); return; } // un temblor chico no cancela el toque largo
         var t = e.touches[0]; e.preventDefault(); show(t.clientX, t.clientY, t.clientY - 140);
       }, { passive: false });
       host.addEventListener('touchend', function () { clearTimeout(timer); touching = false; hide(); });
