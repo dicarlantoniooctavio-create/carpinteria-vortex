@@ -22,4 +22,4 @@ Diseño del tablero general (y seccionales si corresponde) que alimenta a toda l
 
 - 7 circuitos de 220 V y 6 máquinas de 380 V.
 - Dos tableros seccionales: Seccional Oficina (general GE Hti 4P 80 A) y Seccional Máquinas (grupo de máquinas GE G64C63 + diferencial BPC463).
-- El tablero de mando de cada máquina está en `planos/tablero.maquinas.esim`.
+- El tablero de mando de cada máquina está en `planos/Tablero_Maquina.esim`.
