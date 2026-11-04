@@ -27,13 +27,13 @@ Los topográficos de los dos tableros están armados en CADe SIMU (`04_Web/archi
 ## Datos principales
 
 - Alimentación 3 × 380 / 220 V + N: cable 4 × 35 mm² + PE 16 mm², interruptor general 4P 80 A.
-- **Seccional Oficina:** TUG2 (R, 16 A), IUG1 (S, 4 A), TUG1 (S, 16 A), térmica de entrada 4P 25 A, un disyuntor 2P 25 A 30 mA en R y en S.
-- **Seccional Máquinas:** línea 4 × 25 mm² + PE 16 mm² con térmica de entrada 4P 63 A; TUE1 (R, 16 A), IUG2 (S, 10 A), IUG3 y TUG3 (T, 10 A y 16 A), un disyuntor por fase (el de T de 40 A); las máquinas detrás de un disyuntor 4P 63 A 30 mA, cada una con su térmica 4P de 10 o 16 A, que alimenta el tablero propio de cada una.
+- **Seccional Oficina:** TUE1 aire (R, 16 A), IUG1 (S, 4 A), TUG1 oficina + frente (S, 16 A), térmica de entrada 4P 25 A, un disyuntor 2P 25 A 30 mA en R y en S.
+- **Seccional Máquinas:** línea 4 × 25 mm² + PE 16 mm² con térmica de entrada 4P 63 A; TUE2 compresor (R, 16 A), IUG2 (S, 10 A), IUG3 y TUG3 (T, 10 A y 16 A), un disyuntor por fase (el de T de 40 A); las máquinas detrás de un disyuntor 4P 63 A 30 mA, cada una con su térmica 4P de 10 o 16 A, que alimenta el tablero propio de cada una.
 - **Protecciones:** catálogo GE. Térmicas G60 curva C 6 kA (G62 bipolares, G64 tetrapolares) y diferenciales BPC 30 mA; el general de 80 A es GE Hti104C080 (10 kA), porque la G60 llega hasta 63 A. Entradas de los tableros: G64C25 (oficina) y G64C63 (taller).
 - Máquinas 380 V (planilla de máquinas): lijadora 7,89 A y combinada 8,60 A en triángulo; escuadradora 4,85 A, tupí 5 A, sierra sin fin 4,95 A y compresor 1 8,5 A en estrella → 39,79 A por fase. Todas con cable 4 × 2,5 mm².
 - Iluminación: IUG1 9 bocas (1,38 A, térmica 4 A); IUG2 9 campanas de 100 W (4,09 A) e IUG3 10 campanas (4,55 A), con térmica GE G62C10 de 10 A.
-- Fases con todo andando: **R 63,26 A · S 59,81 A · T 58,89 A**.
-- Potencia instalada 37,34 kW · demandada 33,84 kW · superficie 312 m² (grado superior).
+- Fases con todo andando: **R 53,26 A · S 59,81 A · T 58,89 A**.
+- Potencia instalada 37,34 kW · demandada 31,64 kW · superficie 312 m² (grado superior).
 - Presupuesto recomendado: USD 13.071,36 (materiales USD 7.118,80). Precios de referencia: confirmar con proveedores.
 
 ## Animaciones
