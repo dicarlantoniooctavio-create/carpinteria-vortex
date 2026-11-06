@@ -1,0 +1,17 @@
+{
+ "relacion_poleas": 3.5,
+ "polea_motora_mm": 90,
+ "polea_conducida_mm": 315,
+ "rpm_motor": 2840,
+ "rpm_ruedas": 811.4,
+ "velocidad_banda_m_s": 25.49,
+ "entre_ejes_ruedas_mm": 4000,
+ "diametro_ruedas_mm": 600,
+ "ancho_banda_mm": 150,
+ "desarrollo_banda_mm": 9885,
+ "largo_mm": 4754,
+ "ancho_mm": 919,
+ "alto_mm": 2220,
+ "piezas": 27,
+ "unidades": 47
+}

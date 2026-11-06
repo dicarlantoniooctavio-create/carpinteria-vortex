@@ -69,7 +69,7 @@
       if (b.getAttribute('aria-pressed') === 'true') return;
       all.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
       var src = b.getAttribute('data-src'), txt = b.getAttribute('data-cap');
-      var put = function () { main.src = src; main.alt = txt + ' de la lijadora en SolidWorks'; cap.textContent = txt; main.classList.remove('swap'); };
+      var put = function () { main.src = src; main.alt = txt + ' de la lijadora en FreeCAD'; cap.textContent = txt; main.classList.remove('swap'); };
       clearTimeout(swapT);
       if (reduce) return put();
       main.classList.add('swap');
@@ -77,3 +77,4 @@
     });
   });
 })();
+
