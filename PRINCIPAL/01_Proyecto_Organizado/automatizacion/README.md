@@ -4,6 +4,17 @@
 
 Lógica de mando y control de la máquina: arranque directo de un motor trifásico con enclavamiento, mediante contactor comandado por pulsadores de marcha y paro, más protección térmica.
 
+## Topográficos nuevos (noviembre 2026)
+
+El equipo rehizo el automatismo en dos topográficos de CADe SIMU, en `esquemas/`:
+
+| Archivo | Motor | Componentes |
+|---|---|---|
+| `topograficoMonofasico.cad` (imagen `automatismo_monofasico.png`) | Monofásico (U1, V1, PE) | Q1, Q2, KM1, F1, S1 parada, S2 marcha, H1, bornera X |
+| `topograficoTrifasico.cad` (imagen `automatismo_trifasico.png`) | Trifásico (U1, V1, W1, PE) | Q1, Q2, KM1, F1, S1 parada, S2 marcha, H1, bornera X |
+
+Los dos son un arranque directo con autorretención: S2 energiza KM1, su contacto auxiliar lo mantiene, S1 lo corta y F1 (95-96) abre el mando si el motor se sobrecarga. Lo que sigue es la versión anterior.
+
 ## Archivos 
 
 | Archivo | Contenido | Estado |

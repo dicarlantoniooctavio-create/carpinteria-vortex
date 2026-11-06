@@ -1,23 +1,23 @@
 # Modelado 3D — Lijadora de banda
 
-Modelo 3D en SolidWorks de una de las máquinas de la carpintería (ej: sierra circular, cepilladora, sierra sinfín, router CNC, etc.).
+Modelo 3D de la lijadora de banda de la carpintería. La primera versión se hizo en SolidWorks; la versión actual, más grande y completa, está en FreeCAD (carpeta 3D.chonchons.beta/freecad/lijadora_mejorada_v3 del proyecto).
 
 ## Contenido a subir
 
 - **`piezas/`**: archivos fuente de SolidWorks.
   - ⚠️ Los `.SLDPRT` y `.SLDASM` son binarios y no versionan bien en Git (no se puede ver el diff), pero igual se suben para tener el historial de entregas. Evitar subir carpetas de backup automático de SolidWorks (`~$*`, `*.SLDPRT.1`, etc. — ya están en el `.gitignore`).
   - Nombrar cada pieza de forma descriptiva: `base-maquina.SLDPRT`, `motor.SLDPRT`, `ensamble-completo.SLDASM`.
-- **`renders/`**: capturas o renders exportados (PNG/JPG) del ensamble completo y de piezas clave, para que se vea sin abrir SolidWorks.
+- **`renders/`**: vistas de la lijadora nueva sacadas de FreeCAD (iso, frente, lateral, planta y explotada). Los renders del modelo de SolidWorks quedan en `renders/version_solidworks/`.
 - Exportar también una versión **`.STEP`** del ensamble final (formato neutro, se puede abrir en cualquier software) para adjuntar a la entrega.
 
 ## Contenido sugerido para el informe
 
 - Por qué se eligió esa máquina.
 - Simplificaciones hechas respecto a la máquina real (si no se modeló el 100% del detalle, aclararlo).
-- Vista explosionada del ensamble (SolidWorks permite exportarla directamente).
+- Vista explotada del ensamble.
 - Plano acotado de la pieza principal (opcional, si el proyecto lo pide).
 
 ## Qué definimos
 
-- Máquina modelada: lijadora de banda (motor de 3 kW, 2840 rpm), 17 piezas y 2 ensambles en SolidWorks.
-- Plano de despiece con medidas y materiales: `planos/Despiece_Lijadora.dwg` (plano VX-M-001, A3).
+- Máquina modelada: lijadora de banda larga con mesa regulable (motor de 4 HP / 3 kW, 2840 rpm, poleas 90/315, ruedas Ø600 a 4000 mm, banda de 150 mm a 25,5 m/s). 27 piezas en FreeCAD (47 unidades). Medidas: 4754 × 919 × 2220 mm.
+- Despiece: `planos/Despiece_Lijadora.pdf` (lámina A3 con vista explotada y lista de piezas), `planos/Despiece_Lijadora.dwg` (vistas acotadas) y `planos/piezas.csv`.

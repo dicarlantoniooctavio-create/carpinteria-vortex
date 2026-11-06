@@ -43,7 +43,7 @@ carpinteria-proyecto/
 │   └── planos/
 ├── tuberias/                       # Canalizaciones: tipo de caño, recorrido, diámetros
 │   └── planos/
-├── modelado-3d/                     # Modelo SolidWorks de la máquina elegida
+├── modelado-3d/                     # Lijadora de banda en FreeCAD (antes en SolidWorks)
 │   ├── piezas/
 │   └── renders/
 ├── automatizacion/                   # Lógica de control: relé, marcha, paro, emergencia
