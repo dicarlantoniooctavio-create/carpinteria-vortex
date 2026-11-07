@@ -11,7 +11,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=10">
+<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="vivo.css?v=2">
 </head>
 <body>
 
@@ -26,6 +27,7 @@
     <a href="#tableros" style="--i:1">Tableros</a>
     <a href="#automatismo" style="--i:2">Automatismo</a>
     <a href="#maquinas" style="--i:3">Máquinas</a>
+    <a href="#diseno3d" style="--i:4">Diseño 3D</a>
     <a href="#condiciones" style="--i:4">Condiciones</a>
     <a href="#archivos" style="--i:5">Archivos</a>
     <a href="#contacto" class="nav-cta" style="--i:6">Contacto</a>
@@ -36,6 +38,7 @@
 <main id="top">
 
 <section class="hero">
+  <canvas class="hero-field" aria-hidden="true"></canvas>
   <div class="hero-copy">
     <h1 class="r-lines"><span class="ln"><span style="--i:1">Energía bien</span></span><span class="ln"><span style="--i:2">calculada.</span></span><span class="ln"><span class="accent" style="--i:3">Máquinas bajo control.</span></span></h1>
     <p class="lead r" style="--i:4">Somos Vortex. Diseñamos, documentamos y armamos instalaciones eléctricas para talleres y comercios: desde el primer tablero hasta el último botón de emergencia.</p>
@@ -71,7 +74,16 @@
   <div class="kpi r" style="--i:1"><b data-count="63.11" data-dec="2">63,11</b><span>A en la fase más cargada</span></div>
   <div class="kpi r" style="--i:2"><b data-count="28" data-dec="0">28</b><span>bocas de luz en el plano</span></div>
   <div class="kpi r" style="--i:3"><b data-count="312" data-dec="0">312</b><span>m² · grado superior</span></div>
+  <div class="kpi-fases r" style="--i:4">
+    <div class="kf-head"><span class="kf-title">Carga por fase</span><span class="kf-note">Corriente en el T.P. sobre el general de 80 A</span></div>
+    <ul class="kf-list">
+      <li data-f="R"><span class="kf-name">R</span><span class="kf-bar"><i style="--v:.7695"></i></span><b data-count="61.56" data-dec="2">61,56</b><em>A</em></li>
+      <li data-f="S"><span class="kf-name">S</span><span class="kf-bar"><i style="--v:.7889"></i></span><b data-count="63.11" data-dec="2">63,11</b><em>A</em></li>
+      <li data-f="T"><span class="kf-name">T</span><span class="kf-bar"><i style="--v:.7774"></i></span><b data-count="62.19" data-dec="2">62,19</b><em>A</em></li>
+    </ul>
+  </div>
 </section>
+
 
 <section class="sec" id="empresa">
   <header class="sec-head"><div><h2 class="r split-words">La empresa</h2></div></header>
@@ -84,7 +96,18 @@
         <article class="shell r" style="--i:3"><div class="core"><h3>Visión</h3><p>Que este proyecto sea el punto de partida para seguir trabajando juntos como equipo.</p></div></article>
       </div>
     </div>
-    <figure class="shell logo-card r" style="--i:2"><div class="core"><img src="img/logo.png" alt="Isologo de Vortex"><figcaption>Dos eslabones unidos: la potencia y el control trabajando juntos.</figcaption></div></figure>
+    <figure class="shell logo-card r" style="--i:2"><div class="core"><svg class="card-logo" viewBox="0 0 620 420" role="img" aria-label="Isologo de Vortex: dos eslabones unidos">
+      <g class="lk">
+        <circle class="ring r1" cx="93" cy="317" r="40" pathLength="1"/>
+        <path class="link l1" pathLength="1" d="M122 290 L283 120 C305 96 350 105 362 140 C372 172 340 206 300 206 L270 206"/>
+        <circle class="ring r2" cx="512" cy="88" r="40" pathLength="1"/>
+        <path class="link l2" pathLength="1" d="M483 115 L322 287 C300 311 255 302 240 270 C228 240 240 205 262 180"/>
+      </g>
+      <g class="spark" aria-hidden="true">
+        <path pathLength="1" d="M122 290 L283 120 C305 96 350 105 362 140 C372 172 340 206 300 206 L270 206"/>
+        <path pathLength="1" d="M483 115 L322 287 C300 311 255 302 240 270 C228 240 240 205 262 180"/>
+      </g>
+    </svg><figcaption>Dos eslabones unidos: la potencia y el control trabajando juntos.</figcaption></div></figure>
   </div>
 
   <h3 class="h3 r mt">El equipo</h3>
@@ -104,6 +127,10 @@
     <article class="svc r" style="--i:4"><span class="n">05</span><h3>Mantenimiento</h3><p>Revisión de instalaciones, medición de puesta a tierra y un plan simple de controles.</p></article>
     <article class="svc r" style="--i:5"><span class="n">06</span><h3>Diseño 3D</h3><p>Modelos y planos de máquinas y repuestos en FreeCAD.</p></article>
   </div>
+</section>
+
+<section class="frase" aria-label="Nuestro enfoque">
+  <p class="frase-txt">Nosotros no nos limitamos solo a la instalación: damos todo un <em>rediseño</em>.</p>
 </section>
 
 <div class="cable-band" aria-hidden="true">
@@ -300,7 +327,7 @@
       <p>Un motor trifásico de 3 kW hace girar una banda de lija cerrada que corre entre dos ruedas. Al apoyar la pieza sobre la banda, el abrasivo gasta el material por fricción: así se desbasta, se alisa y se sacan rebabas, tanto en madera como en metal.</p>
       <p>Es la máquina que modelamos en FreeCAD. Dos columnas de acero sostienen las ruedas de Ø600 × 150 a 4 m entre ejes, y por ellas corre una banda de lija de 150 mm y 9.885 mm de desarrollo. El motor de 4 HP mueve la rueda motriz con poleas de 90 y 315 mm y dos correas en V: la rueda gira a 811 rpm y la lija corre a 25,5 m/s. La mesa de 3,40 m sube y baja con cuatro gatos de tornillo que se mueven juntos con un volante.</p>
       <ul class="mq-chips"><li><b>3 kW</b> 4 HP</li><li><b>2840</b> rpm</li><li><b>380 V</b> trifásico</li><li><b>7,89 A</b> de consumo</li></ul>
-      <div class="mq-cta"><button type="button" class="btn" data-go="mqt-3d"><span>Ver el diseño 3D</span><i class="btn-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></i></button><button type="button" class="btn ghost" data-go="mqt-desp"><span>Ver el despiece</span><i class="btn-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></i></button></div>
+      <div class="mq-cta"><a class="btn" href="#diseno3d" data-d3="d3t-giro"><span>Ver el diseño 3D</span><i class="btn-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></i></a><a class="btn ghost" href="#diseno3d" data-d3="d3t-desp"><span>Ver el despiece</span><i class="btn-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></i></a></div>
     </article>
       <article class="mq-card r" style="--i:1" data-mq>
         <svg class="mq-ico" viewBox="0 0 48 48" aria-hidden="true"><path pathLength="1" d="M4 40h40"/><g class="mq-spin" style="transform-origin:24px 26px"><path pathLength="1" d="M35.00 26.00 L37.77 29.47 L33.91 30.77 L34.90 35.10 L30.86 34.60 L29.87 38.93 L26.45 36.72 L23.68 40.20 L21.55 36.72 L17.55 38.65 L17.14 34.60 L12.70 34.60 L14.09 30.77 L10.09 28.85 L13.00 26.00 L10.23 22.53 L14.09 21.23 L13.10 16.90 L17.14 17.40 L18.13 13.07 L21.55 15.28 L24.32 11.80 L26.45 15.28 L30.45 13.35 L30.86 17.40 L35.30 17.40 L33.91 21.23 L37.91 23.15Z"/><circle pathLength="1" cx="24" cy="26" r="3"/></g><path pathLength="1" d="M8 40v4M40 40v4"/></svg>
@@ -328,18 +355,28 @@
       </article>
   </div>
 
-  <div class="mq-viewer r" id="mq-viewer">
-    <div class="mq-vhead">
-      <h3 class="h3">La lijadora, del modelo al plano</h3>
-      <div class="tb-face-switch mq-switch" role="tablist" aria-label="Vista de la lijadora"><span class="tfs-ink" aria-hidden="true"></span><button type="button" role="tab" id="mqt-3d" aria-controls="mqp-3d" aria-selected="true">Diseño 3D</button><button type="button" role="tab" id="mqt-desp" aria-controls="mqp-desp" aria-selected="false" tabindex="-1">Despiece mecánico</button></div>
-    </div>
-    <div class="mq-panel is-on" id="mqp-3d" role="tabpanel" aria-labelledby="mqt-3d"> <div class="mq-giro" data-src="img/lijadora/lijadora.glb?v=8"> <div class="mq-giro-wait">Cargando el modelo 3D…</div> </div> <div class="mq-3d-foot"> <p class="note">Arrastrá para girar la lijadora, usá la rueda del mouse (o dos dedos) para acercarte y doble clic para volver a la vista inicial. Es el modelo de FreeCAD con sus 46 piezas.</p> <dl class="specs">
+</section>
+
+<section class="sec" id="diseno3d">
+  <header class="sec-head"><div><h2 class="r split-words">Diseño 3D y despiece mecánico</h2></div></header>
+  <div class="d3-stage r" style="--i:1">
+    <div class="d3-tabs" role="tablist" aria-label="Vistas de la lijadora"><span class="d3-ink" aria-hidden="true"></span><button type="button" role="tab" id="d3t-giro" aria-controls="d3p-giro" aria-selected="true">Diseño 3D</button><button type="button" role="tab" id="d3t-desp" aria-controls="d3p-desp" aria-selected="false" tabindex="-1">Despiece</button><button type="button" role="tab" id="d3t-vist" aria-controls="d3p-vist" aria-selected="false" tabindex="-1">Vista acotada</button></div>
+    <div class="d3-panel is-on" id="d3p-giro" role="tabpanel" aria-labelledby="d3t-giro">
+      <div class="mq-giro" id="d3-giro" data-src="img/lijadora/lijadora.glb?v=9"> <div class="mq-giro-wait">Cargando el modelo 3D…</div> </div>
+      <div class="mq-3d-foot"> <p class="note">Arrastrá para girar la lijadora, usá la rueda del mouse (o dos dedos) para acercarte y doble clic para volver a la vista inicial. Es el modelo de FreeCAD con sus 46 piezas.</p> <dl class="specs">
             <div><dt>Programa</dt><dd>FreeCAD</dd></div>
             <div><dt>Piezas</dt><dd>27 piezas · 47 unidades</dd></div>
             <div><dt>Motor</dt><dd>4 HP (3 kW) · 380 V · 2840 rpm · 7,89 A</dd></div>
             <div><dt>Banda</dt><dd>Cerrada · 9.885 × 150 mm, grano 80</dd></div> <div><dt>Transmisión</dt><dd>Poleas 90/315 · 811 rpm · 25,5 m/s</dd></div>
-          </dl> </div> </div>
-    <div class="mq-panel" id="mqp-desp" role="tabpanel" aria-labelledby="mqt-desp" hidden> <h4 class="mq-sub">Despiece: vista explotada y lista de piezas</h4> <figure class="mq-sheet portrait tb-zoom"><img src="img/lijadora/despiece_lijadora.png?v=8" alt="Despiece de la lijadora de banda: vista explotada en diagonal con las 27 piezas numeradas y la lista de piezas con sus medidas y materiales" loading="lazy"><span class="mq-plot" aria-hidden="true"></span></figure> <h4 class="mq-sub">Vistas acotadas: frente, lateral y planta</h4> <figure class="mq-sheet wide tb-zoom"><img src="img/lijadora/despiece_vistas.png?v=8" alt="Vistas acotadas de la lijadora: frente, lateral y planta con largo 4754 mm, ancho 919 mm y alto 2220 mm" loading="lazy"></figure> <div class="mq-dl"><p class="note">Las dos láminas salen del modelo de FreeCAD. Cada pieza del despiece lleva su número y la lista tiene las medidas tomadas del modelo. Pasá el mouse por los planos para verlos con la lupa.</p><div class="tb-dl"><a href="archivos/Despiece_Lijadora.pdf" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg><span>Despiece .pdf</span></a><a href="archivos/Despiece_Lijadora.dwg" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg><span>Despiece .dwg</span></a><a href="archivos/Vistas_Lijadora.dwg" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg><span>Vistas acotadas .dwg</span></a></div></div> </div>
+          </dl> </div>
+    </div>
+    <div class="d3-panel" id="d3p-desp" role="tabpanel" aria-labelledby="d3t-desp" hidden>
+      <figure class="mq-sheet portrait tb-zoom"><img src="img/lijadora/despiece_lijadora.png?v=9" alt="Despiece de la lijadora de banda: vista explotada con las 27 piezas numeradas, cada una a su altura real, y la lista de piezas con sus medidas y materiales" loading="lazy"><span class="mq-plot" aria-hidden="true"></span></figure>
+    </div>
+    <div class="d3-panel" id="d3p-vist" role="tabpanel" aria-labelledby="d3t-vist" hidden>
+      <figure class="mq-sheet wide tb-zoom"><img src="img/lijadora/despiece_vistas.png?v=8" alt="Vistas acotadas de la lijadora: frente, lateral y planta con largo 4754 mm, ancho 919 mm y alto 2220 mm" loading="lazy"></figure>
+    </div>
+    <div class="mq-dl"><p class="note">Las dos láminas salen del modelo de FreeCAD. Cada pieza del despiece lleva su número y la lista tiene las medidas tomadas del modelo. Pasá el mouse por los planos para verlos con la lupa.</p><div class="tb-dl"><a href="archivos/Despiece_Lijadora.pdf" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg><span>Despiece .pdf</span></a><a href="archivos/Despiece_Lijadora.dwg" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg><span>Despiece .dwg</span></a><a href="archivos/Vistas_Lijadora.dwg" download><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg><span>Vistas acotadas .dwg</span></a></div></div>
   </div>
 </section>
 
@@ -408,7 +445,8 @@
 </footer>
 <script src="script.js?v=6"></script>
 <script src="tableros.js?v=8"></script>
-<script src="maquinas.js?v=1"></script>
+<script src="maquinas.js?v=3"></script>
+<script src="vivo.js?v=2"></script>
 </body>
 </html>
 
