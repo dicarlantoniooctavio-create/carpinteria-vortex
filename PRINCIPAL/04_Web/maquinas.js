@@ -48,6 +48,12 @@
     mv.addEventListener('dblclick', function () { mv.cameraOrbit = '-35deg 70deg auto'; mv.fieldOfView = 'auto'; });
     box.appendChild(mv); box.appendChild(hint);
   }
+  /* el visor de Diseño 3D se arma cuando la sección se acerca a la pantalla */
+  var giroBox = root.querySelector('#mqp-3d .mq-giro');
+  if (giroBox) {
+    if ('IntersectionObserver' in window) { var giroIO = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { giro(giroBox); giroIO.disconnect(); } }); }, { rootMargin: '300px 0px' }); giroIO.observe(giroBox); }
+    else giro(giroBox);
+  }
   function select(btn, focus) {
     var cur = tabs.find(function (b) { return b.getAttribute('aria-selected') === 'true'; });
     if (focus) btn.focus();

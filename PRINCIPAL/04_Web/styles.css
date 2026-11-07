@@ -819,3 +819,30 @@ html.reduce-motion .mq-panel.enter, html.reduce-motion .mq-sheet.plotting img, h
 @media (max-width: 600px) { .mq-giro { height: 380px; } }
 
 .tb-flip.single .tb-face img { max-height: 640px; width: auto; max-width: 100%; margin-inline: auto; display: block; }
+
+/* v8: visor 3D grande en Diseño 3D, láminas grandes y títulos de los seccionales */
+.mq-viewer { max-width: none; }
+.mq-giro { height: min(78vh, 760px); }
+.mq-3d-foot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 1.2rem 2rem; align-items: start; margin-top: 1.1rem; }
+.mq-3d-foot .note { margin: 0; }
+.mq-sub { margin: 1.4rem 0 .7rem; font-size: 1.05rem; font-weight: 800; color: var(--navy); }
+.mq-sub:first-child { margin-top: .2rem; }
+.mq-sheet.portrait { max-width: 1100px; }
+.mq-sheet.wide { max-width: none; }
+.mq-sheet img { image-rendering: auto; }
+.tb-big { line-height: 1; }
+.tb-big small { display: block; font-size: .42em; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); margin-bottom: .35rem; }
+.tb-info h3.tb-big { font-size: clamp(2.4rem, 4.4vw, 3.6rem); }
+/* dibujos más grandes y nítidos */
+.tb-view { grid-template-columns: 1fr; gap: 1.4rem; }
+.tb-view .tb-media { order: 0; }
+.tb-view .tb-flip.single .tb-face { display: grid; place-items: center; padding: .6rem; }
+.tb-view .tb-flip.single .tb-face img { width: auto; max-width: 100%; max-height: 80vh; }
+.tb-flip .tb-face img, .tb-flip.single .tb-face img { max-height: 82vh; }
+.tb-flip .tb-face { background: #fff; }
+#automatismo .mq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; }
+#automatismo .am-fig img { width: 100%; height: auto; max-height: 820px; object-fit: contain; }
+@media (max-width: 980px) { .mq-3d-foot { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { #automatismo .mq-grid { grid-template-columns: 1fr; } .mq-giro { height: 420px; } }
+/* los seccionales no llevan lupa: se oculta el aviso */
+.tb:has(#tbv-of:not([hidden])) .tb-hint, .tb:has(#tbv-mq:not([hidden])) .tb-hint { display: none; }
