@@ -1,28 +1,28 @@
 ﻿N°;Pieza;Cantidad;Medidas (mm);Material
-1;Columna portarrueda;2;1847 × 400 × 400;Acero SAE 1010
-2;Base de la mesa (pieza 1);2;1302 × 750 × 500;Acero SAE 1010
-3;Travesaño inferior (pieza 2);2;2000 × 100 × 100;Tubo acero SAE 1010
-4;Rueda de banda;2;Ø600 × 160;Aluminio con recubrimiento de goma
-5;Eje de rueda motriz (pieza 10);1;Ø60 × 580;Acero SAE 1045 rectificado
-6;Eje de rueda conducida (pieza 11);1;Ø60 × 380;Acero SAE 1045 rectificado
-7;Chumacera UCP212;4;241 × 150 × 75;Fundición gris (comercial)
-8;Tensor de banda;2;70 × 50 × 45;Acero SAE 1010
-9;Banda de lija;1;9.885 × 150 (desarrollo);Óxido de aluminio grano 80 sobre tela
-10;Motor trifásico 4 HP;1;402 × 251 × 218;Comercial · 3 kW · 2840 rpm · 380 V
-11;Polea motora Ø90 (2 canales A);1;Ø95 × 47;Fundición gris
-12;Polea conducida Ø315 (2 canales A);1;Ø320 × 51;Fundición gris
-13;Correa en V perfil A;2;Juego de 2;Caucho con cuerdas (comercial)
-14;Ménsula soporte del motor;1;340 × 300 × 215;Acero SAE 1010
-15;Placa soporte del motor (pieza 4);1;300 × 250 × 38;Acero SAE 1010
-16;Cubrecorreas;1;995 × 617 × 469;Chapa de acero SAE 1010
-17;Tablero de mesa (pieza 6);2;3400 × 600 × 6;Chapa de acero SAE 1010
-18;Guía de mesa (pieza 5);2;3400 × 80 × 40;Acero SAE 1010
-19;Gato de tornillo 2,5 t;4;160 × 120 × 80;Fundición gris (comercial)
-20;Husillo Tr30;4;100 × 100 × 75;Acero SAE 1045
-21;Travesaño de mesa;2;520 × 80 × 80;Acero SAE 1010
-22;Eje sinfín con piñón;2;Ø72 × 610;Acero SAE 1045
-23;Cadena de transmisión de la mesa;1;2330 de largo;Acero (comercial)
-24;Volante de altura de mesa;1;Ø255 × 115;Acero SAE 1010
-25;Rodillo presionador;1;Ø80 × 93;Acero con recubrimiento de goma
-26;Soporte de rodillo (pieza 12);2;264 × 180 × 12;Acero SAE 1010
-27;Manija del presionador (pieza 13);1;180 × 176 × 10;Acero SAE 1010
+1;Cubrecorreas;1;996 × 617 × 469;Chapa de acero SAE 1010
+2;Correa en V perfil A;2;A96 · ≈ 2460 de largo;Caucho (comercial)
+3;Polea conducida (2 canales A);1;Ø320,6 (primitivo 315) × 51 · eje Ø60;Fundición gris
+4;Polea motora (2 canales A);1;Ø95,6 (primitivo 90) × 47 · eje Ø28;Fundición gris
+5;Banda de lija;1;150 de ancho × 9885 de desarrollo;Óxido de aluminio grano 80
+6;Motor trifásico 4 HP;1;Carcasa Ø200 × 402 · eje Ø28;Comercial · 3 kW · 2840 rpm
+7;Chumacera UCP212;4;241 × 150 × 75 · agujero Ø60;Fundición gris (comercial)
+8;Eje de rueda motriz (pieza 10);1;Ø60 × 580 · asientos Ø50;Acero SAE 1045
+9;Rueda de banda;2;Ø600 × 160 · agujero Ø60;Aluminio con goma
+10;Ménsula soporte del motor;1;340 × 300 × 215;Acero SAE 1010
+11;Placa soporte del motor (pieza 4);1;301 × 252 × 38;Acero SAE 1010
+12;Travesaño de mesa;2;520 × 80 × 80;Acero SAE 1010
+13;Husillo Tr30;4;Ø30 · cabezal 100 × 100 × 75;Acero SAE 1045
+14;Volante de altura;1;Ø250 × 115;Acero SAE 1010
+15;Gato de tornillo 2,5 t;4;160 × 120 × 80;Fundición gris (comercial)
+16;Eje sinfín con piñón;2;Ø20 × 610 · piñón Ø72;Acero SAE 1045
+17;Cadena de la mesa;1;≈ 4760 de largo · piñones Ø88;Acero (comercial)
+18;Manija del presionador (pieza 13);1;251 × 157 × 10;Acero SAE 1010
+19;Rodillo presionador;1;Ø80 × 93;Acero con goma
+20;Soporte de rodillo (pieza 12);2;264 × 180 × 12;Acero SAE 1010
+21;Base de la mesa (pieza 1);2;1305 × 750 × 500;Acero SAE 1010
+22;Tablero de mesa (pieza 6);2;3400 × 600 × 6;Chapa de acero SAE 1010
+23;Guía de mesa (pieza 5);2;3400 × 80 × 40;Acero SAE 1010
+24;Eje de rueda conducida (pieza 11);1;Ø60 × 380 · asientos Ø50;Acero SAE 1045
+25;Tensor de banda;2;70 × 50 × 45 · tornillo Ø16;Acero SAE 1010
+26;Travesaño inferior (pieza 2);2;2000 × 100 × 100;Tubo de acero SAE 1010
+27;Columna portarrueda;2;1847 × 400 × 400 (base 400 × 400);Acero SAE 1010

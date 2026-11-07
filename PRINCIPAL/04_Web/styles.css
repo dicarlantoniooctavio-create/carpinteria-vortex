@@ -803,3 +803,19 @@ html.reduce-motion.js .mq-card.feat.r .mq-belt { clip-path: none; }
 html.reduce-motion.js .mq-card.feat.r .mq-chips li { opacity: 1; transform: none; }
 html.reduce-motion .mq-panel.enter, html.reduce-motion .mq-sheet.plotting img, html.reduce-motion .mq-sheet.plotting .mq-plot { animation: none; }
 .mq-stage img, .mq-thumbs img { mix-blend-mode: multiply; }
+
+/* etiquetas sobre los dibujos (tableros y automatismo) */
+.tb-tag, .am-tag { display: inline-block; align-self: flex-start; margin: 0 0 .6rem; font-size: .78rem; font-weight: 700; letter-spacing: .02em; color: var(--blue); background: var(--sky); padding: .28rem .75rem; border-radius: 999px; }
+.am-fig .core { display: flex; flex-direction: column; }
+.am-tag { margin-bottom: .8rem; }
+/* despiece vertical (A3 parado) */
+.mq-sheet.portrait { max-width: 820px; margin-inline: auto; }
+/* visor 3D giratorio */
+.mq-giro { position: relative; height: min(68vh, 560px); border-radius: 20px; overflow: hidden; background: radial-gradient(70% 60% at 50% 45%, #fff, #EEF4FC); box-shadow: inset 0 0 0 1px var(--line); }
+.mq-giro model-viewer { width: 100%; height: 100%; --poster-color: transparent; }
+.mq-giro-wait { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted, #5B6B7B); font-weight: 600; }
+.mq-giro .mq-giro-hint { position: absolute; left: 50%; bottom: 14px; translate: -50% 0; font-size: .82rem; font-weight: 600; color: var(--navy); background: rgba(255,255,255,.85); padding: .35rem .8rem; border-radius: 999px; box-shadow: 0 1px 0 var(--line); pointer-events: none; transition: opacity 300ms ease; }
+.mq-giro.touched .mq-giro-hint { opacity: 0; }
+@media (max-width: 600px) { .mq-giro { height: 380px; } }
+
+.tb-flip.single .tb-face img { max-height: 640px; width: auto; max-width: 100%; margin-inline: auto; display: block; }
