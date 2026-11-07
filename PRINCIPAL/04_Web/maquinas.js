@@ -27,6 +27,27 @@
     var img = sheet.querySelector('img');
     if (img.complete) go(); else img.addEventListener('load', go, { once: true });
   }
+  /* visor 3D: el modelo (GLB exportado de FreeCAD) se carga recién cuando se abre la pestaña */
+  var giroOn = false;
+  function giro(box) {
+    if (giroOn) return; giroOn = true;
+    var s = document.createElement('script'); s.type = 'module';
+    s.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js';
+    document.head.appendChild(s);
+    var mv = document.createElement('model-viewer');
+    mv.setAttribute('src', box.getAttribute('data-src'));
+    mv.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo');
+    mv.setAttribute('camera-controls', ''); mv.setAttribute('touch-action', 'pan-y');
+    mv.setAttribute('camera-orbit', '-35deg 70deg auto'); mv.setAttribute('shadow-intensity', '0.8');
+    mv.setAttribute('exposure', '1.1'); mv.setAttribute('interaction-prompt', 'none');
+    if (!reduce) { mv.setAttribute('auto-rotate', ''); mv.setAttribute('auto-rotate-delay', '1500'); mv.setAttribute('rotation-per-second', '18deg'); }
+    var hint = document.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar';
+    mv.addEventListener('load', function () { var w = box.querySelector('.mq-giro-wait'); if (w) w.remove(); });
+    mv.addEventListener('error', function () { var w = box.querySelector('.mq-giro-wait'); if (w) w.textContent = 'No se pudo cargar el modelo 3D.'; });
+    mv.addEventListener('pointerdown', function () { box.classList.add('touched'); }, { once: true });
+    mv.addEventListener('dblclick', function () { mv.cameraOrbit = '-35deg 70deg auto'; mv.fieldOfView = 'auto'; });
+    box.appendChild(mv); box.appendChild(hint);
+  }
   function select(btn, focus) {
     var cur = tabs.find(function (b) { return b.getAttribute('aria-selected') === 'true'; });
     if (focus) btn.focus();
@@ -39,6 +60,7 @@
       prev.hidden = true; prev.classList.remove('leave', 'enter');
       next.hidden = false; next.classList.remove('enter'); void next.offsetWidth; next.classList.add('enter');
       if (next.contains(sheet)) plot();
+      if (next.querySelector('.mq-giro')) giro(next.querySelector('.mq-giro'));
     };
     if (reduce) show(); else { prev.classList.add('leave'); busy = setTimeout(show, 180); }
   }
