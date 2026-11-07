@@ -23,9 +23,10 @@
   }
 
   /* selector de tableros con tinta que viaja y una chispa que la recorre */
-  var bar = root.querySelector('.tb-bar'), ink = bar.querySelector('.tb-ink');
-  var tabs = [].slice.call(bar.querySelectorAll('[role="tab"]'));
+  var bar = root.querySelector('.tb-bar'), ink = bar && bar.querySelector('.tb-ink');
+  var tabs = bar ? [].slice.call(bar.querySelectorAll('[role="tab"]')) : [];
   function moveInk(btn, spark) {
+    if (!ink || !bar) return;
     ink.style.width = btn.offsetWidth + 'px'; ink.style.height = btn.offsetHeight + 'px';
     ink.style.transform = 'translate(' + btn.offsetLeft + 'px,' + btn.offsetTop + 'px)';
     if (spark && !reduce) { ink.classList.remove('go'); void ink.offsetWidth; ink.classList.add('go'); }
@@ -73,20 +74,23 @@
 
   /* volteo multifilar / topográfico (la puerta del gabinete) */
   function syncFace(view) {
+    if (!view) return;
     var g = view.querySelector('.tb-face-switch'); if (!g) return;
     var on = g.querySelector('[aria-pressed="true"]'), fi = g.querySelector('.tfs-ink');
+    if (!on || !fi) return;
     fi.style.width = on.offsetWidth + 'px'; fi.style.transform = 'translateX(' + (on.offsetLeft - 4) + 'px)';
   }
   root.querySelectorAll('.tb-face-switch').forEach(function (g) {
-    var flip = g.nextElementSibling;
+    var flip = g.nextElementSibling; if (!flip || !flip.classList.contains('tb-flip')) return;
     g.querySelectorAll('button').forEach(function (b) {
       b.addEventListener('click', function () {
         if (b.getAttribute('aria-pressed') === 'true') return;
         g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
         var back = b.getAttribute('data-face') === '1';
         flip.classList.toggle('flipped', back);
-        flip.querySelector('.front').setAttribute('aria-hidden', String(back));
-        flip.querySelector('.back').setAttribute('aria-hidden', String(!back));
+        var front = flip.querySelector('.front'), backFace = flip.querySelector('.back');
+        if (front) front.setAttribute('aria-hidden', String(back));
+        if (backFace) backFace.setAttribute('aria-hidden', String(!back));
         if (!reduce) { flip.classList.remove('shine'); void flip.offsetWidth; flip.classList.add('shine'); }
         syncFace(g.closest('.tb-view'));
       });
@@ -96,6 +100,27 @@
 
   /* lupa: una copia ampliada de la imagen sigue al mouse, con un leve retardo que la hace fluida */
   var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  function syncOverflow(el) { if (!el) return; var overflow = el.scrollWidth > el.clientWidth + 1; el.classList.toggle('has-overflow', overflow); el.classList.toggle('at-end', el.scrollLeft + el.clientWidth >= el.scrollWidth - 1); }
+  document.querySelectorAll('.tabs, .tb-bar').forEach(function (el) { syncOverflow(el); el.addEventListener('scroll', function () { syncOverflow(el); }, { passive: true }); addEventListener('resize', function () { syncOverflow(el); }, { passive: true }); });
+  if (!fine) {
+    document.querySelectorAll('.tb-hint, #diseno3d .mq-dl .note, .s-auto .note').forEach(function (el) { el.textContent = el.textContent.replace(/Pasá el mouse[^.]*\./, 'Tocá un dibujo para verlo en grande.'); });
+    var activeDialog = null, previousFocus = null, previousOverflow = '';
+    function closeDialog() { if (!activeDialog) return; activeDialog.remove(); activeDialog = null; document.body.style.overflow = previousOverflow; if (previousFocus && previousFocus.isConnected) previousFocus.focus(); }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && activeDialog) closeDialog(); });
+    document.querySelectorAll('.tb-zoom').forEach(function (box) {
+      var img = box.querySelector('img'); if (!img) return;
+      if (!box.hasAttribute('tabindex')) box.setAttribute('tabindex', '0');
+      box.addEventListener('click', function (e) {
+        if (activeDialog || box.getAttribute('aria-hidden') === 'true') return;
+        e.preventDefault(); previousFocus = box; previousOverflow = document.body.style.overflow;
+        var overlay = document.createElement('div'); overlay.className = 'tb-fullscreen'; overlay.setAttribute('role', 'dialog'); overlay.setAttribute('aria-modal', 'true'); overlay.setAttribute('aria-label', img.alt || 'Dibujo ampliado');
+        var close = document.createElement('button'); close.type = 'button'; close.className = 'tb-fullscreen-close'; close.textContent = 'Cerrar'; close.addEventListener('click', closeDialog);
+        var large = document.createElement('img'); large.src = img.currentSrc || img.src; large.alt = img.alt; large.draggable = false;
+        overlay.appendChild(close); overlay.appendChild(large); overlay.addEventListener('click', function (ev) { if (ev.target === overlay) closeDialog(); });
+        activeDialog = overlay; document.body.style.overflow = 'hidden'; document.body.appendChild(overlay); close.focus();
+      });
+    });
+  }
   document.querySelectorAll('.tb-zoom').forEach(function (box) {
     var img = box.querySelector('img'); if (!img) return;
     var lens = document.createElement('div'); lens.className = 'tb-lens'; lens.setAttribute('aria-hidden', 'true'); box.appendChild(lens);
