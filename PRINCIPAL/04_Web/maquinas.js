@@ -1,108 +1,59 @@
-/* Vortex · Máquinas del taller: luz que sigue al mouse, visor 3D / despiece y trazado del plano */
+/* Interacciones de máquinas y diseño 3D. */
 (function () {
-  var root = document.getElementById('maquinas');
-  if (!root) return;
-  var reduce = document.documentElement.classList.contains('reduce-motion');
-  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  /* la luz de cada tarjeta sigue al puntero */
-  if (fine) root.querySelectorAll('[data-mq]').forEach(function (c) {
-    c.addEventListener('pointermove', function (e) {
-      var r = c.getBoundingClientRect();
-      c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
+  'use strict';
+  var doc = document, root = doc.getElementById('maquinas');
+  var reduce = doc.documentElement.classList.contains('reduce-motion') || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (root && fine) root.querySelectorAll('[data-mq]').forEach(function (card) {
+    card.addEventListener('pointermove', function (e) { var r = card.getBoundingClientRect(); card.style.setProperty('--mx', (e.clientX - r.left) + 'px'); card.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
   });
-
-  /* selector diseño 3D / despiece */
-  var sw = root.querySelector('.mq-switch'), ink = sw.querySelector('.tfs-ink');
-  var tabs = [].slice.call(sw.querySelectorAll('[role="tab"]'));
-  var sheet = root.querySelector('.mq-sheet'), plotted = false, busy = null;
-  function moveInk() {
-    var on = tabs.find(function (b) { return b.getAttribute('aria-selected') === 'true'; });
-    ink.style.width = on.offsetWidth + 'px'; ink.style.transform = 'translateX(' + (on.offsetLeft - 4) + 'px)';
-  }
-  function plot() {
-    if (plotted || reduce) return; plotted = true;
+  /* El ploteo queda pendiente hasta abrir una lámina visible. */
+  function plot(sheet) {
+    if (!sheet || sheet.dataset.plotted || reduce || sheet.hidden || !sheet.getClientRects().length) return;
+    sheet.dataset.plotted = '1';
     var go = function () { sheet.style.setProperty('--w', sheet.offsetWidth + 'px'); sheet.classList.add('plotting'); };
-    var img = sheet.querySelector('img');
-    if (img.complete) go(); else img.addEventListener('load', go, { once: true });
+    var img = sheet.querySelector('img'); if (!img || img.complete) go(); else img.addEventListener('load', go, { once: true });
   }
-  /* visor 3D: el modelo (GLB exportado de FreeCAD) se carga recién cuando se abre la pestaña */
+  var sheets = Array.prototype.slice.call(doc.querySelectorAll('#diseno3d .mq-sheet'));
+  var plotIO = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) { if (entry.isIntersecting) { plot(entry.target); if (entry.target.dataset.plotted) plotIO.unobserve(entry.target); } });
+  }, { threshold: .25 }) : null;
+  if (plotIO) sheets.forEach(function (sheet) { plotIO.observe(sheet); });
+  function plotIfVisible(panel) { var sheet = panel && panel.querySelector('.mq-sheet'); if (!sheet) return; if (plotIO) plotIO.observe(sheet); else if (sheet.getBoundingClientRect().bottom > 0 && sheet.getBoundingClientRect().top < innerHeight) plot(sheet); }
+  /* Visor 3D: carga el modelo al acercarse a su panel. */
   var giroOn = false;
   function giro(box) {
-    if (giroOn) return; giroOn = true;
-    var s = document.createElement('script'); s.type = 'module';
-    s.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js';
-    document.head.appendChild(s);
-    var mv = document.createElement('model-viewer');
-    mv.setAttribute('src', box.getAttribute('data-src'));
-    mv.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo');
-    mv.setAttribute('camera-controls', ''); mv.setAttribute('touch-action', 'pan-y');
-    mv.setAttribute('camera-orbit', '-35deg 70deg auto'); mv.setAttribute('shadow-intensity', '0.8');
-    mv.setAttribute('exposure', '1.1'); mv.setAttribute('interaction-prompt', 'none');
-    if (!reduce) { mv.setAttribute('auto-rotate', ''); mv.setAttribute('auto-rotate-delay', '1500'); mv.setAttribute('rotation-per-second', '18deg'); }
-    var hint = document.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar';
-    mv.addEventListener('load', function () { var w = box.querySelector('.mq-giro-wait'); if (w) w.remove(); });
-    mv.addEventListener('error', function () { var w = box.querySelector('.mq-giro-wait'); if (w) w.textContent = 'No se pudo cargar el modelo 3D.'; });
-    mv.addEventListener('pointerdown', function () { box.classList.add('touched'); }, { once: true });
-    mv.addEventListener('dblclick', function () { mv.cameraOrbit = '-35deg 70deg auto'; mv.fieldOfView = 'auto'; });
-    box.appendChild(mv); box.appendChild(hint);
+    if (giroOn || !box) return; giroOn = true;
+    var loader = doc.createElement('script'); loader.type = 'module'; loader.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; doc.head.appendChild(loader);
+    var viewer = doc.createElement('model-viewer'); viewer.setAttribute('src', box.getAttribute('data-src')); viewer.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo'); viewer.setAttribute('camera-controls', ''); viewer.setAttribute('touch-action', 'pan-y'); viewer.setAttribute('camera-orbit', '-35deg 70deg auto'); viewer.setAttribute('shadow-intensity', '0.8'); viewer.setAttribute('exposure', '1.1'); viewer.setAttribute('interaction-prompt', 'none');
+    if (!reduce) { viewer.setAttribute('auto-rotate', ''); viewer.setAttribute('auto-rotate-delay', '1500'); viewer.setAttribute('rotation-per-second', '18deg'); }
+    var hint = doc.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar';
+    viewer.addEventListener('load', function () { var wait = box.querySelector('.mq-giro-wait'); if (wait) wait.remove(); });
+    viewer.addEventListener('error', function () { var wait = box.querySelector('.mq-giro-wait'); if (wait) wait.textContent = 'No se pudo cargar el modelo 3D.'; });
+    viewer.addEventListener('pointerdown', function () { box.classList.add('touched'); }, { once: true }); viewer.addEventListener('dblclick', function () { viewer.cameraOrbit = '-35deg 70deg auto'; viewer.fieldOfView = 'auto'; }); box.appendChild(viewer); box.appendChild(hint);
   }
-  /* el visor de Diseño 3D se arma cuando la sección se acerca a la pantalla */
-  var giroBox = root.querySelector('#mqp-3d .mq-giro');
-  if (giroBox) {
-    if ('IntersectionObserver' in window) { var giroIO = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { giro(giroBox); giroIO.disconnect(); } }); }, { rootMargin: '300px 0px' }); giroIO.observe(giroBox); }
-    else giro(giroBox);
+  var giroBox = doc.getElementById('d3-giro');
+  if (giroBox) { if ('IntersectionObserver' in window) { var giroIO = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { giro(giroBox); giroIO.disconnect(); } }); }, { rootMargin: '300px 0px' }); giroIO.observe(giroBox); } else giro(giroBox); }
+  /* Pestañas accesibles del diseño 3D. */
+  var tablist = doc.querySelector('.d3-tabs'), tabs = tablist ? Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]')) : [];
+  var ink = tablist && tablist.querySelector('.d3-ink'), panels = tabs.map(function (tab) { return doc.getElementById(tab.getAttribute('aria-controls')); });
+  function moveInk(tab) { if (!ink || !tab) return; var a = tablist.getBoundingClientRect(), b = tab.getBoundingClientRect(); ink.style.setProperty('--ink-x', (b.left - a.left) + 'px'); ink.style.setProperty('--ink-width', b.width + 'px'); }
+  function select(tab, focus) {
+    if (!tab || tabs.indexOf(tab) < 0) return;
+    var panel = doc.getElementById(tab.getAttribute('aria-controls'));
+    tabs.forEach(function (item) { var selected = item === tab; item.setAttribute('aria-selected', selected ? 'true' : 'false'); item.tabIndex = selected ? 0 : -1; });
+    panels.forEach(function (item) { if (!item || item === panel || item.hidden) return; item.classList.remove('is-on'); item.classList.add('is-leaving'); window.setTimeout(function () { if (item !== doc.getElementById((tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tab).getAttribute('aria-controls'))) item.hidden = true; item.classList.remove('is-leaving'); }, reduce ? 0 : 160); });
+    if (panel) { panel.hidden = false; panel.classList.remove('is-leaving'); void panel.offsetWidth; panel.classList.add('is-on'); plotIfVisible(panel); }
+    moveInk(tab); if (focus) tab.focus();
   }
-  function select(btn, focus) {
-    var cur = tabs.find(function (b) { return b.getAttribute('aria-selected') === 'true'; });
-    if (focus) btn.focus();
-    if (cur === btn) return;
-    tabs.forEach(function (b) { var on = b === btn; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
-    moveInk();
-    var next = document.getElementById(btn.getAttribute('aria-controls')), prev = document.getElementById(cur.getAttribute('aria-controls'));
-    clearTimeout(busy);
-    var show = function () {
-      prev.hidden = true; prev.classList.remove('leave', 'enter');
-      next.hidden = false; next.classList.remove('enter'); void next.offsetWidth; next.classList.add('enter');
-      if (next.contains(sheet)) plot();
-      if (next.querySelector('.mq-giro')) giro(next.querySelector('.mq-giro'));
-    };
-    if (reduce) show(); else { prev.classList.add('leave'); busy = setTimeout(show, 180); }
+  if (tabs.length) {
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () { select(tab, false); });
+      tab.addEventListener('keydown', function (e) { var i = tabs.indexOf(tab), next = null; if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length]; else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length]; else if (e.key === 'Home') next = tabs[0]; else if (e.key === 'End') next = tabs[tabs.length - 1]; if (next) { e.preventDefault(); select(next, true); } });
+    });
+    var active = tabs.filter(function (tab) { return tab.getAttribute('aria-selected') === 'true'; })[0] || tabs[0]; select(active, false);
+    window.addEventListener('resize', function () { moveInk(tabs.filter(function (tab) { return tab.getAttribute('aria-selected') === 'true'; })[0]); }, { passive: true });
   }
-  tabs.forEach(function (b, i) {
-    b.addEventListener('click', function () { select(b); });
-    b.addEventListener('keydown', function (e) {
-      var k = { ArrowRight: 1, ArrowLeft: -1, Home: -i, End: tabs.length - 1 - i }[e.key];
-      if (k !== undefined) { e.preventDefault(); select(tabs[(i + k + tabs.length) % tabs.length], true); }
-    });
-  });
-  addEventListener('resize', moveInk);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(moveInk);
-  moveInk();
-
-  /* los botones de la tarjeta de la lijadora llevan al visor con la vista elegida */
-  root.querySelectorAll('[data-go]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var v = document.getElementById('mq-viewer');
-      v.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-      setTimeout(function () { select(document.getElementById(b.getAttribute('data-go'))); }, reduce ? 0 : 420);
-    });
-  });
-
-  /* miniaturas del modelo: la imagen principal cambia con un fundido */
-  var main = document.getElementById('mq-main'), cap = document.getElementById('mq-cap'), swapT = null;
-  root.querySelectorAll('.mq-thumbs button').forEach(function (b, _, all) {
-    b.addEventListener('click', function () {
-      if (b.getAttribute('aria-pressed') === 'true') return;
-      all.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
-      var src = b.getAttribute('data-src'), txt = b.getAttribute('data-cap');
-      var put = function () { main.src = src; main.alt = txt + ' de la lijadora en FreeCAD'; cap.textContent = txt; main.classList.remove('swap'); };
-      clearTimeout(swapT);
-      if (reduce) return put();
-      main.classList.add('swap');
-      swapT = setTimeout(function () { var im = new Image(); im.onload = im.onerror = put; im.src = src; }, 160);
-    });
-  });
+  /* Los enlaces desde la tarjeta abren su pestaña destino. */
+  doc.querySelectorAll('a[data-d3]').forEach(function (link) { link.addEventListener('click', function () { var tab = doc.getElementById(link.getAttribute('data-d3')); if (tab) select(tab, false); }); });
 })();
-
