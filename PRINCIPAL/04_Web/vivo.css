@@ -122,3 +122,11 @@ html.reduce-motion .mq-card:hover::after, html.reduce-motion .svc:hover::after, 
  .d3-panel.is-on { opacity: 1; }
  .mq-card:hover::after, .svc:hover::after, .file:hover::after, .plan .core:hover::after, .kpi:hover::after, .team .shell:hover .core::after { animation: none; }
 }
+
+/* Controles del visor y ampliación táctil. */
+.mq-giro-controls { position: absolute; z-index: 3; top: 12px; right: 12px; display: flex; gap: 6px; }
+.mq-giro-controls button { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-size: 1.15rem; font-weight: 700; cursor: pointer; }
+.tb-fullscreen { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 4.5rem 1rem 1rem; background: rgba(0, 0, 0, .92); }
+.tb-fullscreen img { max-width: 100vw; max-height: 100dvh; object-fit: contain; touch-action: pinch-zoom; }
+.tb-fullscreen-close { position: absolute; top: max(16px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); min-width: 96px; min-height: 48px; padding: .6rem 1rem; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-weight: 700; cursor: pointer; }
+@media (max-width: 760px) { .d3-stage .mq-giro { height: min(62vh, 420px); } }

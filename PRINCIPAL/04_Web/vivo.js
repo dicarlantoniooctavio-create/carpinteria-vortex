@@ -1,7 +1,7 @@
 /* Fondos y animaciones de Vortex. */
 (function () {
   'use strict';
-  var doc = document, root = doc.documentElement, reduce = root.classList.contains('reduce-motion') || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var doc = document, root = doc.documentElement, reduce = root.classList.contains('reduce-motion');
   var hero = doc.querySelector('.hero'), heroCanvas = doc.querySelector('.hero-field'), main = doc.querySelector('main');
   var dpr = Math.min(window.devicePixelRatio || 1, 2), scrollQueued = false, hidden = doc.hidden, canvases = [], observers = [];
   function setupCanvas(canvas, painter) {

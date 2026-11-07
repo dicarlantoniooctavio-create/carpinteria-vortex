@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var doc = document, root = doc.getElementById('maquinas');
-  var reduce = doc.documentElement.classList.contains('reduce-motion') || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var reduce = doc.documentElement.classList.contains('reduce-motion');
   var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (root && fine) root.querySelectorAll('[data-mq]').forEach(function (card) {
     card.addEventListener('pointermove', function (e) { var r = card.getBoundingClientRect(); card.style.setProperty('--mx', (e.clientX - r.left) + 'px'); card.style.setProperty('--my', (e.clientY - r.top) + 'px'); });
@@ -24,15 +24,21 @@
   var giroOn = false;
   function giro(box) {
     if (giroOn || !box) return; giroOn = true;
-    var loader = doc.createElement('script'); loader.type = 'module'; loader.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; doc.head.appendChild(loader);
-    var viewer = doc.createElement('model-viewer'); viewer.setAttribute('src', box.getAttribute('data-src')); viewer.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo'); viewer.setAttribute('camera-controls', ''); viewer.setAttribute('touch-action', 'pan-y'); viewer.setAttribute('camera-orbit', '-35deg 70deg auto'); viewer.setAttribute('shadow-intensity', '0.8'); viewer.setAttribute('exposure', '1.1'); viewer.setAttribute('interaction-prompt', 'none');
+    var wait = box.querySelector('.mq-giro-wait'), loaded = false;
+    function fail() { if (wait) wait.textContent = 'No se pudo cargar el visor 3D (necesita internet). El despiece y las vistas están en las otras pestañas.'; }
+    var loader = doc.createElement('script'); loader.type = 'module'; loader.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; loader.onerror = fail; doc.head.appendChild(loader);
+    var viewer = doc.createElement('model-viewer'); viewer.setAttribute('src', box.getAttribute('data-src')); viewer.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo'); viewer.setAttribute('camera-controls', ''); viewer.setAttribute('disable-zoom', ''); viewer.setAttribute('touch-action', 'pan-y'); viewer.setAttribute('camera-orbit', '-35deg 70deg auto'); viewer.setAttribute('shadow-intensity', '0.8'); viewer.setAttribute('exposure', '1.1'); viewer.setAttribute('interaction-prompt', 'none');
     if (!reduce) { viewer.setAttribute('auto-rotate', ''); viewer.setAttribute('auto-rotate-delay', '1500'); viewer.setAttribute('rotation-per-second', '18deg'); }
-    var hint = doc.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar';
-    viewer.addEventListener('load', function () { var wait = box.querySelector('.mq-giro-wait'); if (wait) wait.remove(); });
-    viewer.addEventListener('error', function () { var wait = box.querySelector('.mq-giro-wait'); if (wait) wait.textContent = 'No se pudo cargar el modelo 3D.'; });
-    viewer.addEventListener('pointerdown', function () { box.classList.add('touched'); }, { once: true }); viewer.addEventListener('dblclick', function () { viewer.cameraOrbit = '-35deg 70deg auto'; viewer.fieldOfView = 'auto'; }); box.appendChild(viewer); box.appendChild(hint);
-  }
-  var giroBox = doc.getElementById('d3-giro');
+    var hint = doc.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar'; hint.hidden = true;
+    function resetView() { viewer.cameraOrbit = '-35deg 70deg auto'; viewer.fieldOfView = 'auto'; }
+    viewer.addEventListener('load', function () { loaded = true; if (wait) wait.remove(); hint.hidden = false; });
+    viewer.addEventListener('error', fail);
+    window.setTimeout(function () { if (!loaded && (!window.customElements || !window.customElements.get('model-viewer') || !viewer.loaded)) fail(); }, 15000);
+    viewer.addEventListener('pointerdown', function () { box.classList.add('touched'); }, { once: true }); viewer.addEventListener('dblclick', resetView);
+    var controls = doc.createElement('div'); controls.className = 'mq-giro-controls';
+    [['+', 'Acercar', function () { viewer.fieldOfView = Math.max(12, (parseFloat(viewer.fieldOfView) || 30) - 6) + 'deg'; }], ['−', 'Alejar', function () { viewer.fieldOfView = Math.min(45, (parseFloat(viewer.fieldOfView) || 30) + 6) + 'deg'; }], ['↻', 'Vista inicial', resetView]].forEach(function (item) { var button = doc.createElement('button'); button.type = 'button'; button.setAttribute('aria-label', item[1]); button.textContent = item[0]; button.addEventListener('click', item[2]); controls.appendChild(button); });
+    box.appendChild(viewer); box.appendChild(hint); box.appendChild(controls);
+  }  var giroBox = doc.getElementById('d3-giro');
   if (giroBox) { if ('IntersectionObserver' in window) { var giroIO = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { giro(giroBox); giroIO.disconnect(); } }); }, { rootMargin: '300px 0px' }); giroIO.observe(giroBox); } else giro(giroBox); }
   /* Pestañas accesibles del diseño 3D. */
   var tablist = doc.querySelector('.d3-tabs'), tabs = tablist ? Array.prototype.slice.call(tablist.querySelectorAll('[role="tab"]')) : [];
