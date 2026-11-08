@@ -461,28 +461,107 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
   .slide.s-desp .desp-fig { height: auto; }
   .slide.s-desp .desp-list { height: auto; grid-template-rows: none; }
 }
+/* Valores finales consolidados para el plano y las láminas. */
 .slide.s-plano .plano { display: block; width: 100%; }
 .slide.s-plano .plano-grid { width: 100%; }
-.slide.s-plano .plano-sheet { height: calc(100dvh - 12rem - 84px); }
-.slide.s-plano .plano-legend { max-height: calc(100dvh - 12rem - 84px); }
-.slide.s-desp .desp-fig img { max-height: calc(100dvh - 11rem - 84px); }
-.slide.s-desp .desp-fig, .slide.s-desp .desp-list { height: calc(100dvh - 11.5rem - 84px); }
 .slide.s-plano .plano-sheet, .slide.s-plano .plano-legend { height: calc(100dvh - 13.2rem - 84px); max-height: calc(100dvh - 13.2rem - 84px); }
+.slide.s-plano .plano-svg { width: 100%; height: 100%; }
+.slide.s-desp .desp-fig, .slide.s-desp .desp-list { height: calc(100dvh - 11.5rem - 84px); }
+.slide.s-desp .desp-fig .core { overflow: hidden; display: block; }
+.slide.s-desp .desp-fig img { width: 100%; height: 100%; max-height: none; object-fit: contain; }
+.slide.s-piezas .piezas-grid > * { min-width: 0; }
+.slide.s-piezas table.piezas { width: 100%; min-width: 0; border-collapse: collapse; font-size: .68rem; line-height: 1.25; table-layout: auto; }
+.slide.s-piezas table.piezas th, .slide.s-piezas table.piezas td { white-space: normal; }
+.slide.s-piezas table.piezas td { padding: .38em .45em; }
+.slide.s-piezas .table-wrap { overflow: visible; }
 @media (max-width: 760px) {
   .slide.s-plano .plano-sheet, .slide.s-plano .plano-legend { height: auto; max-height: none; }
   .slide.s-plano .plano-sheet { aspect-ratio: 28745 / 16542; min-width: 0; }
   .slide.s-plano .plano-grid > * { min-width: 0; }
-  .slide.s-plano .plano-svg { width: 100%; height: 100%; }
   .slide.s-piezas .piezas-grid > * { min-width: 0; }
-  .slide.s-piezas .table-wrap { overflow-x: auto; }
   .slide.s-desp .desp-fig, .slide.s-desp .desp-list { height: auto; }
 }
-.slide.s-desp .desp-fig .core { overflow: hidden; }
-.slide.s-desp .desp-fig img { width: 100%; height: 100%; max-height: none; object-fit: contain; }
-.slide.s-piezas .piezas-grid > * { min-width: 0; }
-.slide.s-piezas table.piezas { font-size: .68rem; table-layout: auto; }
-.slide.s-piezas table.piezas th, .slide.s-piezas table.piezas td { white-space: normal; }
-.slide.s-piezas table.piezas td { padding: .38em .45em; }
-.slide.s-desp .desp-fig .core { display: block; }
-.slide.s-piezas table.piezas { min-width: 0; width: 100%; }
-.slide.s-piezas .table-wrap { overflow: visible; }
+
+/* Ajustes de lectura para proyección. */
+.deck-body { --amber-ink: #A35F00; --mute: #4A5D75; }
+.slide-in { justify-content: flex-start; padding-top: 2vh; }
+.slide.s-part .slide-in, .slide.s-frase .slide-in, .slide.s-cover .slide-in, .slide.s-thanks .slide-in { justify-content: center; }
+.slide.s-frase .slide-in { padding-top: 0; }
+.slide .table-wrap table { font-size: .95rem; }
+.slide .svc p, .slide .team-did { font-size: .95rem; }
+.slide .svc .n { color: var(--amber-ink); }
+.slide.s-plano .plano-legend .lg { font-size: .76rem; }
+.slide.s-plano .plano-data { font-size: .74rem; }
+.slide.s-plano .plano-legend { padding: 2px; }
+.slide.s-desp .desp-list li { font-size: .76rem; }
+.slide.s-piezas table.piezas { font-size: .78rem; }
+.slide.s-piezas table.piezas th { font-size: .72rem; }
+.slide.s-maq .mq-card p { font-size: .86rem; }
+.slide.s-maq .mq-chips li { font-size: .78rem; }
+.slide.s-tb .tb-info p { font-size: .86rem; }
+.slide.s-tb .tb-plates li { font-size: .74rem; }
+.slide.s-d3 .specs { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.slide.s-d3 .specs div { display: grid; gap: .1rem; align-content: start; min-width: 0; }
+.slide.s-d3 .specs dt { font-size: .72rem; }
+.slide.s-d3 .specs dd { font-size: .82rem; overflow-wrap: anywhere; }
+.slide.s-d3 .mq-3d-foot .note, .slide.s-d3 .mq-dl > .note, .slide.s-d3 .mq-dl .tb-dl a { font-size: .74rem; }
+.slide.s-d3 .mq-3d-foot .note { display: block; overflow: visible; -webkit-line-clamp: unset; }
+.slide.s-mats figcaption { text-align: left; }
+.slide.s-mats figcaption b { display: block; margin-bottom: .25rem; color: var(--navy); }
+.slide .close-kpis { max-width: none; margin: 0; padding: 0; }
+.slide .close-kpis .kpi b { font-size: clamp(1.8rem, 2.6vw, 2.4rem); margin-bottom: .4em; }
+.slide .services.goals { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.slide .terms-grid { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+.slide .terms-grid h3 { min-height: 2.6em; }
+.slide.s-part .cable-band, .slide.s-part .phase-band { left: calc(50% - 50vw); right: auto; width: 100vw; }
+.slide.s-casos .casos li { grid-template-columns: 2.5rem minmax(11rem, .9fr) minmax(0, 1.5fr); }
+.slide .table-wrap { box-shadow: inset -20px 0 14px -14px rgba(11, 61, 115, .48); }
+@media (min-width: 1200px) {
+  .deck-overview-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: .55rem; }
+  .deck-card { min-height: 92px; padding: .65rem; }
+}
+@media (max-width: 760px) {
+  .slide-in { padding-top: 0; }
+  .slide.s-cover h1 { font-size: clamp(2.8rem, 13vw, 4.8rem); }
+  .slide.s-casos .casos li { grid-template-columns: 2rem 1fr; }
+  .slide.s-casos .caso-a { grid-column: 2; }
+  .slide.s-casos .caso-a::before { content: none; }
+  .slide.s-casos .caso-q { grid-column: 2; }
+  .slide.s-casos .casos li::before { grid-row: 1 / span 2; }
+  .slide .services.goals { grid-template-columns: 1fr; }
+}
+/* Lijadora: render del modelo junto al texto */
+.slide.s-lija .lija-img { margin: 0 0 .6rem; }
+.slide.s-lija .lija-img img { display: block; width: 100%; max-height: calc(100dvh - 24rem - 84px); object-fit: contain; }
+.slide.s-lija .calc-row b { overflow-wrap: anywhere; }
+.slide-in { box-sizing: border-box; }
+/* Ajustes medidos después de agrandar la letra */
+.slide.s-plano .plano-sheet, .slide.s-plano .plano-legend { height: calc(100dvh - 14.2rem - 84px); max-height: calc(100dvh - 14.2rem - 84px); }
+.slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: calc(100dvh - 15.5rem - 84px); }
+.slide.s-prot .svc p { font-size: .84rem; }
+.slide.s-prot .svc { padding-top: .7rem; padding-bottom: .7rem; }
+.slide.s-maq .mq-card p { font-size: .78rem; }
+.slide.s-maq .mq-chips li { font-size: .72rem; }
+.slide.s-d3 .mq-giro { height: calc(100dvh - 24rem - 84px); }
+.slide.s-piezas table.piezas { font-size: .74rem; }
+.slide.s-piezas table.piezas td { padding: .26em .45em; }
+@media (max-width: 760px) { .slide.s-plano .plano-sheet, .slide.s-plano .plano-legend { height: auto; max-height: none; } .slide.s-d3 .mq-giro { height: min(56dvh, 420px); } .slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: none; } }
+.slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: calc(100dvh - 16.4rem - 84px); }
+.slide.s-maq .mq-card { padding-top: .75rem; padding-bottom: .75rem; }
+@media (max-width: 760px) { .slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: none; } }
+.slide.s-tb .tb-view .tb-flip.single .tb-face img, .slide.s-tb .tb-flip .tb-face img, .slide.s-tb .tb-media img { max-height: calc(100dvh - 20.6rem - 84px); }
+.slide.s-auto .am-zoom img { max-height: calc(100dvh - 24.2rem - 84px); }
+.slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: calc(100dvh - 17.2rem - 84px); }
+@media (max-width: 760px) { .slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: none; } .slide.s-tb .tb-media img, .slide.s-tb .tb-flip .tb-face img { max-height: 56dvh; } .slide.s-auto .am-zoom img { max-height: 62dvh; } }
+.slide.s-fases .fases-side .kpi { padding-top: .6rem; padding-bottom: .6rem; }
+.slide.s-fases .fases-side .note { font-size: .82rem; }
+/* Plano: leyenda en columna sin superposición; los datos ya están en otras diapositivas */
+.slide.s-plano .plano-grid { grid-template-columns: minmax(0, 1fr) 15rem; }
+.slide.s-plano .plano-legend { display: flex; flex-direction: column; gap: .22rem; overflow-y: auto; }
+.slide.s-plano .plano-legend .lg { flex: none; min-height: 0; height: auto; line-height: 1.25; }
+.slide.s-plano .plano-data { display: none; }
+/* Ficha del visor: columnas según el largo de cada dato */
+.slide.s-d3 .specs { grid-template-columns: max-content max-content minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1.3fr); }
+@media (max-width: 760px) { .slide.s-plano .plano-grid { grid-template-columns: 1fr; } .slide.s-d3 .specs { grid-template-columns: 1fr 1fr; } }
+.slide.s-d3 .specs dd { overflow-wrap: normal; word-break: normal; }
+.slide.s-d3 .specs > div:nth-child(-n+2) dd { white-space: nowrap; }

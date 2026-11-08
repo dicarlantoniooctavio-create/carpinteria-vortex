@@ -38,9 +38,10 @@
     var cur = tabs.find(function (b) { return b.getAttribute('aria-selected') === 'true'; });
     if (focus) btn.focus();
     if (cur === btn) return;
+    var next = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!next) return;
     tabs.forEach(function (b) { var on = b === btn; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
     moveInk(btn, true);
-    var next = document.getElementById(btn.getAttribute('aria-controls'));
     var prev = cur && document.getElementById(cur.getAttribute('aria-controls'));
     clearTimeout(busy);
     root.querySelectorAll('.tb-view').forEach(function (v) { if (v !== prev && v !== next) { v.hidden = true; v.classList.remove('enter', 'leave'); } });
@@ -110,6 +111,11 @@
     document.querySelectorAll('.tb-zoom').forEach(function (box) {
       var img = box.querySelector('img'); if (!img) return;
       if (!box.hasAttribute('tabindex')) box.setAttribute('tabindex', '0');
+      box.setAttribute('role', 'button');
+      box.setAttribute('aria-label', 'Ampliar: ' + (img.alt || 'dibujo'));
+      box.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); box.click(); }
+      });
       box.addEventListener('click', function (e) {
         if (activeDialog || box.getAttribute('aria-hidden') === 'true') return;
         e.preventDefault(); previousFocus = box; previousOverflow = document.body.style.overflow;
@@ -117,6 +123,7 @@
         var close = document.createElement('button'); close.type = 'button'; close.className = 'tb-fullscreen-close'; close.textContent = 'Cerrar'; close.addEventListener('click', closeDialog);
         var large = document.createElement('img'); large.src = img.currentSrc || img.src; large.alt = img.alt; large.draggable = false;
         overlay.appendChild(close); overlay.appendChild(large); overlay.addEventListener('click', function (ev) { if (ev.target === overlay) closeDialog(); });
+        overlay.addEventListener('keydown', function (ev) { if (ev.key === 'Tab') { ev.preventDefault(); close.focus(); } });
         activeDialog = overlay; document.body.style.overflow = 'hidden'; document.body.appendChild(overlay); close.focus();
       });
     });

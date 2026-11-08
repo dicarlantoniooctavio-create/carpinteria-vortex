@@ -6,6 +6,7 @@
   var deck = doc.getElementById('deck');
   if (!deck) return;
   var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+  if (!slides.length) return;
   var active = -1, serial = 0, overview = null, returnFocus = null;
   var fmt = function (v, d) { return v.toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d }); };
   function count(el) {
@@ -28,7 +29,7 @@
     });
   }
   slides.forEach(function (s) { s.style.display = 'none'; splitTitles(s); });
-  var ui = doc.createElement('div'); ui.className = 'deck-ui'; ui.innerHTML = '<div class="deck-progress" aria-hidden="true"><i></i></div><p class="deck-part"></p><nav class="deck-nav" aria-label="Controles de presentación"><button type="button" class="deck-prev" aria-label="Diapositiva anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><span class="deck-count"><b>1</b><span> / ' + slides.length + '</span></span><button type="button" class="deck-next" aria-label="Diapositiva siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button><button type="button" class="deck-grid" aria-label="Ver todas las diapositivas"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg></button><button type="button" class="deck-full" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button></nav></div>';
+  var ui = doc.createElement('div'); ui.className = 'deck-ui'; ui.innerHTML = '<div class="deck-progress" aria-hidden="true"><i></i></div><p class="deck-part"></p><nav class="deck-nav" aria-label="Controles de presentación"><button type="button" class="deck-prev" aria-label="Diapositiva anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button><span class="deck-count" aria-live="polite" aria-atomic="true"><b>1</b><span> / ' + slides.length + '</span></span><button type="button" class="deck-next" aria-label="Diapositiva siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button><button type="button" class="deck-grid" aria-label="Ver todas las diapositivas"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg></button><button type="button" class="deck-full" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button></nav></div>';
   doc.body.appendChild(ui);
   var part = ui.querySelector('.deck-part'), number = ui.querySelector('.deck-count b'), progress = ui.querySelector('.deck-progress i');
   function activateOnce(s) {
@@ -82,18 +83,26 @@
     layer.addEventListener('keydown', function (e) { var items = Array.prototype.slice.call(grid.querySelectorAll('button')), at = items.indexOf(doc.activeElement); if (e.key === 'Tab') { e.preventDefault(); items[(at + (e.shiftKey ? items.length - 1 : 1)) % items.length].focus(); } if (e.key === 'Escape') { e.preventDefault(); closeOverview(); } });
   }
   ui.querySelector('.deck-grid').addEventListener('click', function (e) { openOverview(e.currentTarget); });
-  ui.querySelector('.deck-full').addEventListener('click', function () { try { if (doc.fullscreenElement) doc.exitFullscreen(); else html.requestFullscreen(); } catch (e) {} });
+  function toggleFullscreen() {
+    try {
+      var action = doc.fullscreenElement ? doc.exitFullscreen() : html.requestFullscreen();
+      if (action && action.catch) action.catch(function () {});
+    } catch (e) {}
+  }
+  ui.querySelector('.deck-full').addEventListener('click', toggleFullscreen);
   doc.addEventListener('keydown', function (e) {
     if (overview) { if (e.key === 'Escape') { e.preventDefault(); closeOverview(); } return; }
     if (e.ctrlKey || e.metaKey || e.altKey) return;
-    var t = e.target, tag = t && t.tagName, ignored = /^(INPUT|TEXTAREA|SELECT)$/.test(tag) || (t && t.closest && (t.closest('[role="tab"]') || t.closest('button.lg')));
-    if (ignored || (e.key === ' ' && tag === 'BUTTON')) return;
+    var t = e.target, tag = t && t.tagName;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag)) return;
+    var control = t && t.closest && (t.closest('[role="tab"]') || t.closest('.lg') || t.closest('button, a, [role="button"]'));
+    if (control && (e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Home' || e.key === 'End' || e.key === ' ')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(active + 1, 1); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(active - 1, -1); }
     else if (e.key === 'Home') { e.preventDefault(); go(0, -1); }
     else if (e.key === 'End') { e.preventDefault(); go(slides.length - 1, 1); }
     else if (e.key.toLowerCase() === 'o') openOverview(ui.querySelector('.deck-grid'));
-    else if (e.key.toLowerCase() === 'f') { try { if (doc.fullscreenElement) doc.exitFullscreen(); else html.requestFullscreen(); } catch (err) {} }
+    else if (e.key.toLowerCase() === 'f') toggleFullscreen();
   });
   var touch = null, excluded = 'model-viewer, .mq-giro, .tb-zoom, .lupa-host, .table-wrap, .tb-bar, .d3-tabs, .tabs';
   deck.addEventListener('touchstart', function (e) { if (e.touches.length !== 1) { touch = null; return; } touch = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now(), blocked: !!(e.target.closest && e.target.closest(excluded)) }; }, { passive: true });
