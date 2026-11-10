@@ -1,5 +1,5 @@
 <!-- Estado del Proyecto -->
-![Estado](https://img.shields.io/badge/Estado-En_Desarrollo-orange?style=for-the-badge)
+![Estado](https://img.shields.io/badge/Estado-Entregado-2E7D32?style=for-the-badge)
 
 <!-- Especialidad y Temática -->
 ![Área](https://img.shields.io/badge/Área-Instalación_Eléctrica-FFD700?style=for-the-badge&logo=lightning&logoColor=black)
@@ -11,7 +11,7 @@
 ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 
 # Carpintería [Vortex] — Proyecto 
-Proyecto integrador escolar/técnico que simula el diseño y automatización e instalacion electrica de una carpintería. El equipo aborda siete frentes de trabajo:
+Proyecto integrador escolar/técnico que simula el diseño y automatización e instalación eléctrica de una carpintería. El equipo aborda siete frentes de trabajo:
 
 | Área | Carpeta | Responsable(s) |
 |---|---|---|
@@ -25,7 +25,7 @@ Proyecto integrador escolar/técnico que simula el diseño y automatización e i
 
 ## Sobre el proyecto
 
-Este proyecto integrador toma como caso de estudio una carpintería, sobre la cual el equipo (actuando como la empresa [`Vortex`](./empresa)) diseña de punta a punta la parte eléctrica del taller: alimentación general y tablero, iluminación, canalizaciones, y la automatización de una de sus máquinas (sierra circular, cepilladora, sierra sinfín, router CNC u otra, a definir en [`modelado-3d/`](./modelado-3d)) junto con su modelado 3D, sus resguardos y su parada de emergencia.
+Este proyecto integrador toma como caso de estudio una carpintería, sobre la cual el equipo (actuando como la empresa [`Vortex`](./empresa)) diseña de punta a punta la parte eléctrica del taller: alimentación general y tablero, iluminación, canalizaciones, y la automatización de una de sus máquinas (la lijadora de banda, ver [`modelado-3d/`](./modelado-3d)) junto con su modelado 3D, sus resguardos y su parada de emergencia.
 
 El trabajo busca resolver, con criterio técnico y normativo, los problemas típicos de un taller de este tipo: máquinas con motores que exigen protecciones y arranques seguros, necesidad de buena iluminación para trabajos de precisión, y una distribución de tablero, cañerías y circuitos que sea segura y ordenada.
 
@@ -47,11 +47,8 @@ carpinteria-proyecto/
 │   ├── piezas/
 │   └── renders/
 ├── automatizacion/                   # Lógica de control: relé, marcha, paro, emergencia
-│   ├── esquemas/
-│   └── logica-relee/
-├── iluminacion/                        # Cálculo lumínico y disposición de luminarias
-│   ├── planos/
-│   └── calculos/
+│   └── esquemas/
+├── iluminacion/                        # Disposición de luminarias (en el plano eléctrico)
 ├── docs/                                # Memoria descriptiva, cronograma, presentación final
 └── referencias/                           # Fotos, normas, fichas técnicas de referencia
     ├── fotos/
