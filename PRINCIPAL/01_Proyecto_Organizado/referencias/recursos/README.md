@@ -1,5 +1,7 @@
 # Layout, Dimensiones e Instalación Eléctrica - Carpintería
 
+> **Referencia genérica de otro local (12 × 10 m).** No son los datos de este proyecto: los de la carpintería están en el informe y en `06_Planillas/`.
+
 ## 1. Dimensiones Generales y Resumen de Superficie
 * **Largo total:** 12.00 m
 * **Ancho total:** 10.00 m

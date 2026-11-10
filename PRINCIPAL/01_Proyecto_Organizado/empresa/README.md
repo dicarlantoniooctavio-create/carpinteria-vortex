@@ -1,7 +1,7 @@
 # Vortex
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Tpskevin13/carpinteria/main/referencias/fotos/Logo-TKVK.jpg" alt="Logo TKVK Bordado" width="320">
+  <img src="../../04_Web/img/logo.png" alt="Logo de Vortex" width="320">
 </p>
 
 ## ¿Quiénes somos?
@@ -12,9 +12,9 @@ Vortex es una empresa de servicios técnicos especializada en **instalaciones el
 
 | Integrante | Rol en el proyecto |
 |---|---|
-| Kevin Dibella |Técnico especialista en instalaciones eléctricad.|
+| Kevin Dibella |Técnico especialista en instalaciones eléctricas.|
 | Octavio Di Carlantonio |Marketing. |
-| Lucio Di Carlantonio |técnico en mantenimiento eh higiene.|
+| Lucio Di Carlantonio |Técnico en mantenimiento e higiene.|
 | Agustín Duarte |Diseñador Gráfico y modelado 3D.|
 
 ## Rubro y servicios

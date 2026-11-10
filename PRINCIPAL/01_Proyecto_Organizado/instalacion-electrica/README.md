@@ -22,6 +22,6 @@ Diseño de la instalación eléctrica de la carpintería: alimentación general,
 
 ## Qué definimos
 
-- Alimentación trifásica 3 × 380 / 220 V + N, con cable 4 × 35 mm² del medidor al Seccional Oficina.
-- Las seis máquinas del taller son trifásicas: cada una tiene su tablero con contactor, guardamotor y parada de emergencia.
-- Protecciones del catálogo GE (G60, BPC y Hti para los generales de 80 A). Detalle en el informe y en `tableros/Unifilar.dwg`.
+- Alimentación trifásica 3 × 380 / 220 V + N, con cable 4 × 25 mm² del medidor al T.P. Del T.P. salen la línea al T.S. Oficina (5 × 6 mm², térmica G64C25) y la línea al T.S. Taller (4 × 25 mm² + PE 16 mm², protegida por el general G64C63).
+- Las seis máquinas del taller son trifásicas: cada una tiene su tablero con contactor, guardamotor y parada de emergencia. Simultaneidad: compresor 1 + dos máquinas (dos personas en el taller).
+- Protecciones del catálogo GE: térmicas G60 curva C 6 kA (hasta 63 A) y diferenciales BPC 30 mA. Detalle en las planillas de `calculos/`, el informe y `tableros/Unifilar.dwg`.

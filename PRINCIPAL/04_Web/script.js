@@ -139,14 +139,16 @@ if (finePointer && !reduce) {
   });
 }
 
-/* ---------- formulario (demostrativo: no envía datos a ningún servidor) ---------- */
+/* ---------- formulario: sin servidor, arma un mail (mailto) ---------- */
 const form = document.getElementById('form');
 if (form) form.addEventListener('submit', e => {
   e.preventDefault();
   const msg = form.querySelector('.form-msg');
   if (!form.nombre.value.trim() || !form.email.value || !form.email.checkValidity()) { msg.textContent = 'Completá nombre y un email válido.'; return; }
-  msg.textContent = `¡Gracias, ${form.nombre.value.trim()}! Te contactaremos a la brevedad.`;
-  form.reset();
+  const tipo = form.tipo ? form.tipo.value : 'Consulta';
+  const cuerpo = `Nombre: ${form.nombre.value.trim()}\nEmail: ${form.email.value}\nServicio: ${tipo}\n\n${form.msg ? form.msg.value : ''}`;
+  location.href = 'mailto:vortexoficial011@gmail.com?subject=' + encodeURIComponent('Consulta: ' + tipo) + '&body=' + encodeURIComponent(cuerpo);
+  msg.textContent = 'Se abrió tu programa de correo con la consulta lista: enviala desde ahí. Si no se abrió, escribinos a vortexoficial011@gmail.com.';
 });
 
 /* ================= v5: logo, títulos, plano por capas e imágenes en movimiento ================= */

@@ -1,6 +1,6 @@
 # Vortex · Instalación eléctrica de una carpintería
 
-Proyecto final: la instalación eléctrica de un taller de carpintería de 312 m², hecha por la empresa Vortex.
+Proyecto final: la instalación eléctrica de un taller de carpintería de 311 m² cubiertos, hecha por la empresa Vortex.
 
 **Página web del proyecto:** https://dicarlantoniooctavio-create.github.io/carpinteria-vortex/PRINCIPAL/04_Web/index.html
 
@@ -24,8 +24,8 @@ Proyecto final: la instalación eléctrica de un taller de carpintería de 312 m
 
 ## Datos principales
 
-- Alimentación 3 × 380 / 220 V + N, cable 4 × 35 mm² + PE 16 mm², general GE Hti 4P 80 A en el T.P.
-- **T.S. Oficina** (entrada 4P 25 A): TUE1 aire en R; IUG1 y TUG1 en S.
-- **T.S. Taller** (entrada GE Hti 4P 80 A, línea 4 × 35 mm²): TUE2 compresor en R; IUG2 en S; IUG3 y TUG2 en T; seis máquinas de 380 V detrás de un diferencial 4P 63 A, cada una con su térmica 4P.
-- Fases con todo andando: R 61,56 A · S 63,11 A · T 62,19 A. DPMS 41.029 VA.
-- Presupuesto: USD 15.419,83 con IVA (precios de referencia).
+- Alimentación 3 × 380 / 220 V + N, cable 4 × 25 mm²; en el T.P., seccionador 4P 100 A, general GE G64C63 (4P 63 A) y la salida GE G64C25 al T.S. Oficina. Esquema TT: jabalina a la barra de tierra del T.P. (40 Ω o menos) y tableros de doble aislación.
+- **T.S. Oficina** (línea 5 × 6 mm², entrada por seccionador): TUE1 aire en R; IUG1 y TUG1 en S.
+- **T.S. Taller** (línea 4 × 25 mm² + PE 16 mm², entrada por seccionador 4P 63 A): TUE2 compresor en R; IUG2 y TUG2 en S; IUG3 y TUE3 (herramientas de 2.000 W o más) en T; seis máquinas de 380 V detrás de una térmica GE G64C50 y un diferencial 4P 63 A, cada una con su térmica 4P.
+- Fases (compresor 1 + dos máquinas a la vez): R 57,51 A · S 52,98 A · T 52,06 A. DPMS 35.711 VA.
+- Presupuesto: USD 16.918,34 con IVA (precios de referencia).

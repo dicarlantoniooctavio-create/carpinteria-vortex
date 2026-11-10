@@ -1,5 +1,7 @@
 # Memoria Descriptiva
 
+> Plantilla sin completar. La memoria descriptiva del proyecto es el informe integrador (`02_Informe_Integrador/Informe_Carpinteria_Vortex.pdf`).
+
 ## 1. Introducción
 [Contexto del proyecto: por qué eligieron una carpintería, qué representa este trabajo dentro de la materia/carrera.]
 
