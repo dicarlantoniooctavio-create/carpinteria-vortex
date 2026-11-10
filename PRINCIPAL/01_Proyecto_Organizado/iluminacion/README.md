@@ -13,6 +13,7 @@ Diseño lumínico del taller: cálculo de la cantidad de luminarias necesarias s
 
 ## Qué definimos
 
-- Superficie: 312 m² en total; la carpintería ocupa 12 × 21 = 252 m².
+- Superficie: 311 m² cubiertos (12,30 × 25,30 m); 297 m² interiores, de los que el taller ocupa 12 × 20,78 = 249 m² (con el baño y la cocina adentro).
 - Luminarias: 19 campanas LED IP65 de 100 W (9000 lm) en el taller, 7 paneles LED de 40 W en negocio y oficina y 2 lámparas LED de 12 W en cocina y baño: 28 bocas en el plano.
 - Circuitos: IUG1 (T.S. Oficina, 304 W, 1,38 A, térmica GE G62C04 de 4 A) e IUG2 / IUG3 (T.S. Taller, 9 y 10 campanas de 100 W: 4,09 A y 4,55 A, térmica GE G62C06 de 6 A).
+- Nivel en el taller (método de los lúmenes): 19 × 9000 lm × 0,6 × 0,8 / 249 m² ≈ 330 lux.

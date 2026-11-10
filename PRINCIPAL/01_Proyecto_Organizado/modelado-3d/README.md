@@ -19,7 +19,7 @@ Modelo 3D de la lijadora de banda de la carpintería. La primera versión se hiz
 
 ## Qué definimos
 
-- Máquina modelada: lijadora de banda larga con mesa regulable (motor de 4 HP / 3 kW, 2840 rpm, poleas 90/315, ruedas Ø600 a 4000 mm, banda de 150 mm a 25,5 m/s). 27 piezas en FreeCAD (47 unidades). Medidas: 4754 × 919 × 2220 mm.
-- Despiece: `planos/Despiece_Lijadora.pdf` y `.dwg` (lámina A3 vertical: vista explotada en diagonal con las 27 piezas numeradas y lista con medidas tomadas del modelo), `planos/Vistas_Lijadora.dwg` (frente, lateral y planta acotadas) y `planos/piezas.csv`.
+- Máquina modelada: lijadora de banda larga con mesa regulable (motor de 4 HP / 3 kW, 2840 rpm, poleas 90/315, ruedas Ø600 a 4000 mm, banda de 150 mm a 25,5 m/s). 27 piezas en FreeCAD (47 unidades). Medidas: 4756 × 894 × 2219 mm.
+- Despiece: `planos/Despiece_Lijadora.pdf` y `.dwg` (lámina A3 vertical: vista explotada en diagonal con las 27 piezas numeradas y lista con medidas tomadas del modelo), `planos/Vistas_Lijadora.dwg` (frente, lateral y planta acotadas; las cotas son del modelo original, 4754 × 919 × 2220 — el modelo actual mide 4756 × 894 × 2219) y `planos/piezas.csv`.
 - Modelo para girar en cualquier visor 3D: `renders/lijadora.glb`.
-- `modelo/lijadora_corregida.FCStd`: copia del modelo del equipo con la banda de lija (9885 × 150 mm), las dos correas A96 y el cubrecorreas rehechos cerrados, tangentes a las ruedas y a las poleas. De esta copia salen los renders, el despiece, las vistas acotadas y el `.glb`.
+- `modelo/lijadora_corregida.FCStd`: modelo rediseñado a partir del original del equipo (se reutilizan 9 piezas) con la banda de lija (9890 × 150 mm), las dos correas A96 y el cubrecorreas rehechos cerrados, tangentes a las ruedas y a las poleas. De esta copia salen los renders, el despiece y el `.glb`.

@@ -13,38 +13,15 @@ El equipo rehizo el automatismo en dos topográficos de CADe SIMU, en `esquemas/
 | `topograficoMonofasico.cad` (imagen `automatismo_monofasico.png`) | Monofásico (U1, V1, PE) | Q1, Q2, KM1, F1, S1 parada, S2 marcha, H1, bornera X |
 | `topograficoTrifasico.cad` (imagen `automatismo_trifasico.png`) | Trifásico (U1, V1, W1, PE) | Q1, Q2, KM1, F1, S1 parada, S2 marcha, H1, bornera X |
 
-Los dos son un arranque directo con autorretención: S2 energiza KM1, su contacto auxiliar lo mantiene, S1 lo corta y F1 (95-96) abre el mando si el motor se sobrecarga. Lo que sigue es la versión anterior.
+Los dos son un arranque directo con autorretención: S2 energiza KM1, su contacto auxiliar lo mantiene, S1 lo corta y F1 (95-96) abre el mando si el motor se sobrecarga.
 
-## Archivos 
+## Versión anterior (referencia)
 
-| Archivo | Contenido | Estado |
-|---|---|---|
-| `Automatismo.cad` (CADe SIMU) | Esquema de **mando** (circuito de control) y **potencia** (circuito de fuerza) del arranque directo. [Ver](https://github.com/Tpskevin13/carpinteria/releases/tag/Automatismo)|  Revisado y correcto |
-| `Topografico.cad` (CADe SIMU) | Vista topográfica: disposición física de los componentes en el tablero.  [Ver](https://github.com/Tpskevin13/carpinteria/releases/tag/Topografico) |  Revisado y correcto |
+La primera versión del equipo (`Automatismo.cad` y `Topografico.cad`) ya no está en esta carpeta: la reemplazan los dos topográficos de arriba. Sus capturas quedan en `referencias/fotos/`:
 
+- Circuito de mando: Q2 (protección del mando) → F1 95-96 (térmico) → S1 parada (NC) → S2 marcha (NA) en paralelo con KM1 13-14 (autorretención) → bobina KM1 (A1-A2).
+- Circuito de potencia: Q1 (guardamotor, 3 polos) → KM1 (contactos principales) → motor (U1, V1, W1, PE).
 
-> Los `.cad` son archivos de proyecto de CADe SIMU. Las imágenes exportadas (BMP/PNG) permiten que cualquiera vea el esquema sin instalar el programa.
+![Circuito de mando (versión anterior)](../referencias/fotos/CircutoDeMando.png)
 
-## Circuito de mando (control)
-
-- **`-Q`**: guardamotor/disyuntor — protección del circuito de mando.
-- **`-E`**: contacto NC del relé térmico/guardamotor — corta el circuito si el motor se sobrecarga.
-- **`-P`**: botón de **paro** (NC), en serie.
-- **`-S`**: botón de **marcha** (NA), en paralelo con el contacto auxiliar 13-14 de `-K` (enclavamiento/retención: una vez que arranca, se mantiene solo aunque se suelte el botón).
-- **`-K`**: bobina del contactor (A1-A2).
-
-Orden de la lógica: protección → paro → marcha con enclavamiento → bobina. Correcto.
-
-![Foto de referencia.](https://github.com/Tpskevin13/carpinteria/blob/main/referencias/fotos/CircutoDeMando.png)
-
-[Ver](https://github.com/Tpskevin13/carpinteria/releases/tag/CircuitoDeMando)
-
-## Circuito de potencia (fuerza)
-
-- **`-Q`** (guardamotor, 3 polos) → **`-K`** (contactos principales del contactor, 3 polos) → motor (**U1, V1, W1, PE**).
-
-El guardamotor es un único dispositivo físico: sus contactos de potencia (3 polos) van en el circuito de fuerza, y su contacto auxiliar NC (`-E`) va en el circuito de mando.
-
-![Foto de referncia.](https://github.com/Tpskevin13/carpinteria/blob/main/referencias/fotos/Circuitodepotencia.png)
-
-[Ver](https://github.com/Tpskevin13/carpinteria/releases/tag/CircuitoDePotencia)
+![Circuito de potencia (versión anterior)](../referencias/fotos/Circuitodepotencia.png)

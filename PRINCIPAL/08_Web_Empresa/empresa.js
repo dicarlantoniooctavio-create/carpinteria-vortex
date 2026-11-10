@@ -116,8 +116,10 @@
     var msg = form.querySelector('.form-msg'); msg.classList.remove('bad');
     if (!form.nombre.value.trim() || !form.email.value || !form.email.checkValidity()) { void msg.offsetWidth; msg.classList.add('bad'); msg.textContent = 'Completá tu nombre y un email válido.'; return; }
     var tipo = form.querySelector('[name="tipo"]:checked').value;
-    msg.textContent = '¡Gracias, ' + form.nombre.value.trim() + '! Recibimos tu solicitud de ' + tipo.toLowerCase() + '. Te contactamos a la brevedad.';
-    form.reset();
+    /* no hay servidor: se arma el mail y se abre el programa de correo del visitante */
+    var cuerpo = 'Nombre: ' + form.nombre.value.trim() + '\nEmail: ' + form.email.value + (form.tel && form.tel.value ? '\nTeléfono: ' + form.tel.value : '') + '\nServicio: ' + tipo + '\n\n' + (form.msg ? form.msg.value : '');
+    location.href = 'mailto:vortexoficial011@gmail.com?subject=' + encodeURIComponent('Consulta: ' + tipo) + '&body=' + encodeURIComponent(cuerpo);
+    msg.textContent = 'Se abrió tu programa de correo con la consulta lista: enviala desde ahí. Si no se abrió, escribinos a vortexoficial011@gmail.com.';
   });
 })();
 
