@@ -2,6 +2,8 @@
 (function () {
   'use strict';
   var doc = document, root = doc.getElementById('maquinas');
+  /* Carpeta de la web (04_Web/), sirve igual desde index.html y desde la presentación. */
+  var BASE = (doc.currentScript && doc.currentScript.src || '').replace(/[^\/]*$/, '');
   var reduce = doc.documentElement.classList.contains('reduce-motion');
   var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (root && fine) root.querySelectorAll('[data-mq]').forEach(function (card) {
@@ -25,9 +27,14 @@
   function giro(box) {
     if (giroOn || !box) return; giroOn = true;
     var wait = box.querySelector('.mq-giro-wait'), loaded = false;
-    function fail() { if (wait) wait.textContent = 'No se pudo cargar el visor 3D (necesita internet). El despiece y las vistas están en las otras pestañas.'; }
-    var loader = doc.createElement('script'); loader.type = 'module'; loader.src = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; loader.onerror = fail; doc.head.appendChild(loader);
-    var viewer = doc.createElement('model-viewer'); viewer.setAttribute('src', box.getAttribute('data-src')); viewer.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo'); viewer.setAttribute('camera-controls', ''); viewer.setAttribute('disable-zoom', ''); viewer.setAttribute('touch-action', 'pan-y'); viewer.setAttribute('camera-orbit', '-35deg 70deg auto'); viewer.setAttribute('shadow-intensity', '0.8'); viewer.setAttribute('exposure', '1.1'); viewer.setAttribute('interaction-prompt', 'none');
+    function fail() { if (wait) wait.textContent = 'No se pudo cargar el visor 3D. Las vistas acotadas están en la otra pestaña.'; }
+    function addScript(src, isModule, ok, ko) { var s = doc.createElement('script'); if (isModule) s.type = 'module'; s.src = src; if (ok) s.onload = ok; s.onerror = ko; doc.head.appendChild(s); }
+    /* Copia local del visor (funciona sin internet); si faltara, se usa el CDN. */
+    if (!(window.customElements && window.customElements.get('model-viewer'))) addScript(BASE + 'vendor/model-viewer.js', false, null, function () { addScript('https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js', true, null, fail); });
+    var viewer = doc.createElement('model-viewer');
+    /* Abierto desde el disco (file://) el navegador no deja leer el .glb: se usa el modelo embebido. */
+    if (location.protocol === 'file:') addScript(BASE + 'img/lijadora/lijadora_glb.js', false, function () { if (window.VX_LIJA_GLB) viewer.setAttribute('src', window.VX_LIJA_GLB); else fail(); }, fail);
+    else viewer.setAttribute('src', box.getAttribute('data-src')); viewer.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo'); viewer.setAttribute('camera-controls', ''); viewer.setAttribute('disable-zoom', ''); viewer.setAttribute('touch-action', 'pan-y'); viewer.setAttribute('camera-orbit', '-35deg 70deg auto'); viewer.setAttribute('shadow-intensity', '0.8'); viewer.setAttribute('exposure', '1.1'); viewer.setAttribute('interaction-prompt', 'none');
     if (!reduce) { viewer.setAttribute('auto-rotate', ''); viewer.setAttribute('auto-rotate-delay', '1500'); viewer.setAttribute('rotation-per-second', '18deg'); }
     var hint = doc.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar'; hint.hidden = true;
     function resetView() { viewer.cameraOrbit = '-35deg 70deg auto'; viewer.fieldOfView = 'auto'; }
