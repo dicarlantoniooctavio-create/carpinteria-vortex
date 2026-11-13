@@ -549,9 +549,9 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
 .slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: calc(100dvh - 16.4rem - 84px); }
 .slide.s-maq .mq-card { padding-top: .75rem; padding-bottom: .75rem; }
 @media (max-width: 760px) { .slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: none; } }
-.slide.s-tb .tb-view .tb-flip.single .tb-face img, .slide.s-tb .tb-flip .tb-face img, .slide.s-tb .tb-media img { max-height: calc(100dvh - 20.6rem - 84px); }
-.slide.s-auto .am-zoom img { max-height: calc(100dvh - 24.2rem - 84px); }
-.slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: calc(100dvh - 17.2rem - 84px); }
+.slide.s-tb .tb-view .tb-flip.single .tb-face img, .slide.s-tb .tb-flip .tb-face img, .slide.s-tb .tb-media img { max-height: calc(100dvh - 22rem - 84px); }
+.slide.s-auto .am-zoom img { max-height: calc(100dvh - 25.4rem - 84px); }
+.slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: calc(100dvh - 14.8rem - 84px); }
 @media (max-width: 760px) { .slide.s-fases .fases-wrap, .slide.s-fases .fases-svg { max-height: none; } .slide.s-tb .tb-media img, .slide.s-tb .tb-flip .tb-face img { max-height: 56dvh; } .slide.s-auto .am-zoom img { max-height: 62dvh; } }
 .slide.s-fases .fases-side .kpi { padding-top: .6rem; padding-bottom: .6rem; }
 .slide.s-fases .fases-side .note { font-size: .82rem; }
@@ -561,7 +561,11 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
 .slide.s-plano .plano-legend .lg { flex: none; min-height: 0; height: auto; line-height: 1.25; }
 .slide.s-plano .plano-data { display: none; }
 /* Ficha del visor: columnas según el largo de cada dato */
-.slide.s-d3 .specs { grid-template-columns: max-content max-content minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1.3fr); }
+.slide.s-d3 .specs { grid-template-columns: max-content minmax(6.5rem, .75fr) minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1.3fr); }
 @media (max-width: 760px) { .slide.s-plano .plano-grid { grid-template-columns: 1fr; } .slide.s-d3 .specs { grid-template-columns: 1fr 1fr; } }
 .slide.s-d3 .specs dd { overflow-wrap: normal; word-break: normal; }
-.slide.s-d3 .specs > div:nth-child(-n+2) dd { white-space: nowrap; }
+.slide.s-d3 .specs > div:first-child dd { white-space: nowrap; }
+/* diagrama de fases más grande: sin el tope de 720 px de la web */
+.slide.s-fases .fases-wrap { max-width: none; width: 100%; max-height: none; overflow: visible; }
+.slide.s-fases .fases-svg { min-width: 0; width: auto; max-width: 100%; height: calc(100dvh - 16.2rem - 84px); max-height: none; margin: 0 auto; }
+@media (max-width: 760px) { .slide.s-fases .fases-svg { width: 100%; height: auto; } }
