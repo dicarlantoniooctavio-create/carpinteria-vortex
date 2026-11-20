@@ -851,3 +851,29 @@ html.reduce-motion .mq-panel.enter, html.reduce-motion .mq-sheet.plotting img, h
 .tb:has(#tbv-of:not([hidden])) .tb-hint, .tb:has(#tbv-mq:not([hidden])) .tb-hint { display: none; }
 .plano.drawn .plano-svg .L-tue1, .plano.drawn .plano-svg .L-tue2 { stroke-dashoffset: 0; transition: stroke-dashoffset 800ms var(--ease-out) 3400ms, opacity 300ms ease; }
 html.reduce-motion .plano-svg .L-tue1, html.reduce-motion .plano-svg .L-tue2 { stroke-dashoffset: 0; transition: none; }
+
+/* Planilla de cañerías con aspecto de hoja de cálculo */
+.xl { --xl-green: #217346; --xl-grid: #D4D4D4; --xl-head: #F3F3F3; border: 1px solid #C8C8C8; border-radius: 10px; overflow: hidden; background: #fff; font-family: 'Segoe UI', Calibri, Arial, sans-serif; font-size: .82rem; color: #1F1F1F; box-shadow: var(--shadow); }
+.xl-top { display: flex; align-items: center; gap: .55rem; padding: .45rem .8rem; background: var(--xl-green); color: #fff; font-weight: 600; }
+.xl-top em { font-style: normal; font-weight: 400; opacity: .85; margin-left: auto; }
+.xl-ico { display: inline-grid; place-items: center; width: 1.25rem; height: 1.25rem; border-radius: 3px; background: #fff; color: var(--xl-green); font-weight: 800; font-size: .78rem; }
+.xl-fx { display: flex; align-items: center; gap: .6rem; padding: .35rem .6rem; border-bottom: 1px solid var(--xl-grid); background: #fff; }
+.xl-ref { min-width: 3.2rem; padding: .15rem .45rem; border: 1px solid var(--xl-grid); font-weight: 600; text-align: center; }
+.xl-fn { color: #6B6B6B; font-style: italic; font-weight: 600; }
+.xl-code { font-family: Consolas, 'Courier New', monospace; font-size: .84rem; color: #1F1F1F; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.xl-wrap { overflow-x: auto; }
+.xl-t { border-collapse: collapse; width: 100%; min-width: 760px; }
+.xl-t th, .xl-t td { border: 1px solid var(--xl-grid); padding: .32rem .45rem; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.xl-t thead th, .xl-t tbody th { background: var(--xl-head); color: #555; font-weight: 400; text-align: center; font-size: .75rem; }
+.xl-t tbody th { width: 2rem; }
+.xl-t .xl-h td { background: #E2EFDA; font-weight: 700; text-align: center; white-space: normal; line-height: 1.2; }
+.xl-t td.xl-l { text-align: left; white-space: normal; }
+.xl-t td.xl-b { font-weight: 700; }
+.xl-t td[data-f] { cursor: pointer; }
+.xl-t td.is-sel { outline: 2px solid var(--xl-green); outline-offset: -2px; background: #F2F9F4; }
+.xl-t td.xl-ok { color: #1E7B34; font-weight: 700; text-align: center; }
+.xl-t td.xl-bad { color: #B42318; font-weight: 700; text-align: center; }
+.xl-t tr.xl-no td { background: #FDECEA; }
+.xl-hint { margin: 0; padding: .45rem .8rem; border-top: 1px solid var(--xl-grid); color: var(--mute); font-size: .78rem; font-family: 'Archivo', 'Segoe UI', sans-serif; }
+@media (hover: hover) and (pointer: fine) { .xl-t td[data-f]:hover { background: #F2F9F4; } }
+.xl-t td.xl-n { text-align: left; white-space: nowrap; }
