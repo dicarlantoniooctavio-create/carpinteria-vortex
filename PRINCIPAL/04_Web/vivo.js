@@ -74,3 +74,20 @@
   /* Corrige el destino de los enlaces internos tras cargas tardías. */
   doc.querySelectorAll('a[href^="#"]').forEach(function (a) { var id = a.getAttribute('href'); if (id.length < 2) return; a.addEventListener('click', function () { var target; try { target = doc.querySelector(id); } catch (e) { return; } if (!target) return; var tries = 0, timer = 0, hasEnd = 'onscrollend' in window; function fix() { clearTimeout(timer); var margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0, off = target.getBoundingClientRect().top - margin; if (Math.abs(off) > 4 && tries++ < 4) { window.scrollTo({ top: window.scrollY + off, behavior: reduce ? 'auto' : 'smooth' }); timer = setTimeout(fix, 1200); } else if (hasEnd) window.removeEventListener('scrollend', fix); } if (hasEnd) window.addEventListener('scrollend', fix); timer = setTimeout(fix, 1600); }); });
 })();
+
+/* Planilla de cañerías: al tocar una celda calculada se muestra su fórmula, como en la hoja de cálculo. */
+(function () {
+  document.querySelectorAll('[data-xl]').forEach(function (xl) {
+    var ref = xl.querySelector('.xl-ref'), code = xl.querySelector('.xl-code'), cols = 'ABCDEFGHIJK';
+    function pick(td) {
+      var cur = xl.querySelector('td.is-sel'); if (cur) cur.classList.remove('is-sel');
+      td.classList.add('is-sel');
+      ref.textContent = cols.charAt(td.cellIndex - 1) + td.parentElement.querySelector('th').textContent;
+      code.textContent = td.getAttribute('data-f');
+    }
+    xl.querySelectorAll('td[data-f]').forEach(function (td) {
+      td.addEventListener('click', function () { pick(td); });
+      td.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(td); } });
+    });
+  });
+})();

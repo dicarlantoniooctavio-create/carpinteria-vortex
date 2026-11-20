@@ -33,7 +33,7 @@
     if (!(window.customElements && window.customElements.get('model-viewer'))) addScript(BASE + 'vendor/model-viewer.js', false, null, function () { addScript('https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js', true, null, fail); });
     var viewer = doc.createElement('model-viewer');
     /* Abierto desde el disco (file://) el navegador no deja leer el .glb: se usa el modelo embebido. */
-    if (location.protocol === 'file:') addScript(BASE + 'img/lijadora/lijadora_glb.js', false, function () { if (window.VX_LIJA_GLB) viewer.setAttribute('src', window.VX_LIJA_GLB); else fail(); }, fail);
+    if (location.protocol === 'file:') addScript(BASE + 'img/lijadora/lijadora_glb.js?v=2', false, function () { if (window.VX_LIJA_GLB) viewer.setAttribute('src', window.VX_LIJA_GLB); else fail(); }, fail);
     else viewer.setAttribute('src', box.getAttribute('data-src')); viewer.setAttribute('alt', 'Modelo 3D de la lijadora de banda: arrastrá para girarlo'); viewer.setAttribute('camera-controls', ''); viewer.setAttribute('disable-zoom', ''); viewer.setAttribute('touch-action', 'pan-y'); viewer.setAttribute('camera-orbit', '-35deg 70deg auto'); viewer.setAttribute('shadow-intensity', '0.8'); viewer.setAttribute('exposure', '1.1'); viewer.setAttribute('interaction-prompt', 'none');
     if (!reduce) { viewer.setAttribute('auto-rotate', ''); viewer.setAttribute('auto-rotate-delay', '1500'); viewer.setAttribute('rotation-per-second', '18deg'); }
     var hint = doc.createElement('span'); hint.className = 'mq-giro-hint'; hint.textContent = 'Arrastrá para girar'; hint.hidden = true;
