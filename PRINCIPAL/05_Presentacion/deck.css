@@ -580,3 +580,8 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
 .slide .xl-t th, .slide .xl-t td { padding: .2rem .35rem; }
 .slide.s-canos .canos-split { gap: .5rem; } .slide.s-canos .slide-lead { margin-bottom: .4rem; }
 .slide .cliente { margin: .6rem 0 .8rem; padding: .55rem .9rem; font-size: .92rem; line-height: 1.45; }
+
+/* tableros: los dibujos entran sobre el pie de la diapositiva */
+.slide.s-tb .tb-view .tb-flip.single .tb-face img { max-height: calc(100dvh - 450px); }
+.slide.s-tb #tbv-un .tb-flip.single .tb-face img { max-height: calc(100dvh - 488px); }
+.slide.s-tb .tb-hint { display: none; }
