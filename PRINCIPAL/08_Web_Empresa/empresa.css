@@ -277,3 +277,7 @@ html.reduce-motion.js .split .w > span { transform: none; }
 html.reduce-motion .org-top, html.reduce-motion .org-node { opacity: 1; transform: none; }
 html.reduce-motion .org-lines path { stroke-dashoffset: 0; }
 html.reduce-motion .tc-sheet { transform: none; }
+
+/* Destacado del cliente */
+.cliente { margin: 1.2rem 0 0; padding: 1rem 1.2rem; border-left: 4px solid var(--amber); border-radius: 0 12px 12px 0; background: var(--sky); }
+.cliente b { color: var(--navy); }
