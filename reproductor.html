@@ -5,27 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reproductor en bucle</title>
 <style>
-  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; cursor: none; }
   video {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: contain; background: #000;
-    opacity: 0; transition: opacity .3s;
+    z-index: 0;
   }
-  video.activo { opacity: 1; }
-  #sonido {
-    position: fixed; right: 16px; bottom: 16px; z-index: 2;
-    padding: 10px 14px; border: 0; border-radius: 8px;
-    background: rgba(255,255,255,.85); font: 600 14px system-ui, Arial, sans-serif;
-    cursor: pointer;
-  }
+  /* El video activo queda adelante; el otro queda atrás (nunca transparente), así no hay negro al cambiar. */
+  video.activo { z-index: 1; }
 </style>
 </head>
 <body>
 
 <video id="a" playsinline muted preload="auto"></video>
 <video id="b" playsinline muted preload="auto"></video>
-<button id="sonido" type="button">🔇 Activar sonido</button>
 
 <script>
   // Los videos se reproducen en este orden y después vuelve a empezar, para siempre.
@@ -33,18 +27,16 @@
   const LISTA = ["12345.mp4", "13456.mp4"];
 
   const reproductores = [document.getElementById("a"), document.getElementById("b")];
-  const botonSonido = document.getElementById("sonido");
-  let indice = 0;      // video que se está reproduciendo
-  let actual = 0;      // reproductor visible (0 o 1)
-  let conSonido = false;
+  let indice = 0;         // video que se está mostrando
+  let actual = 0;         // reproductor visible (0 o 1)
+  let conSonido = false;  // tocar la pantalla activa / quita el sonido
+  let cambiandoDesde = 0; // momento en que empezó un cambio de video (0 = no está cambiando)
 
-  function siguiente(i) { return (i + 1) % LISTA.length; }
+  const siguiente = i => (i + 1) % LISTA.length;
 
-  // Deja cargado el próximo video en el reproductor oculto para que no haya corte.
-  function precargar() {
-    const oculto = reproductores[1 - actual];
-    oculto.src = LISTA[siguiente(indice)];
-    oculto.load();
+  function cargar(video, archivo) {
+    video.src = archivo;
+    video.load();
   }
 
   function reproducir(video) {
@@ -53,48 +45,114 @@
       // Si el navegador no deja reproducir con sonido, sigue sin sonido.
       video.muted = true;
       conSonido = false;
-      actualizarBoton();
       video.play().catch(() => {});
     });
   }
 
-  function pasarAlSiguiente() {
-    const viejo = reproductores[actual];
-    actual = 1 - actual;
-    indice = siguiente(indice);
-    const nuevo = reproductores[actual];
+  // Deja cargado el próximo video en el reproductor de atrás.
+  function precargar() {
+    cargar(reproductores[1 - actual], LISTA[siguiente(indice)]);
+  }
 
-    nuevo.currentTime = 0;
-    nuevo.classList.add("activo");
-    viejo.classList.remove("activo");
-    viejo.pause();
+  let mostrarPendiente = null;
+  let destinoPendiente = 0;
+
+  // Cancela un cambio que no pudo completarse (para probar con otro video).
+  function cancelarCambio() {
+    reproductores[1 - actual].removeEventListener("playing", mostrarPendiente);
+    mostrarPendiente = null;
+    cambiandoDesde = 0;
+  }
+
+  function pasarAlSiguiente(destino = siguiente(indice), forzarRecarga = false) {
+    if (cambiandoDesde) return;
+
+    const viejo = reproductores[actual];
+
+    // Si dio toda la vuelta y el único que anda es el actual, lo repite.
+    if (destino === indice) {
+      viejo.currentTime = 0;
+      reproducir(viejo);
+      return;
+    }
+
+    cambiandoDesde = Date.now();
+    destinoPendiente = destino;
+    const nuevo = reproductores[1 - actual];
+
+    // Si la precarga falló o es otro archivo, se vuelve a cargar.
+    if (forzarRecarga || nuevo.error || !nuevo.src.endsWith(LISTA[destino])) cargar(nuevo, LISTA[destino]);
+    else nuevo.currentTime = 0;
+
+    // Recién cuando el nuevo video está andando se pone adelante.
+    // Hasta ese momento sigue viéndose el último cuadro del anterior.
+    mostrarPendiente = function mostrar() {
+      nuevo.removeEventListener("playing", mostrar);
+      mostrarPendiente = null;
+      nuevo.classList.add("activo");
+      viejo.classList.remove("activo");
+      viejo.pause();
+      actual = 1 - actual;
+      indice = destino;
+      cambiandoDesde = 0;
+      precargar();
+    };
+    nuevo.addEventListener("playing", mostrarPendiente);
     reproducir(nuevo);
-    precargar();
   }
 
   reproductores.forEach(v => {
     v.addEventListener("ended", () => { if (v === reproductores[actual]) pasarAlSiguiente(); });
-    // Si un video no se encuentra o falla, salta al siguiente.
+    // Si el video que iba a entrar no existe o está dañado, se saltea y se prueba el que sigue.
     v.addEventListener("error", () => {
-      if (v === reproductores[actual]) {
-        console.warn("No se pudo reproducir " + LISTA[indice] + ", paso al siguiente.");
-        setTimeout(pasarAlSiguiente, 1000);
+      if (cambiandoDesde && v === reproductores[1 - actual]) {
+        cancelarCambio();
+        pasarAlSiguiente(siguiente(destinoPendiente), true);
       }
     });
   });
 
-  function actualizarBoton() {
-    botonSonido.textContent = conSonido ? "🔊 Silenciar" : "🔇 Activar sonido";
-  }
+  // Vigilante: cada segundo revisa que el video siga avanzando.
+  // Si se trabó, falló o el navegador lo pausó, lo arregla solo.
+  let ultimoTiempo = -1, quietoDesde = Date.now();
+  setInterval(() => {
+    const v = reproductores[actual];
 
-  botonSonido.addEventListener("click", () => {
+    if (cambiandoDesde) {
+      // Si el cambio no terminó en 8 s, se saltea ese video y se prueba el que sigue.
+      if (Date.now() - cambiandoDesde > 8000) {
+        cancelarCambio();
+        pasarAlSiguiente(siguiente(destinoPendiente), true);
+      }
+      return;
+    }
+
+    if (v.ended || v.error) { pasarAlSiguiente(); return; }
+    if (v.paused) reproducir(v);
+
+    if (v.currentTime !== ultimoTiempo) {
+      ultimoTiempo = v.currentTime;
+      quietoDesde = Date.now();
+    } else if (Date.now() - quietoDesde > 6000) {
+      // Lleva 6 s sin moverse: se pasa al siguiente.
+      quietoDesde = Date.now();
+      pasarAlSiguiente();
+    }
+  }, 1000);
+
+  // Al volver a la pestaña, retoma la reproducción.
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) reproducir(reproductores[actual]);
+  });
+
+  // Tocar o hacer clic en cualquier parte de la pantalla activa / quita el sonido (no hay botones).
+  document.addEventListener("click", () => {
     conSonido = !conSonido;
     reproductores[actual].muted = !conSonido;
-    actualizarBoton();
   });
 
   // Arranque
-  reproductores[actual].src = LISTA[indice];
+  cargar(reproductores[actual], LISTA[indice]);
   reproductores[actual].classList.add("activo");
   reproducir(reproductores[actual]);
   precargar();
