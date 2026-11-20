@@ -1,23 +1,17 @@
 {
- "relacion_poleas": 1.78,
+ "relacion_poleas": 3.5,
  "polea_motora_mm": 90,
- "polea_conducida_mm": 160,
- "correas": "3 × A64",
+ "polea_conducida_mm": 315,
  "rpm_motor": 2840,
- "rpm_ruedas": 1597.5,
- "velocidad_banda_m_s": 25.09,
- "entre_ejes_ruedas_mm": 3029,
- "diametro_ruedas_mm": 300,
+ "rpm_ruedas": 811.4,
+ "velocidad_banda_m_s": 25.49,
+ "entre_ejes_ruedas_mm": 4000,
+ "diametro_ruedas_mm": 600,
  "ancho_banda_mm": 150,
- "desarrollo_banda_mm": 7000,
- "altura_mesa_mm": 850,
- "regulacion_mesa_mm": [
-  780,
-  920
- ],
- "largo_mm": 3659,
- "profundidad_mm": 950,
- "alto_mm": 1302,
+ "desarrollo_banda_mm": 9885,
+ "largo_mm": 4754,
+ "ancho_mm": 919,
+ "alto_mm": 1400,
  "piezas": 27,
  "unidades": 47
 }

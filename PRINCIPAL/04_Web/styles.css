@@ -877,3 +877,30 @@ html.reduce-motion .plano-svg .L-tue1, html.reduce-motion .plano-svg .L-tue2 { s
 .xl-hint { margin: 0; padding: .45rem .8rem; border-top: 1px solid var(--xl-grid); color: var(--mute); font-size: .78rem; font-family: 'Archivo', 'Segoe UI', sans-serif; }
 @media (hover: hover) and (pointer: fine) { .xl-t td[data-f]:hover { background: #F2F9F4; } }
 .xl-t td.xl-n { text-align: left; white-space: nowrap; }
+
+/* Planilla de cañerías con la misma estética que las demás tablas de la web */
+.xl { border: 0; border-radius: 0; background: transparent; box-shadow: none; font-family: inherit; font-size: inherit; color: var(--ink); }
+.xl-top { background: none; color: var(--mute); padding: 0 0 .5rem; font-weight: 600; font-size: .9rem; }
+.xl-top em { margin-left: .4rem; font-weight: 400; opacity: 1; }
+.xl-ico { display: none; }
+.xl-fx { gap: .7rem; padding: .5rem .8rem; margin-bottom: .6rem; border: 1px solid var(--line); border-radius: 12px; background: var(--sky); }
+.xl-ref { min-width: 0; padding: 0; border: 0; color: var(--navy); font-weight: 700; }
+.xl-fn { color: var(--blue); font-style: normal; }
+.xl-code { font-family: Consolas, 'Courier New', monospace; color: var(--ink); }
+.xl-t { min-width: 620px; }
+.xl-t th, .xl-t td { border: 0; border-bottom: 1px solid var(--line); padding: .6rem .7rem; text-align: right; white-space: nowrap; }
+.xl-t thead th { background: none; color: var(--mute); font-size: .72rem; font-weight: 600; padding: 0 .7rem .3rem; border-bottom: 0; text-align: center; }
+.xl-t tbody th { background: none; color: var(--mute); font-size: .72rem; font-weight: 600; text-align: center; width: 2rem; }
+.xl-t .xl-h th { border-bottom: 0; }
+.xl-t .xl-h td { background: var(--navy); color: #fff; font-weight: 600; text-align: center; white-space: normal; line-height: 1.2; border-bottom: 0; }
+.xl-t .xl-h td:first-of-type { border-radius: 12px 0 0 12px; } .xl-t .xl-h td:last-child { border-radius: 0 12px 12px 0; }
+.xl-t td.is-sel { outline: 2px solid var(--blue); outline-offset: -2px; background: var(--sky); }
+.xl-t td.xl-ok { color: #1E7B34; } .xl-t td.xl-bad { color: #B42318; }
+.xl-t tr.xl-no td { background: #FDF0EE; }
+.xl-hint { border-top: 0; padding: .5rem 0 0; }
+@media (hover: hover) and (pointer: fine) { .xl-t td[data-f]:hover { background: var(--sky); } }
+.xl-t td.xl-l:first-of-type { min-width: 230px; white-space: normal; }
+
+/* Destacado del cliente */
+.cliente { margin: 1rem 0; padding: .9rem 1.1rem; border-left: 4px solid var(--amber); border-radius: 0 12px 12px 0; background: var(--sky); color: var(--ink); }
+.cliente b { color: var(--navy); }
