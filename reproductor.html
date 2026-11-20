@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reproductor en bucle</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain; background: #000;
+    opacity: 0; transition: opacity .3s;
+  }
+  video.activo { opacity: 1; }
+  #sonido {
+    position: fixed; right: 16px; bottom: 16px; z-index: 2;
+    padding: 10px 14px; border: 0; border-radius: 8px;
+    background: rgba(255,255,255,.85); font: 600 14px system-ui, Arial, sans-serif;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<video id="a" playsinline muted preload="auto"></video>
+<video id="b" playsinline muted preload="auto"></video>
+<button id="sonido" type="button">🔇 Activar sonido</button>
+
+<script>
+  // Los videos se reproducen en este orden y después vuelve a empezar, para siempre.
+  // Tienen que estar en la misma carpeta que este archivo.
+  const LISTA = ["12345.mp4", "13456.mp4"];
+
+  const reproductores = [document.getElementById("a"), document.getElementById("b")];
+  const botonSonido = document.getElementById("sonido");
+  let indice = 0;      // video que se está reproduciendo
+  let actual = 0;      // reproductor visible (0 o 1)
+  let conSonido = false;
+
+  function siguiente(i) { return (i + 1) % LISTA.length; }
+
+  // Deja cargado el próximo video en el reproductor oculto para que no haya corte.
+  function precargar() {
+    const oculto = reproductores[1 - actual];
+    oculto.src = LISTA[siguiente(indice)];
+    oculto.load();
+  }
+
+  function reproducir(video) {
+    video.muted = !conSonido;
+    video.play().catch(() => {
+      // Si el navegador no deja reproducir con sonido, sigue sin sonido.
+      video.muted = true;
+      conSonido = false;
+      actualizarBoton();
+      video.play().catch(() => {});
+    });
+  }
+
+  function pasarAlSiguiente() {
+    const viejo = reproductores[actual];
+    actual = 1 - actual;
+    indice = siguiente(indice);
+    const nuevo = reproductores[actual];
+
+    nuevo.currentTime = 0;
+    nuevo.classList.add("activo");
+    viejo.classList.remove("activo");
+    viejo.pause();
+    reproducir(nuevo);
+    precargar();
+  }
+
+  reproductores.forEach(v => {
+    v.addEventListener("ended", () => { if (v === reproductores[actual]) pasarAlSiguiente(); });
+    // Si un video no se encuentra o falla, salta al siguiente.
+    v.addEventListener("error", () => {
+      if (v === reproductores[actual]) {
+        console.warn("No se pudo reproducir " + LISTA[indice] + ", paso al siguiente.");
+        setTimeout(pasarAlSiguiente, 1000);
+      }
+    });
+  });
+
+  function actualizarBoton() {
+    botonSonido.textContent = conSonido ? "🔊 Silenciar" : "🔇 Activar sonido";
+  }
+
+  botonSonido.addEventListener("click", () => {
+    conSonido = !conSonido;
+    reproductores[actual].muted = !conSonido;
+    actualizarBoton();
+  });
+
+  // Arranque
+  reproductores[actual].src = LISTA[indice];
+  reproductores[actual].classList.add("activo");
+  reproducir(reproductores[actual]);
+  precargar();
+</script>
+</body>
+</html>
