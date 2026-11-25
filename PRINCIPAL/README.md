@@ -1,10 +1,10 @@
-# Entrega final — Carpintería Bernardo Ruiz (proyecto de Vortex)
+# Entrega final — Carpintería Bernardo Rius (proyecto de Vortex)
 
 La copia del proyecto reúne el informe técnico, perfil de empresa, web, presentación, planillas y video.
 
 ## Datos actualizados
 
-- Cliente: Carpintería Bernardo Ruiz. En nuestro caso, nuestro cliente Bernardo Ruiz nos consultó para hacer la instalación eléctrica de su carpintería, el automatismo de sus máquinas, los tableros, el plan de mantenimiento y seguridad y el diseño 3D de una lijadora de banda para su taller.
+- Cliente: Carpintería Bernardo Rius. En nuestro caso, nuestro cliente Bernardo Rius nos consultó para hacer la instalación eléctrica de su carpintería, el automatismo de sus máquinas, los tableros, el plan de mantenimiento y seguridad y el diseño 3D de una lijadora de banda para su taller.
 - Alimentación 3 × 380/220 V + N; interruptor general GE Hti 4P 80 A curva C. Línea al T.S. Taller: 4 × 35 mm² + PE 16 mm² (Iz 96 A).
 - IMS = corriente × factor de simultaneidad (1 en iluminación, 0,7 en tomacorrientes).
 - T.S. Oficina: entrada 4P 25 A. TUE1 aire acondicionado, fase R, 5,80 A (IMS 4,06 A); IUG1 fase S, 1,38 A, térmica 4 A; TUG1 fase S, 10 A (IMS 7,00 A), térmica 16 A.
