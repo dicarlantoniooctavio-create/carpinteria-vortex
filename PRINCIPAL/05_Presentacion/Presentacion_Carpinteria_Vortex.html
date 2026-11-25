@@ -168,8 +168,8 @@
         <button type="button" class="lg" data-layer="L-puertas" aria-pressed="false" style="--c:#8D6E63;--i:1"><i></i>Puertas</button>
         <button type="button" class="lg" data-layer="L-porton" aria-pressed="false" style="--c:#222;--i:2"><i></i>Portón</button>
         <button type="button" class="lg" data-layer="L-tablero" aria-pressed="false" style="--c:#E53935;--i:3"><i></i>T.S. Oficina y T.S. Taller</button>
-        <button type="button" class="lg" data-layer="L-iugs" aria-pressed="false" style="--c:#B8860B;--i:4"><i></i>IUG1 · iluminación, fase S</button>
-        <button type="button" class="lg" data-layer="L-iugt" aria-pressed="false" style="--c:#9C27B0;--i:5"><i></i>IUG2 · iluminación, fase S</button>
+        <button type="button" class="lg" data-layer="L-iugs" aria-pressed="false" style="--c:#B8860B;--i:4"><i></i>IUG1 · iluminación, fase R</button>
+        <button type="button" class="lg" data-layer="L-iugt" aria-pressed="false" style="--c:#9C27B0;--i:5"><i></i>IUG2 · iluminación, fase T</button>
         <button type="button" class="lg" data-layer="L-iugr" aria-pressed="false" style="--c:#1E6FD9;--i:6"><i></i>IUG3 · iluminación, fase T</button>
         <button type="button" class="lg" data-layer="L-tug" aria-pressed="false" style="--c:#6A3FB5;--i:7"><i></i>Tomas TUG1 · oficina y frente</button>
         <button type="button" class="lg" data-layer="L-tug3" aria-pressed="false" style="--c:#D32F2F;--i:8"><i></i>Tomas TUG2 · fondo del taller</button>
@@ -178,7 +178,7 @@
         <button type="button" class="lg" data-layer="L-tue2" aria-pressed="false" style="--c:#00796B;--i:11"><i></i>TUE2 · compresor 2</button>
         <button type="button" class="lg" data-layer="L-bandeja" aria-pressed="false" style="--c:#E07B00;--i:12"><i></i>Bandeja portacables</button>
         <button type="button" class="lg all" data-layer="" aria-pressed="true" style="--i:12"><i></i>Ver todo</button>
-        <dl class="plano-data"><div><dt>Medidas</dt><dd>12,30 × 25,30 m · cotas en mm</dd></div><div><dt>Luces</dt><dd>28 bocas en el plano, en 3 circuitos</dd></div><div><dt>Circuitos de luz</dt><dd>IUG1 e IUG2 en S · IUG3 en T</dd></div><div><dt>Tableros</dt><dd>T.S. Oficina y T.S. Taller</dd></div><div><dt>Bandeja</dt><dd>19,6 m por la izquierda + T de 8,1 m</dd></div></dl>
+        <dl class="plano-data"><div><dt>Medidas</dt><dd>12,30 × 25,30 m · cotas en mm</dd></div><div><dt>Luces</dt><dd>28 bocas en el plano, en 3 circuitos</dd></div><div><dt>Circuitos de luz</dt><dd>IUG1 en R · IUG2 e IUG3 en T</dd></div><div><dt>Tableros</dt><dd>T.S. Oficina y T.S. Taller</dd></div><div><dt>Bandeja</dt><dd>19,6 m por la izquierda + T de 8,1 m</dd></div></dl>
       </div>
     </div>
   </div><p class="note plano-foot r" style="--i:3">Plano de AutoCAD girado: el frente del local, con el negocio, queda a la izquierda y el fondo del taller a la derecha. Cotas en mm. Elegí una referencia para ver solo ese circuito; pasá el mouse para ampliar con la lupa.</p>
@@ -241,7 +241,7 @@
     <article class="svc r" style="--i:4"><span class="n" style="color:#9C27B0">IUG2</span><h3>Taller · 9 campanas</h3><p>9 campanas LED de 100 W = 900 W → 4,09 A. Fase T, térmica de 6 A, sale del T.S. Taller.</p></article>
     <article class="svc r" style="--i:5"><span class="n" style="color:#1E6FD9">IUG3</span><h3>Taller · 10 campanas</h3><p>10 campanas LED de 100 W = 1.000 W → 4,54 A. Fase T, térmica de 6 A, sale del T.S. Taller.</p></article>
   </div>
-  <p class="note r" style="--i:6">Las luces del taller van en dos fases distintas: si falta una fase, el taller no queda a oscuras.</p>
+  <p class="note r" style="--i:6">Las dos hileras de luces del taller van en la fase T, cada una con su térmica: si salta una, la otra sigue encendida.</p>
 </div>
 </section>
 <section class="slide s-table" data-n="15" data-part="Instalación eléctrica" data-title="Máquinas de 380 V" aria-roledescription="diapositiva" aria-label="15 de 36: Máquinas de 380 V">
@@ -277,7 +277,7 @@
           <tr><td>Alimentación (medidor → T.P.)</td><td>R, S, T y N</td><td>27,73 A</td><td>4P 80 A</td><td>4 × 35 mm²</td><td>96 A</td><td>16 mm²</td></tr>
         </tbody>
       </table></div></div></div>
-  <p class="note r" style="--i:3">Adoptamos 2,5 mm² en iluminación y tomas generales, y 4 mm² en los TUE y en las máquinas (los mínimos son 1,5 y 2,5 mm²). La línea al T.S. Taller lleva 27,73 A, pero su térmica de entrada es de 80 A como el general: por eso va en 4 × 35 mm² (soporta 96 A). La peor caída de tensión es la de IUG3, 0,88 %, lejos del 5 % permitido.</p>
+  <p class="note r" style="--i:3">Adoptamos 2,5 mm² en iluminación y tomas generales, y 4 mm² en los TUE y en las máquinas (los mínimos son 1,5 y 2,5 mm²). La línea al T.S. Taller lleva 27,73 A, pero su térmica de entrada es de 80 A como el general: por eso va en 4 × 35 mm² (soporta 96 A). La peor caída de tensión es la de IUG3, 0,88 %, por debajo del 3 % que se admite en iluminación.</p>
 </div>
 </section>
 <section class="slide s-canos" data-n="17" data-part="Instalación eléctrica" data-title="Cañerías y bandeja" aria-roledescription="diapositiva" aria-label="17 de 36: Cañerías y bandeja">
