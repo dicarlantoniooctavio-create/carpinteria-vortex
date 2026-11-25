@@ -585,3 +585,4 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
 .slide.s-tb .tb-view .tb-flip.single .tb-face img { max-height: calc(100dvh - 450px); }
 .slide.s-tb #tbv-un .tb-flip.single .tb-face img { max-height: calc(100dvh - 488px); }
 .slide.s-tb .tb-hint { display: none; }
+.slide.s-tb #tbv-mf .tb-media img { max-height: calc(100dvh - 488px); }
