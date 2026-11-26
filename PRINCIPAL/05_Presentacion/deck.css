@@ -661,3 +661,11 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
 .slide.s-tb-wide .tb-media, .slide.s-tb-wide .tb-flip, .slide.s-tb-wide .tb-face { max-height: none; }
 .slide.s-tb-wide .tb-view .tb-flip.single .tb-face img, .slide.s-tb-wide .tb-flip .tb-face img, .slide.s-tb-wide .tb-media img, .slide.s-tb.s-tb-wide #tbv-un .tb-flip.single .tb-face img, .slide.s-tb.s-tb-wide #tbv-mf .tb-media img { max-height: min(calc(100dvh - 20rem - 84px), 52dvh); width: auto; max-width: 100%; }
 @media (max-width: 760px) { .slide.s-tb-wide .tb-media img, .slide.s-tb-wide .tb-flip .tb-face img { max-height: 40dvh; } }
+
+
+/* Materiales: seis tarjetas (se suman los cables y el piso ducto) */
+.slide.s-mats .mats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem .75rem; }
+.slide.s-mats .mats img, .slide.s-mats .mat-ill { display: block; width: 100%; height: min(calc((100dvh - 540px) / 2), 220px); max-height: none; aspect-ratio: auto; object-fit: cover; border-radius: 12px; }
+.slide.s-mats .mats .core { padding: .55rem; }
+.slide.s-mats figcaption { font-size: .74rem; line-height: 1.35; margin-top: .4rem; }
+@media (max-width: 760px) { .slide.s-mats .mats { grid-template-columns: 1fr; } .slide.s-mats .mats img, .slide.s-mats .mat-ill { aspect-ratio: 16 / 9; } }

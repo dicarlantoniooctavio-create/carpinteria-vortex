@@ -130,3 +130,7 @@ html.reduce-motion .mq-card:hover::after, html.reduce-motion .svc:hover::after, 
 .tb-fullscreen img { max-width: 100vw; max-height: 100dvh; object-fit: contain; touch-action: pinch-zoom; }
 .tb-fullscreen-close { position: absolute; top: max(16px, env(safe-area-inset-top)); right: max(16px, env(safe-area-inset-right)); min-width: 96px; min-height: 48px; padding: .6rem 1rem; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-weight: 700; cursor: pointer; }
 @media (max-width: 760px) { .d3-stage .mq-giro { height: min(62vh, 420px); } }
+/* logo real de Vortex en la tarjeta de «Quiénes somos» */
+.card-logo-img { display: block; width: 100%; max-width: 340px; height: auto; margin-inline: auto; animation: floaty 6s ease-in-out infinite; }
+html.reduce-motion .card-logo-img { animation: none; }
+@media (prefers-reduced-motion: reduce) { .card-logo-img { animation: none; } }
