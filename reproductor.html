@@ -24,8 +24,8 @@
 <script>
   // Los videos se reproducen en este orden y después vuelve a empezar, para siempre.
   // Tienen que estar en la misma carpeta que este archivo.
-  // Los que no estén en la carpeta se saltean solos (por eso están los dos nombres del segundo video).
-  const LISTA = ["12345.mp4", "123456.mp4", "13456.mp4"];
+  // Si alguno no está en la carpeta, se saltea solo.
+  const LISTA = ["1.mp4", "12.mp4"];
 
   const reproductores = [document.getElementById("a"), document.getElementById("b")];
   let indice = 0;         // video que se está mostrando
