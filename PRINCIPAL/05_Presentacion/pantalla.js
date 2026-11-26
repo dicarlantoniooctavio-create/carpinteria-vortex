@@ -65,7 +65,7 @@
   function titulo(box) {
     var view = box.closest('.tb-view'), fig = box.closest('.am-fig');
     if (fig) { var t = fig.querySelector('.am-tag'); if (t) return t.textContent.trim(); }
-    if (view) { var h3 = view.querySelector('.tb-info h3'); if (h3) return h3.textContent.replace(/\s+/g, ' ').trim(); }
+    if (view) { var h3 = view.querySelector('.tb-info h3') || (box.closest('.slide') && box.closest('.slide').querySelector('h2')); if (h3) return h3.textContent.replace(/\s+/g, ' ').trim(); }
     return 'Dibujo';
   }
 

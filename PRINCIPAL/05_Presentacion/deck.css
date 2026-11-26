@@ -635,3 +635,29 @@ html { font-size: clamp(14px, calc(.55vw + .95vh + 2px), 20.5px); }
 .slide.s-ubic .ubic-map figcaption { margin-top: .5rem; }
 @media (prefers-reduced-motion: reduce) { .slide.s-ubic.is-active .ubic-pin { animation: none; } }
 @media (max-width: 760px) { .slide.s-ubic .split.ubic { grid-template-columns: 1fr; gap: 1.2rem; } .slide.s-ubic .ubic-map .core { max-height: 46dvh; } .slide.s-ubic .ubic-data > div { grid-template-columns: 7.5rem 1fr; } }
+
+
+/* Tableros en cinco diapositivas (sin pestañas): el dibujo usa el alto que dejaba la barra */
+.slide.s-tb1 .tb-views { display: block; }
+.slide.s-tb1 .tb-view { display: grid; }
+.slide.s-tb1 .tb-media, .slide.s-tb1 .tb-flip, .slide.s-tb1 .tb-face { max-height: calc(100dvh - 16rem - 84px); }
+.slide.s-tb1 .tb-view .tb-flip.single .tb-face img, .slide.s-tb1 .tb-flip .tb-face img, .slide.s-tb1 .tb-media img { max-height: calc(100dvh - 17.5rem - 84px); }
+.slide.s-tb1 .tb-info p { font-size: .82rem; }
+.slide.s-tb1 .tb-plates li { font-size: .7rem; }
+@media (max-width: 760px) { .slide.s-tb1 .tb-media img, .slide.s-tb1 .tb-flip .tb-face img { max-height: 56dvh; } }
+
+
+/* Unifilar y multifilar: el dibujo ocupa todo el ancho y los datos van en una fila debajo */
+.slide.s-tb-wide .slide-lead { max-width: 72rem; }
+.slide.s-tb-wide .tb-view { grid-template-columns: minmax(0, 1fr); gap: .45rem; }
+.slide.s-tb-wide .tb-media { order: -1; }
+.slide.s-tb-wide .tb-info { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .8rem; }
+.slide.s-tb-wide .tb-info > p { display: none; }
+.slide.s-tb-wide .tb-count { margin: 0; display: flex; align-items: baseline; gap: .35rem; }
+.slide.s-tb-wide .tb-count b { font-size: 1.3rem; }
+.slide.s-tb-wide .tb-plates { margin: 0; flex: 1 1 26rem; }
+.slide.s-tb-wide .tb-dl { margin: 0; }
+.slide.s-tb-wide .tb-tag { display: none; }
+.slide.s-tb-wide .tb-media, .slide.s-tb-wide .tb-flip, .slide.s-tb-wide .tb-face { max-height: none; }
+.slide.s-tb-wide .tb-view .tb-flip.single .tb-face img, .slide.s-tb-wide .tb-flip .tb-face img, .slide.s-tb-wide .tb-media img, .slide.s-tb.s-tb-wide #tbv-un .tb-flip.single .tb-face img, .slide.s-tb.s-tb-wide #tbv-mf .tb-media img { max-height: min(calc(100dvh - 20rem - 84px), 52dvh); width: auto; max-width: 100%; }
+@media (max-width: 760px) { .slide.s-tb-wide .tb-media img, .slide.s-tb-wide .tb-flip .tb-face img { max-height: 40dvh; } }
